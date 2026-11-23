@@ -347,3 +347,15 @@ Retrofit of the live twelve, Nov 23, 2026: the three lead packs already carried 
 ## Harris family landing on the corrected base (Nov 23, 2026)
 
 The placeholder remedy landed as one batch. The catalog now carries 19 packs: harris-absentee restated to 78,514 records (median value $247,287) and harris-commercial to 71,185 (median $768,483), plus five new Harris segment cuts live on the site: harris-high-equity ($59, 191,999), harris-long-term ($49, 342,211), harris-out-of-area ($49, 73,323), harris-tired-landlords ($79, 11,087), harris-multifamily ($79, 16,428). COUNTER VERIFIED: rendered home page reads 965,049; delivered set recounts 965,049; match. The function build regenerated from src at 39,376 bytes in 5 chunks; this build also carries the lead notice formatting (leadNotice) that was staged in the prior build cycle, so the internal sample lead email becomes the labeled, branded notice on this deploy. Bucket uploads for the seven Harris packs (pack and sample, CSV + XLSX) and the Gumroad swaps ride the same landing motion.
+
+## Dallas segment cuts landing (Nov 23, 2026)
+
+Six Dallas County cuts landed on the corrected DCAD base (Relay PASS on
+all six): high-equity (124,232, $59), long-term (161,029, $49),
+out-of-area (65,064, $49), tired-landlords (17,294, $79), multifamily
+(13,025, $79), commercial (77,374, $79). Catalog at 25 packs. Records
+counter 1,423,067, verified at build. Function build 41,371 bytes in 6
+chunks (registry at 25 packs), redeploy required to arm checkout and
+sample delivery for the six. Label medians were recomputed from the
+delivered files before the build; an early desk pass carried wrong
+medians and was corrected pre-ship (delivered-copy rule).
