@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Create Stripe products and prices from the ParcelReady pack registry.
 
+SUPERSEDED Nov 23, 2026: the restricted key never reaches a workstation
+(it lives only as a Worker secret), so this sync now runs server side in
+worker/src/index.js (ensurePrice, same idempotent create-or-find rules,
+no tax codes). This script remains as the payload-shape reference.
+
 Reads ../catalog.json. For every pack with store.mode "stripe" it ensures a
 Stripe Product (found by metadata pack_id) and a Price exist, then records
 the ids back into catalog.json and ../store-registry.json.
