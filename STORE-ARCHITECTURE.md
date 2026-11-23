@@ -266,3 +266,31 @@ Note for the deploy time pass: if the Monday cycle surfaces a buyer
 language gap on the new pages, the source to pull from is Signal's
 chatter file, ~/workspace/marketing/signal/parcelready/buyer-map-research/CHATTER.md
 (real buyer language from the competitor research).
+
+## Backend re-route: Supabase (Nov 23, 2026, governing)
+
+The Cloudflare route is ABANDONED (Matt's call, HQ concurring, Nov 23,
+2026): the Cloudflare dashboard's bot wall (Turnstile) blocked the cloud
+browser's sign in outright, the Stripe key placement into the Worker
+never landed, and the portfolio already runs this exact pattern
+elsewhere. The store backend is now a Supabase Edge Function (Deno),
+ported from the Worker design the same day:
+
+- supabase/src/index.ts is the function source; the dashboard build is
+  supabase/dist/parcelready-store.single.ts (registry inlined, deno
+  check clean). Deploy with verify_jwt OFF.
+- Bindings translate: the R2 bucket becomes the private Supabase Storage
+  bucket parcelready-files; the KV namespaces become Postgres tables
+  (delivery_tokens, leads, store_config, price_map) with RLS on and no
+  public policies; the function reaches them with the platform injected
+  service role key. Schema: supabase/migrations/0001_store.sql.
+- Secrets live in the function's secrets: STRIPE_SECRET_KEY placed
+  screen to screen from the Stripe reveal dialog into the Supabase
+  dashboard; the key never touches the VM, and the sync runs server
+  side exactly as designed for the Worker (ensurePrice idempotent
+  create-or-find, no tax codes; the webhook self-registers and keeps
+  its signing secret in store_config).
+- Deploy mechanics follow Anvil's Tool One pattern; the run sheet is
+  supabase/DEPLOY-SHEET.md. The Cloudflare Worker code stays in worker/
+  as the design record of the abandoned route; wrangler.toml and the
+  dashboard sheet under worker/ are not operative.

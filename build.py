@@ -259,6 +259,10 @@ def write_store_registry():
     out = os.path.join(ROOT, "worker", "store-registry.json")
     with open(out, "w") as f:
         json.dump({"packs": packs}, f, indent=1)
+    out2 = os.path.join(ROOT, "supabase", "store-registry.json")
+    os.makedirs(os.path.dirname(out2), exist_ok=True)
+    with open(out2, "w") as f:
+        json.dump({"packs": packs}, f, indent=1)
     return len(packs)
 
 
