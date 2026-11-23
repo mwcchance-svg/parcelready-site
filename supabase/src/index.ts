@@ -508,6 +508,44 @@ async function handleWebhook(req: Request) {
   return json({ received: true });
 }
 
+/* Internal lead notification (Atlas's order, Nov 23, 2026, on Matt's
+   screenshot): the notice to the leads inbox wears the same clean
+   shell as the client emails and reads as plain lines, never a JSON
+   dump. Returns [text, html] for sendEmail. */
+function leadNotice(lead: any, pack: any): [string, string] {
+  const kind = lead.request_kind === "state"
+    ? "State hub request"
+    : pack
+      ? "Pack sample request"
+      : "Sample request";
+  const when = String(lead.at || "").replace("T", " ").replace(/\.\d+Z$/, " UTC");
+  const lines: Array<[string, string]> = [
+    ["Who asked", lead.business_name || "Not given"],
+    ["Email", lead.email || "Not given"],
+    ["State", lead.state || "Not given"],
+    ["Trade", lead.trade || (pack ? pack.category : "") || "Not given"],
+    ["Pack", pack ? pack.title : "None (no pack requested)"],
+    ["Request", kind],
+    ["Source page", lead.source_page || "Not given"],
+    ["Received", when],
+  ];
+  const text =
+    `A new sample request came in through the site.\n\n` +
+    lines.map(([k, v]) => `${k}: ${v}`).join("\n") +
+    `\n\nThe lead is recorded in the leads table, and the requester has been answered by the usual route.`;
+  const rows = lines
+    .map(([k, v]) =>
+      `<tr><td style="padding:5px 18px 5px 0;font-size:13px;color:#3D5546;white-space:nowrap;">${escHtml(k)}</td>` +
+      `<td style="padding:5px 0;font-size:14px;color:#122B1E;">${escHtml(v)}</td></tr>`)
+    .join("\n");
+  const html = emailShell(
+    `<p style="margin:0;">A new sample request came in through the site.</p>
+  <table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px 0 4px;">${rows}</table>
+  <p style="margin:14px 0 0;font-size:13px;color:#3D5546;">The lead is recorded in the leads table, and the requester has been answered by the usual route.</p>`
+  );
+  return [text, html];
+}
+
 /* ---------------- sample capture + download ---------------- */
 
 async function handleSample(req: Request) {
@@ -528,12 +566,12 @@ async function handleSample(req: Request) {
     source: body.source || "",
   };
   await rest("leads", { method: "POST", body: JSON.stringify({ payload: lead }) });
+  const pack = lead.pack_id ? packById(lead.pack_id) : null;
   await sendEmail(
     env("LEADS_INBOX") || "hello@parcelreadydata.com",
     `ParcelReady sample lead: ${lead.trade || lead.pack_id} ${lead.state}`.trim(),
-    JSON.stringify(lead, null, 2)
+    ...leadNotice(lead, pack)
   );
-  const pack = lead.pack_id ? packById(lead.pack_id) : null;
   if (pack && pack.sample_file_key) {
     await deliver(pack, email, "sample");
     return json({ ok: true, delivered: "sample" }, 200, req);
