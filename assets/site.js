@@ -21,18 +21,6 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
     if (pin) {
       gsap.from(pin, { y: -70, opacity: 0, duration: 1.1, ease: "bounce.out", delay: 0.15 });
     }
-    var rec = document.querySelector("[data-records]");
-    if (rec) {
-      var target = parseInt(rec.getAttribute("data-total") || "0", 10);
-      if (target > 0) {
-        var obj = { v: 0 };
-        gsap.to(obj, {
-          v: target, duration: 1.8, ease: "power2.out", delay: 0.35,
-          onUpdate: function () { rec.textContent = Math.round(obj.v).toLocaleString("en-US"); },
-          onComplete: function () { rec.textContent = target.toLocaleString("en-US"); }
-        });
-      }
-    }
     document.querySelectorAll("[data-drift]").forEach(function (el) {
       gsap.to(el, {
         y: parseFloat(el.getAttribute("data-drift")) || -40, ease: "none",
@@ -285,4 +273,36 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
   stSel.addEventListener("change", run);
   catSel.addEventListener("change", run);
   stSel.value = "TX"; catSel.value = "HVAC"; run();
+})();
+
+// Split-flap records board: the tiles flip up to the build-computed
+// total and settle on it. No ticking after the settle; the static
+// page already carries the true digits, so this only animates.
+(function () {
+  var board = document.querySelector(".flap-board");
+  if (!board) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  board.querySelectorAll(".flap").forEach(function (flap, i) {
+    var face = flap.querySelector(".flap-face");
+    if (!face) return;
+    var target = parseInt(flap.getAttribute("data-digit") || "0", 10);
+    var steps = 6 + i * 3;
+    var cur = (target + 4) % 10;
+    var n = 0;
+    face.textContent = cur;
+    var iv = setInterval(function () {
+      n += 1;
+      if (n >= steps) {
+        face.textContent = target;
+        flap.classList.remove("flipping");
+        clearInterval(iv);
+        return;
+      }
+      cur = (cur + 1) % 10;
+      face.textContent = cur;
+      flap.classList.remove("flipping");
+      void flap.offsetWidth;
+      flap.classList.add("flipping");
+    }, 70);
+  });
 })();

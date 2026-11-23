@@ -46,13 +46,14 @@ def main():
     rendered = int(m.group(1)) if m else None
     tag = re.search(r'data-records-tag>([\d,]+)', html)
     tagged = int(tag.group(1).replace(",", "")) if tag else None
+    tiles = "".join(re.findall(r'data-digit="(\d)"', html))
+    tiled = int(tiles) if tiles else None
     delivered = recount()
-    if rendered == delivered and tagged == delivered:
+    if rendered == delivered and tagged == delivered and tiled == delivered:
         print(f"COUNTER VERIFIED: rendered home page reads {delivered:,}; "
               f"delivered set recounts {delivered:,}; match.")
         return 0
-    print(f"COUNTER MISMATCH: rendered counter {rendered}, pin tag {tagged}, "
-          f"delivered set recounts {delivered:,}. Rebuild and recount.")
+    print(f"COUNTER MISMATCH: rendered counter {rendered}, caption {tagged}, tiles {tiled}, delivered set recounts {delivered:,}. Rebuild and recount.")
     return 1
 
 

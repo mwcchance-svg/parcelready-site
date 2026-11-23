@@ -664,15 +664,33 @@ def records_total(sample_counts=None):
     return per, sum(per.values())
 
 
+def flap_tiles(total):
+    """The split-flap board's static tiles for a total, grouped with
+    commas. The board's settled state is rendered into the page at
+    build time; the flip animation in site.js is only the count-up."""
+    out = []
+    for ch in f"{total:,}":
+        if ch == ",":
+            out.append('<span class="flap-sep">,</span>')
+        else:
+            out.append(f'<span class="flap" data-digit="{ch}">'
+                       f'<span class="flap-face">{ch}</span></span>')
+    return "\n          ".join(out)
+
+
 def patch_index_records(total):
     path = os.path.join(ROOT, "index.html")
     with open(path) as f:
         page = f.read()
     page = re.sub(
-        r'(<p class="records-num" data-records data-total=")\d+(">)[\d,]+',
-        lambda m: f"{m.group(1)}{total}{m.group(2)}{total:,}", page)
+        r'(<div class="flap-board" data-records data-total=")\d+(" role="img" aria-label=")[\d,]+( records compiled">)',
+        lambda m: f"{m.group(1)}{total}{m.group(2)}{total:,}{m.group(3)}", page)
     page = re.sub(
-        r'(<span class="hero-pin-tag" data-records-tag>)[^<]*',
+        r'(<div class="flap-row" aria-hidden="true">).*?(</div>)',
+        lambda m: f"{m.group(1)}\n          {flap_tiles(total)}\n        {m.group(2)}",
+        page, flags=re.S)
+    page = re.sub(
+        r'(<span class="flap-tag" data-records-tag>)[^<]*',
         lambda m: f"{m.group(1)}{total:,} RECORDS COMPILED", page)
     with open(path, "w") as f:
         f.write(page)
@@ -721,6 +739,10 @@ def main():
     if not m or int(m.group(1)) != total:
         raise SystemExit(f"COUNTER MISMATCH: home page carries "
                          f"{m.group(1) if m else 'nothing'}, recount is {total}")
+    tiles = "".join(re.findall(r'data-digit="(\d)"', written))
+    if tiles != str(total):
+        raise SystemExit(f"COUNTER MISMATCH: flap board tiles read "
+                         f"{tiles or 'nothing'}, recount is {total}")
     print(f"COUNTER VERIFIED: rendered home page reads {total:,}; "
           f"delivered set recounts {total:,}; match.")
 
