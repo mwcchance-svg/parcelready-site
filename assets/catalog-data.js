@@ -1250,6 +1250,379 @@ window.CATALOG = {
    }
   },
   {
+   "id": "dallas-high-equity",
+   "title": "Dallas County High Equity Owners",
+   "tagline": "124,232 residential owners with modeled equity of 65 percent or more (ESTIMATE)",
+   "buyer": "Real estate investors and direct mail marketers who target equity rich, long held homes in Dallas County",
+   "cover": "assets/covers/dallas-high-equity.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Dallas County",
+   "price": 59,
+   "price_note": "one time",
+   "rows": 124232,
+   "rows_label": "124,232 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/dallas-high-equity.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "124,232"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Median estimated equity",
+     "v": "94%"
+    },
+    {
+     "k": "Basis",
+     "v": "Modeled (ESTIMATE)"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "Deed transfer date and years owned (the model's amortization start)",
+    "Year built, bedrooms, full baths, living area square feet",
+    "DCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Dallas Central Appraisal District's published ownership files, not scraped and not resold from another list vendor. Equity on this pack is a modeled estimate, never a verified figure: the original loan is modeled at 80 percent of current appraised value, 30 year fixed at 6.5 percent, amortized from the deed transfer date to the roll data date (October 12, 2026), and a record qualifies when the estimated equity reaches 65 percent or more of current value. No lender, lien, or mortgage record was checked for any record. Records without a deed transfer date or a value are excluded, because the model has nothing honest to amortize. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "High Equity Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-10-12",
+   "build_date": "October 12, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/dallas/dallas-high-equity-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Dallas County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 59,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "dallas-long-term",
+   "title": "Dallas County Long-Term Owners, 20+ Years",
+   "tagline": "161,029 owners holding since 2005 or earlier, residential and commercial",
+   "buyer": "Real estate investors, estate and probate marketers, and land buyers working Dallas County",
+   "cover": "assets/covers/dallas-long-term.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Dallas County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 161029,
+   "rows_label": "161,029 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/dallas-long-term.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "161,029"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Median value",
+     "v": "$288,290"
+    },
+    {
+     "k": "Exempt accounts",
+     "v": "Excluded"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "Deed transfer date and years owned",
+    "Year built, bedrooms, full baths, living area square feet",
+    "DCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Dallas Central Appraisal District's published ownership files, not scraped and not resold from another list vendor. The population is every residential and commercial owner record with a deed transfer date on or before December 31, 2005. Fully exempt accounts are excluded (the district's total exemption code; 8,108 accounts met the deed test and were removed): those are institutions, not sellable owners. Partial exemptions stay in. Business personal property accounts are not real property and are excluded. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Long-Term Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-10-12",
+   "build_date": "October 12, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/dallas/dallas-long-term-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Dallas County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "dallas-out-of-area",
+   "title": "Dallas County Owners Who Live Elsewhere",
+   "tagline": "65,064 absentee owners, segmented out of state and out of county on every row",
+   "buyer": "Real estate investors and wholesalers who mail out of area owners in Dallas County",
+   "cover": "assets/covers/dallas-out-of-area.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Dallas County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 65064,
+   "rows_label": "65,064 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/dallas-out-of-area.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "65,064"
+    },
+    {
+     "k": "Columns",
+     "v": "17"
+    },
+    {
+     "k": "Out of state",
+     "v": "23,005"
+    },
+    {
+     "k": "Out of county (TX)",
+     "v": "42,059"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "A Segment column on every record: Out of state or Out of county (TX)",
+    "Deed transfer date and years owned",
+    "DCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Dallas Central Appraisal District's published ownership files, not scraped and not resold from another list vendor. The population is the county's residential absentee owners (203,423 owners whose mailing address differs from the property address), cut by where the owner actually is: owners mailing from another state, and Texas owners mailing from outside Dallas County. Owners who mail from inside Dallas County are not on this list. This pack applies no deed date or value filter; it is the full absentee population segmented by geography. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Out-of-Area Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-10-12",
+   "build_date": "October 12, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/dallas/dallas-out-of-area-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Dallas County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "dallas-tired-landlords",
+   "title": "Dallas County Tired Landlords",
+   "tagline": "17,294 properties held by 1,251 owners of 5 or more homes, half held since 2015 or earlier",
+   "buyer": "Real estate investors who buy portfolios from long held landlords in Dallas County",
+   "cover": "assets/covers/dallas-tired-landlords.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Dallas County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 17294,
+   "rows_label": "17,294 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/dallas-tired-landlords.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "17,294"
+    },
+    {
+     "k": "Columns",
+     "v": "18"
+    },
+    {
+     "k": "Qualifying owners",
+     "v": "1,251"
+    },
+    {
+     "k": "Median value",
+     "v": "$146,080"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "Owner Property Count and Owner Long-Held Count columns, so each owner's footprint in the file is visible on every row",
+    "Deed transfer date and years owned",
+    "DCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Dallas Central Appraisal District's published ownership files, not scraped and not resold from another list vendor. Owner identity is normalized on owner name plus mailing address, and properties are counted on residential records only. An owner qualifies with 5 or more properties where at least half the deed transfer dates fall on or before December 31, 2015. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Tired Landlords",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-10-12",
+   "build_date": "October 12, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/dallas/dallas-tired-landlords-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Dallas County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "dallas-multifamily",
+   "title": "Dallas County Multifamily Owners",
+   "tagline": "13,025 multifamily properties with published unit counts of 2 or more",
+   "buyer": "Multifamily investors and brokers working Dallas County",
+   "cover": "assets/covers/dallas-multifamily.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Dallas County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 13025,
+   "rows_label": "13,025 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/dallas-multifamily.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "13,025"
+    },
+    {
+     "k": "Columns",
+     "v": "17"
+    },
+    {
+     "k": "Largest band",
+     "v": "2 to 4 units (8,457)"
+    },
+    {
+     "k": "Median value",
+     "v": "$559,010"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "A Units column on every record, the district's published unit count",
+    "Deed transfer date and years owned",
+    "Year built, bedrooms, full baths, living area square feet",
+    "DCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Dallas Central Appraisal District's published ownership files, not scraped and not resold from another list vendor. The list is every owner record whose published unit count is 2 or more, banded 2 to 4 (8,457 records), 5 to 19 (1,335), and 20 plus (3,233). Accounts with no published unit count fail the test and are excluded; unit counts are never approximated. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Multifamily Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-10-12",
+   "build_date": "October 12, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/dallas/dallas-multifamily-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Dallas County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "dallas-commercial",
+   "title": "Dallas County Commercial Owners",
+   "tagline": "77,374 commercial properties with the owner's mailing address",
+   "buyer": "Commercial real estate investors, brokers, and lenders working Dallas County",
+   "cover": "assets/covers/dallas-commercial.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Dallas County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 77374,
+   "rows_label": "77,374 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/dallas-commercial.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "77,374"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Median value",
+     "v": "$332,820"
+    },
+    {
+     "k": "Division",
+     "v": "Commercial (COM)"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "Deed transfer date and years owned",
+    "Year built and living area square feet where the district's commercial building file carries the property (54.5 percent of records)",
+    "DCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Dallas Central Appraisal District's published ownership files, not scraped and not resold from another list vendor. The list is every commercial division (COM) owner record: no absentee test and no value filter. Business personal property accounts are not real property and are excluded. Values are appraised values, not sale prices. Year built and living area come from the district's commercial detail file and are populated on 54.5 percent of records; the rest ship blank, never estimated. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Commercial Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-10-12",
+   "build_date": "October 12, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/dallas/dallas-commercial-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Dallas County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
    "build_date": "Current builds",
    "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
    "buyer": "Anyone who wants to inspect the data before spending a dollar",

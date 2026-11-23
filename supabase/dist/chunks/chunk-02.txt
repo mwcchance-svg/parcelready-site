@@ -1,171 +1,21 @@
-function restHeaders(extra: Record<string, string> = {}) {
-  const key = env("SUPABASE_SERVICE_ROLE_KEY");
-  return { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", ...extra };
+const registry = {"packs": [{"id": "houston-hvac", "title": "Houston HVAC Companies", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/houston-hvac-pack-2026-11-16.csv", "sample_file_key": "samples/houston-hvac-sample.csv"}, {"id": "houston-plumbing", "title": "Houston Plumbing Companies", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/houston-plumbing-pack-2026-11-22.csv", "sample_file_key": "samples/houston-plumbing-sample.csv"}, {"id": "austin-sa-roofing", "title": "Austin to San Antonio Roofing Companies", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/austin-sa-roofing-pack-2026-11-16.csv", "sample_file_key": "samples/austin-sa-roofing-sample.csv"}, {"id": "dallas-absentee", "title": "Dallas County Absentee Owners, Long Term", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas_absentee_longterm_full.csv", "sample_file_key": "samples/dallas-absentee-sample.csv"}, {"id": "dallas-code-cases", "title": "Dallas Open Code Cases, Owner Matched", "store": {"mode": "stripe", "billing": "subscription", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas_open_code_cases_v3.csv", "sample_file_key": "samples/dallas-code-cases-sample.csv"}, {"id": "dallas-permits", "title": "Dallas Building Permits 2026, Full Year", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas_permits_2026.csv", "sample_file_key": "samples/dallas-permits-sample.csv"}, {"id": "tarrant-tax-delinquent", "title": "Tarrant County Tax Delinquent Properties", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/tarrant_tax_delinquent.csv", "sample_file_key": "samples/tarrant-tax-delinquent-sample.csv"}, {"id": "tarrant-absentee", "title": "Tarrant County Absentee Owners, Long Term", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 3900, "interval": "month", "interval_count": 1, "file_key": "packs/tarrant_absentee_longterm.csv", "sample_file_key": "samples/tarrant-absentee-sample.csv"}, {"id": "dallas-new-construction", "title": "Dallas New Construction Permits 2026", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas_new_construction_permits_2026.csv", "sample_file_key": "samples/dallas-new-construction-sample.csv"}, {"id": "dallas-demolition", "title": "Dallas Demolition Permits 2026", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 3900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas_demolition_permits_2026.csv", "sample_file_key": "samples/dallas-demolition-sample.csv"}, {"id": "collin-absentee", "title": "Collin County Absentee Owners, Long Term", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/collin_absentee_longterm.csv", "sample_file_key": "samples/collin-absentee-sample.csv"}, {"id": "harris-absentee", "title": "Harris County Absentee Owners, Long Term", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/harris-absentee-2026-11-23.csv", "sample_file_key": "samples/harris-absentee-sample.csv"}, {"id": "harris-commercial", "title": "Harris County Commercial Owners", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/harris-commercial-2026-11-23.csv", "sample_file_key": "samples/harris-commercial-sample.csv"}, {"id": "harris-high-equity", "title": "Harris County High Equity Owners", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 5900, "interval": "month", "interval_count": 1, "file_key": "packs/harris-high-equity-2026-11-23.csv", "sample_file_key": "samples/harris-high-equity-sample.csv"}, {"id": "harris-long-term", "title": "Harris County Long-Term Owners, 20+ Years", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/harris-long-term-2026-11-23.csv", "sample_file_key": "samples/harris-long-term-sample.csv"}, {"id": "harris-out-of-area", "title": "Harris County Owners Who Live Elsewhere", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/harris-out-of-area-2026-11-23.csv", "sample_file_key": "samples/harris-out-of-area-sample.csv"}, {"id": "harris-tired-landlords", "title": "Harris County Tired Landlords", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/harris-tired-landlords-2026-11-23.csv", "sample_file_key": "samples/harris-tired-landlords-sample.csv"}, {"id": "harris-multifamily", "title": "Harris County Multifamily Owners", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/harris-multifamily-2026-11-23.csv", "sample_file_key": "samples/harris-multifamily-sample.csv"}, {"id": "dallas-high-equity", "title": "Dallas County High Equity Owners", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 5900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas-high-equity-2026-11-23.csv", "sample_file_key": "samples/dallas-high-equity-sample.csv"}, {"id": "dallas-long-term", "title": "Dallas County Long-Term Owners, 20+ Years", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas-long-term-2026-11-23.csv", "sample_file_key": "samples/dallas-long-term-sample.csv"}, {"id": "dallas-out-of-area", "title": "Dallas County Owners Who Live Elsewhere", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 4900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas-out-of-area-2026-11-23.csv", "sample_file_key": "samples/dallas-out-of-area-sample.csv"}, {"id": "dallas-tired-landlords", "title": "Dallas County Tired Landlords", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas-tired-landlords-2026-11-23.csv", "sample_file_key": "samples/dallas-tired-landlords-sample.csv"}, {"id": "dallas-multifamily", "title": "Dallas County Multifamily Owners", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas-multifamily-2026-11-23.csv", "sample_file_key": "samples/dallas-multifamily-sample.csv"}, {"id": "dallas-commercial", "title": "Dallas County Commercial Owners", "store": {"mode": "stripe", "billing": "one_time", "stripe_price_id": null}, "price_cents": 7900, "interval": "month", "interval_count": 1, "file_key": "packs/dallas-commercial-2026-11-23.csv", "sample_file_key": "samples/dallas-commercial-sample.csv"}, {"id": "free-sample-pack", "title": "ParcelReady Free Sample Pack", "store": {"mode": "gumroad", "billing": "one_time", "stripe_price_id": null}, "price_cents": 0, "interval": "month", "interval_count": 1, "file_key": null, "sample_file_key": null}]};
+
+const enc = new TextEncoder();
+const env = (name: string) => Deno.env.get(name) || "";
+
+function json(body: unknown, status = 200, req: Request | null = null) {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (req) {
+    const origin = req.headers.get("Origin") || "";
+    const allowed = (env("ALLOWED_ORIGINS") || env("SITE_BASE")).split(",").map((s) => s.trim());
+    if (allowed.includes(origin)) headers["Access-Control-Allow-Origin"] = origin;
+  }
+  return new Response(JSON.stringify(body), { status, headers });
 }
 
-async function rest(path: string, init: RequestInit = {}) {
-  const res = await fetch(`${env("SUPABASE_URL")}/rest/v1/${path}`, {
-    ...init,
-    headers: { ...restHeaders(), ...(init.headers || {}) },
-  });
-  if (!res.ok) throw new Error(`rest_${res.status}:${path}`);
-  const text = await res.text();
-  return text ? JSON.parse(text) : null;
+function packById(id: string) {
+  return (registry as any).packs.find((p: any) => p.id === id) || null;
 }
 
-const configGet = async (key: string) => {
-  const rows = await rest(`store_config?key=eq.${encodeURIComponent(key)}&select=value`);
-  return rows && rows.length ? rows[0].value : null;
-};
-const configSet = (key: string, value: string) =>
-  rest("store_config", {
-    method: "POST",
-    headers: { Prefer: "resolution=merge-duplicates" },
-    body: JSON.stringify({ key, value }),
-  });
-
-const priceMapGet = async (priceId: string) => {
-  const rows = await rest(`price_map?price_id=eq.${encodeURIComponent(priceId)}&select=pack_id`);
-  return rows && rows.length ? rows[0].pack_id : null;
-};
-const priceMapSet = (priceId: string, packId: string) =>
-  rest("price_map", {
-    method: "POST",
-    headers: { Prefer: "resolution=merge-duplicates" },
-    body: JSON.stringify({ price_id: priceId, pack_id: packId }),
-  });
-
-async function storageObject(key: string) {
-  const res = await fetch(
-    `${env("SUPABASE_URL")}/storage/v1/object/parcelready-files/${key}`,
-    { headers: restHeaders() }
-  );
-  if (!res.ok) return null;
-  return res;
-}
-
-/* ---------------- email + delivery ---------------- */
-
-async function sendEmail(to: string, subject: string, text: string, html?: string) {
-  if (!env("RESEND_API_KEY")) return false;
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env("RESEND_API_KEY")}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: env("MAIL_FROM") || "ParcelReady <delivery@parcelreadydata.com>",
-      to, subject, text, ...(html ? { html } : {}),
-    }),
-  });
-  return res.ok;
-}
-
-/* ---------------- client email design (Matt's order, Nov 23, 2026) ----
-   Every client facing email is a branded HTML message with a plain
-   text fallback: a ParcelReady header, a courteous opening, a download
-   button with the raw link beneath it, the 72 hour window stated
-   warmly, the label promise carried in full, and a courteous sign off.
-   Tone: a national data company that respects the buyer's time. No
-   hype, no exclamation marks. */
-
-const SUPPORT = "hello@parcelreadydata.com";
-
-// The label promise, carried verbatim from the terms page. It is a
-// legal commitment; its substance does not get paraphrased.
-const LABEL_PROMISE =
-  "The promise attaches to the label, not to freshness. If a pack does not match what its page " +
-  "promised (the wrong file, a file that will not open, counts that do not match the label, or a " +
-  "field marked verified that was not), tell us within 30 days of purchase and we will fix it or " +
-  "refund that pack. Ordinary staleness is not covered: public records change after the pull date, " +
-  "and some addresses and emails will go bad over time. The answer to that is the published refresh " +
-  "schedule, and the membership, whose members always hold the current file. A field left blank was " +
-  "not verified, and we say so on the label rather than guess.";
-
-function escHtml(v: string) {
-  return v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-function emailShell(bodyHtml: string) {
-  return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#F1E6C9;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F1E6C9;padding:28px 12px;">
-<tr><td align="center">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#FFFFFF;border:1px solid #D9CBA3;border-radius:10px;overflow:hidden;">
-<tr><td style="background:#06331F;padding:26px 34px;">
-  <div style="font-family:'Archivo','Helvetica Neue',Arial,sans-serif;font-weight:900;font-size:24px;color:#F6E8C8;letter-spacing:0.01em;">ParcelReady</div>
-  <div style="font-family:'IBM Plex Mono','Courier New',monospace;font-size:11px;letter-spacing:0.22em;color:#E9B949;padding-top:6px;">WE DO THE WORK. YOU GET THE LEADS.</div>
-</td></tr>
-<tr><td style="padding:30px 34px 8px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15.5px;line-height:1.62;color:#122B1E;">
-${bodyHtml}
-</td></tr>
-<tr><td style="padding:18px 34px 30px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15.5px;line-height:1.62;color:#122B1E;">
-  <p style="margin:0;">Thank you for choosing ParcelReady.</p>
-  <p style="margin:10px 0 0;">Warm regards,<br><strong>ParcelReady</strong></p>
-  <p style="margin:14px 0 0;font-size:13.5px;color:#3D5546;">Questions, or a hand with your file: <a href="mailto:${SUPPORT}" style="color:#0A4A2A;">${SUPPORT}</a></p>
-</td></tr>
-<tr><td style="background:#FBF5E2;padding:14px 34px;border-top:1px solid #E4D6AC;font-family:'IBM Plex Mono','Courier New',monospace;font-size:10.5px;letter-spacing:0.14em;color:#6B7A6E;">
-  PARCELREADY &middot; CLEAN, READY TO USE DATASETS FROM PUBLIC RECORDS
-</td></tr>
-</table>
-</td></tr></table>
-</body></html>`;
-}
-
-function downloadBlockHtml(csvLink: string, xlsxLink: string) {
-  return `
-  <table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px;">
-    <tr>
-      <td style="background:#E9B949;border-radius:8px;">
-        <a href="${escHtml(csvLink)}" style="display:inline-block;padding:13px 26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#122B1E;text-decoration:none;">Download CSV</a>
-      </td>
-      <td style="width:10px;"></td>
-      <td style="background:#FBF5E2;border:1px solid #0A4A2A;border-radius:8px;">
-        <a href="${escHtml(xlsxLink)}" style="display:inline-block;padding:12px 25px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#0A4A2A;text-decoration:none;">Download XLSX</a>
-      </td>
-    </tr>
-  </table>
-  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">If the buttons do not work in your mail program, copy a link into your browser:<br>
-  CSV: <a href="${escHtml(csvLink)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(csvLink)}</a><br>
-  XLSX: <a href="${escHtml(xlsxLink)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(xlsxLink)}</a></p>
-  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">The CSV opens straight into Google Sheets. The XLSX is the same data in Excel's own format.</p>`;
-}
-
-function promiseBlockHtml() {
-  return `
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0 4px;">
-    <tr><td style="background:#FBF5E2;border:1px solid #E4D6AC;border-radius:8px;padding:16px 18px;">
-      <div style="font-family:'IBM Plex Mono','Courier New',monospace;font-size:10.5px;letter-spacing:0.2em;color:#0A4A2A;padding-bottom:8px;">THE LABEL PROMISE</div>
-      <p style="margin:0;font-size:13.5px;line-height:1.6;color:#3D5546;">${escHtml(LABEL_PROMISE)}</p>
-    </td></tr>
-  </table>`;
-}
-
-const WARM_WINDOW =
-  "Your link stays open for 72 hours, so there is no rush. If it closes before you have had a " +
-  "chance to download, write to us and we will send a fresh one.";
-const WARM_WINDOW_HTML = `<p style="margin:16px 0 0;">${WARM_WINDOW}</p>`;
-
-async function deliver(pack: any, email: string, kind: string) {
-  const token = randomToken();
-  const expires = new Date(Date.now() + 72 * 3600 * 1000).toISOString();
-  await rest("delivery_tokens", {
-    method: "POST",
-    body: JSON.stringify({ token, pack_id: pack.id, email, kind, expires_at: expires }),
-  });
-  const base = env("API_BASE") || env("SITE_BASE");
-  const link = `${base}/api/download?token=${token}`;
-  const linkXlsx = `${link}&format=xlsx`;
-  const isSample = kind === "sample";
-  const text = isSample
-    ? `Thank you for asking to see the data first. That is exactly what the sample is for.\n\n` +
-      `Your free sample of ${pack.title} is ready. It carries every field, exactly as the full ` +
-      `pack ships them, so you can judge the data the way it will actually arrive. It comes in ` +
-      `two formats: CSV, which opens straight into Google Sheets, and XLSX, the same data in ` +
-      `Excel's own format.\n\n` +
-      `Download CSV:\n${link}\n\nDownload XLSX:\n${linkXlsx}\n\n${WARM_WINDOW}\n\n` +
-      `If the sample earns its keep, the full pack is listed on parcelreadydata.com with its ` +
-      `record count, its exact pull date, and its refresh schedule printed on the label.\n\n` +
-      `The label promise\n${LABEL_PROMISE}`
+async function hmacHex(secret: string, data: string) {
+  const key = await crypto.subtle.importKey(
