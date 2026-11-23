@@ -1,0 +1,34 @@
+# ParcelReady store worker. Bindings only; secrets are set with
+# `wrangler secret put` at deploy time and never live in this file.
+name = "parcelready-store"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+# Routes: attach to the site domain at deploy (Workers route on
+# parcelreadydata.com/api/*). The static site stays on GitHub Pages.
+# routes = [{ pattern = "parcelreadydata.com/api/*", zone_name = "parcelreadydata.com" }]
+
+[vars]
+SITE_BASE = "https://parcelreadydata.com"
+MAIL_FROM = "ParcelReady <delivery@parcelreadydata.com>"
+LEADS_INBOX = "hello@parcelreadydata.com"
+# TAX_MODE stays "off" until the CPA ruling lands (see STORE-ARCHITECTURE.md).
+TAX_MODE = "off"
+
+[[r2_buckets]]
+binding = "PACK_FILES"
+bucket_name = "parcelready-files"
+
+[[kv_namespaces]]
+binding = "TOKENS"
+id = "SET_AT_DEPLOY"
+
+[[kv_namespaces]]
+binding = "LEADS"
+id = "SET_AT_DEPLOY"
+
+# Secrets set at deploy (wrangler secret put NAME):
+#   STRIPE_SECRET_KEY       restricted key from the ParcelReady Stripe account
+#   STRIPE_WEBHOOK_SECRET   from the webhook endpoint registration
+#   RESEND_API_KEY          delivery email provider
+#   DELIVERY_SECRET         any long random string, minted at deploy

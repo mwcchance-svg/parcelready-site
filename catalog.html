@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalog: ParcelReady</title>
+<meta name="description" content="Browse every ParcelReady pack by trade and by metro: hand verified trade lead packs and county records packs, each with a free sample and its limits printed on the label.">
+<meta property="og:title" content="Catalog: ParcelReady">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://parcelreadydata.com/assets/covers/hvac-pack.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="icon" href="assets/img/logo.webp">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><img src="assets/img/logo.webp" alt="ParcelReady logo"><span>ParcelReady</span></a>
+  <nav>
+    <a href="catalog.html">Catalog</a>
+    <a href="states/index.html">States</a>
+    <a href="verify.html">How we verify</a>
+    <a href="sample.html" class="nav-cta">Get a free sample</a>
+  </nav>
+</header>
+
+<section style="padding-bottom:1rem">
+  <div class="wrap">
+    <p class="kicker">The full catalog</p>
+    <h1 style="font-size:clamp(2.2rem,5vw,3.6rem)">Start with your state.</h1>
+    <p class="lede" style="margin-top:1rem">Every pack lives under its state and its category, so you can walk straight to the exact product: pick a state, pick a category, open the pack, view its free sample on the page, and check its data as of date. Two families, one standard: hand verified trade lead packs, and county records packs built from official public sources.</p>
+    <div class="state-grid" id="state-tiles"></div>
+  </div>
+</section>
+
+<section style="padding-top:1rem">
+  <div class="wrap">
+    <div class="scope-panel reveal">
+      <h2 style="font-size:1.5rem">Price your scope</h2>
+      <p style="opacity:0.9;margin:0.5rem 0 1.1rem">You choose the scope; the price prints before anything else happens. No signup, no sales call, no price discovered after the fact.</p>
+      <div class="scope-row">
+        <label>State<select id="scope-state"></select></label>
+        <label>Category<select id="scope-category"></select></label>
+      </div>
+      <p class="scope-result" id="scope-result" role="status">Pick a state and a category.</p>
+    </div>
+    <div class="filters"><span class="f-label">State</span><span id="f-state" style="display:contents"></span></div>
+    <div class="filters"><span class="f-label">Category</span><span id="f-category" style="display:contents"></span></div>
+    <div class="card-grid" id="card-grid"></div>
+  </div>
+</section>
+
+<section class="featured">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Build sequence</p>
+      <h2>What is live, and what is being built</h2>
+      <p>New packs slot into this catalog as they pass verification. Trade packs build outward across the ranked metros: Houston, Phoenix, Atlanta, Tampa, Orlando, Charlotte, Austin, San Antonio, Nashville, Las Vegas, Denver. Sample requests shape the order.</p>
+    </div>
+    <div class="table-scroll reveal">
+      <table class="matrix">
+        <thead><tr><th>Trade / List</th><th>Metro</th><th>Status</th></tr></thead>
+        <tbody id="matrix-body"></tbody>
+      </table>
+    </div>
+    <div class="pack-actions reveal">
+      <a class="btn btn-gold" href="sample.html">Request a sample and move your metro up</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div><strong>ParcelReady</strong><br>Clean, ready to use datasets from public records. Every product lists its source, its build date, and its limits on the label.</div>
+    <div><a href="catalog.html">Catalog</a><br><a href="verify.html">How we verify</a><br><a href="sample.html">Free samples</a></div>
+    <div>Questions: <a href="mailto:hello@parcelreadydata.com">hello@parcelreadydata.com</a><br>Store: <a href="https://parcelready.gumroad.com" target="_blank" rel="noopener">parcelready.gumroad.com</a></div>
+  </div>
+</footer>
+
+<script src="assets/catalog-data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

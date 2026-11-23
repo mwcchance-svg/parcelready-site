@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get a Free Sample: ParcelReady</title>
+<meta name="description" content="Request a free ParcelReady sample: tell us your business, trade, and metro, and we will send sample rows in the exact format of the full pack. Or download a live sample now.">
+<meta property="og:title" content="Get a Free Sample: ParcelReady">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://parcelreadydata.com/assets/covers/hvac-pack.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="icon" href="assets/img/logo.webp">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><img src="assets/img/logo.webp" alt="ParcelReady logo"><span>ParcelReady</span></a>
+  <nav>
+    <a href="catalog.html">Catalog</a>
+    <a href="states/index.html">States</a>
+    <a href="verify.html">How we verify</a>
+    <a href="sample.html" class="nav-cta">Get a free sample</a>
+  </nav>
+</header>
+
+<section>
+  <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start" id="sample-grid">
+    <div class="reveal">
+      <p class="kicker">Free samples</p>
+      <h1 style="font-size:clamp(2.2rem,5vw,3.6rem)">Judge the data the way your clients will.</h1>
+      <p class="lede" style="margin-top:1.2rem">Two ways in. Download a live sample right now, in the exact format of the full pack. Or tell us your trade and metro and we will send sample rows matched to what you sell, including for packs still in production.</p>
+      <div class="steps" style="grid-template-columns:1fr;margin-top:2rem">
+        <div class="step"><p class="n">LIVE NOW</p><h3>Download a sample</h3>
+          <p><a href="https://parcelready.gumroad.com/l/phyzm" target="_blank" rel="noopener">Houston HVAC, free 15 row sample</a><br>
+          <a href="https://parcelready.gumroad.com/l/bwtfap" target="_blank" rel="noopener">Austin to San Antonio Roofing, free 15 row sample</a><br>
+          <a href="https://parcelready.gumroad.com/l/shdtbi" target="_blank" rel="noopener">County records, free 100 record sample pack</a></p>
+        </div>
+        <div class="step"><p class="n">WHAT HAPPENS NEXT</p><h3>Requests shape the build order</h3>
+          <p>Sample requests are read by a person on the ParcelReady team. If your trade and metro are already in production, your request moves them up the queue, and you get sample rows as soon as the pack passes verification.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-shell reveal" id="request">
+      <h2 style="font-size:1.6rem">Request a free sample</h2>
+      <p style="color:var(--ink-soft)">Four fields. No list rental, no resale of your details, ever.</p>
+      <form action="https://formsubmit.co/hello@parcelreadydata.com" method="POST">
+        <input type="hidden" name="_subject" value="ParcelReady sample request (website)">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="true">
+        <label for="biz">Your business name</label>
+        <input id="biz" name="business_name" type="text" required autocomplete="organization" placeholder="e.g. Bright Path Media">
+        <label for="email">Email to send the sample to</label>
+        <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@yourbusiness.com">
+        <label for="trade">Category: the trade or data type you want</label>
+        <select id="trade" name="trade" required>
+          <option value="">Choose a category</option>
+          <option>Real Estate</option><option>Construction</option><option>Land</option>
+          <option>HVAC</option><option>Roofing</option><option>Plumbing</option>
+          <option>Electrical</option><option>Pools</option><option>Lawn Care and Landscaping</option>
+          <option>Concrete</option><option>Garage Door Repair</option><option>Masonry</option>
+          <option>Another category</option>
+        </select>
+        <label for="state">State</label>
+        <select id="state" name="state" required>
+          <option value="">Choose a state</option>
+        </select>
+        <label for="metro">Metro or county</label>
+        <select id="metro" name="metro" required>
+          <option value="">Choose a metro</option>
+          <option>Houston</option><option>Phoenix</option><option>Atlanta</option>
+          <option>Tampa</option><option>Orlando</option><option>Charlotte</option>
+          <option>Austin</option><option>San Antonio</option><option>Nashville</option>
+          <option>Las Vegas</option><option>Denver</option>
+          <option>Dallas Fort Worth (county records)</option>
+          <option>Somewhere else</option>
+        </select>
+        <label for="route">How should we reply?</label>
+        <select id="route" name="reply_route">
+          <option value="email">Email me at the address above</option>
+          <option value="form">Through my website contact form (put the URL in notes)</option>
+        </select>
+        <label for="notes">Anything else (optional)</label>
+        <textarea id="notes" name="notes" rows="3" placeholder="What would make the pack useful for you?"></textarea>
+        <button class="btn btn-dark" type="submit">Send my sample request</button>
+        <p class="form-note">Prefer email? Write to <a href="mailto:hello@parcelreadydata.com" style="color:var(--green-800)">hello@parcelreadydata.com</a> with your business name, trade, and metro and we will take it from there.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div><strong>ParcelReady</strong><br>Clean, ready to use datasets from public records. Every product lists its source, its build date, and its limits on the label.</div>
+    <div><a href="catalog.html">Catalog</a><br><a href="verify.html">How we verify</a><br><a href="sample.html">Free samples</a></div>
+    <div>Questions: <a href="mailto:hello@parcelreadydata.com">hello@parcelreadydata.com</a><br>Store: <a href="https://parcelready.gumroad.com" target="_blank" rel="noopener">parcelready.gumroad.com</a></div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script>
+  (function () {
+    var states = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"];
+    var sel = document.getElementById("state");
+    states.forEach(function (n) { var o = document.createElement("option"); o.textContent = n; sel.appendChild(o); });
+    var q = new URLSearchParams(window.location.search);
+    function pick(id, val) {
+      if (!val) return;
+      var el = document.getElementById(id);
+      for (var i = 0; i < el.options.length; i++) {
+        if (el.options[i].text.toLowerCase() === val.toLowerCase()) { el.selectedIndex = i; return; }
+      }
+    }
+    pick("state", q.get("state"));
+    pick("trade", q.get("trade"));
+  })();
+</script>
+<script src="assets/site.js"></script>
+<style>@media (max-width:900px){#sample-grid{grid-template-columns:1fr !important}}</style>
+</body>
+</html>

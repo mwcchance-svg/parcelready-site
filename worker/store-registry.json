@@ -1,0 +1,125 @@
+{
+ "packs": [
+  {
+   "id": "houston-hvac",
+   "title": "Houston HVAC Companies",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/houston-hvac-pack-2026-11-16.csv",
+   "sample_file_key": "samples/houston-hvac-sample.csv"
+  },
+  {
+   "id": "austin-sa-roofing",
+   "title": "Austin to San Antonio Roofing Companies",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/austin-sa-roofing-pack-2026-11-16.csv",
+   "sample_file_key": "samples/austin-sa-roofing-sample.csv"
+  },
+  {
+   "id": "dallas-absentee",
+   "title": "Dallas County Absentee Owners, Long Term",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/dallas_absentee_longterm_full.csv",
+   "sample_file_key": "samples/dallas-absentee-sample.csv"
+  },
+  {
+   "id": "dallas-code-cases",
+   "title": "Dallas Open Code Cases, Owner Matched",
+   "store": {
+    "mode": "gumroad",
+    "billing": "subscription",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/dallas_open_code_cases_v3.csv",
+   "sample_file_key": "samples/dallas-code-cases-sample.csv"
+  },
+  {
+   "id": "dallas-permits",
+   "title": "Dallas Building Permits 2026, Full Year",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/dallas_permits_2026.csv",
+   "sample_file_key": "samples/dallas-permits-sample.csv"
+  },
+  {
+   "id": "tarrant-tax-delinquent",
+   "title": "Tarrant County Tax Delinquent Properties",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/tarrant_tax_delinquent.csv",
+   "sample_file_key": "samples/tarrant-tax-delinquent-sample.csv"
+  },
+  {
+   "id": "tarrant-absentee",
+   "title": "Tarrant County Absentee Owners, Long Term",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/tarrant_absentee_longterm.csv",
+   "sample_file_key": "samples/tarrant-absentee-sample.csv"
+  },
+  {
+   "id": "dallas-new-construction",
+   "title": "Dallas New Construction Permits 2026",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/dallas_new_construction_permits_2026.csv",
+   "sample_file_key": "samples/dallas-new-construction-sample.csv"
+  },
+  {
+   "id": "dallas-demolition",
+   "title": "Dallas Demolition Permits 2026",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/dallas_demolition_permits_2026.csv",
+   "sample_file_key": "samples/dallas-demolition-sample.csv"
+  },
+  {
+   "id": "collin-absentee",
+   "title": "Collin County Absentee Owners, Long Term",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": "packs/collin_absentee_longterm.csv",
+   "sample_file_key": "samples/collin-absentee-sample.csv"
+  },
+  {
+   "id": "free-sample-pack",
+   "title": "ParcelReady Free Sample Pack",
+   "store": {
+    "mode": "gumroad",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "file_key": null,
+   "sample_file_key": null
+  }
+ ]
+}

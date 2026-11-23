@@ -1,0 +1,842 @@
+{
+ "coming_soon": [
+  {
+   "family": "trade",
+   "metro": "Houston first, then Phoenix, Atlanta",
+   "status": "In production",
+   "trade": "Plumbing",
+   "states": [
+    "TX"
+   ],
+   "launch_price": 79
+  },
+  {
+   "family": "trade",
+   "metro": "Houston first",
+   "status": "In production",
+   "trade": "Electrical",
+   "states": [
+    "TX"
+   ],
+   "launch_price": 79
+  },
+  {
+   "family": "trade",
+   "metro": "Houston",
+   "status": "In production",
+   "trade": "Roofing",
+   "states": [
+    "TX"
+   ]
+  },
+  {
+   "family": "trade",
+   "metro": "Houston",
+   "status": "Queued",
+   "trade": "Pools",
+   "states": [
+    "TX"
+   ],
+   "launch_price": 79
+  },
+  {
+   "family": "trade",
+   "metro": "Houston",
+   "status": "Queued",
+   "trade": "Lawn Care and Landscaping",
+   "states": [
+    "TX"
+   ],
+   "launch_price": 79
+  },
+  {
+   "family": "trade",
+   "metro": "Houston",
+   "status": "Queued",
+   "trade": "Concrete",
+   "states": [
+    "TX"
+   ],
+   "launch_price": 79
+  },
+  {
+   "family": "trade",
+   "metro": "Houston",
+   "status": "Queued",
+   "trade": "Garage Door Repair",
+   "states": [
+    "TX"
+   ],
+   "launch_price": 59
+  },
+  {
+   "family": "county",
+   "metro": "Denton County",
+   "status": "Queued",
+   "trade": "Absentee Owners",
+   "states": [
+    "TX"
+   ]
+  },
+  {
+   "family": "county",
+   "metro": "Dallas County",
+   "status": "Queued",
+   "trade": "Multi-Property Landlords, 5+",
+   "states": [
+    "TX"
+   ]
+  },
+  {
+   "family": "county",
+   "metro": "Harris County",
+   "status": "Source check first",
+   "trade": "Absentee Owners",
+   "states": [
+    "TX"
+   ]
+  },
+  {
+   "family": "county",
+   "metro": "Texas, one county",
+   "status": "Pilot",
+   "trade": "Absentee Land Owners, pilot",
+   "states": [
+    "TX"
+   ]
+  }
+ ],
+ "generated_note": "Source of truth for the ParcelReady catalog. Add a row here and rerun build.py; the pack page, catalog card, and browse filters update with no redesign. Prices, counts and links are copied from the governing store records (LISTINGS.md, LAUNCH-LOG.md, PRICE-AUDIT-2026-11-16.md, pack LISTING-COPY.md files). Never reconstruct them from memory. State-first spec (Matt via HQ, Nov 22, 2026): every pack carries state, category, data_as_of (fed by Relay's refresh system; update the date here when a pack refreshes and rerun build.py), and a sample_csv source so every pack page carries a viewable sample. State hubs and state x category pages are generated for all 50 states and the full category taxonomy. Store revision (Matt via HQ, Nov 22, 2026): purchases for the new national catalog run on parcelreadydata.com through Stripe, created programmatically from this registry by scripts/stripe_sync.py; delivery is automated (see STORE-ARCHITECTURE.md). The 13 existing products keep mode gumroad as a feeder shelf.",
+ "metros_ranked": [
+  "Houston",
+  "Phoenix",
+  "Atlanta",
+  "Tampa",
+  "Orlando",
+  "Charlotte",
+  "Austin",
+  "San Antonio",
+  "Nashville",
+  "Las Vegas",
+  "Denver"
+ ],
+ "packs": [
+  {
+   "build_date": "November 16, 2026",
+   "buy_url": "https://parcelready.gumroad.com/l/eqpouk",
+   "buyer": "Agencies, answering services, and sales teams who prospect local HVAC operators",
+   "cover": "assets/covers/hvac-pack.png",
+   "family": "trade",
+   "featured": true,
+   "id": "houston-hvac",
+   "inside": [
+    "Business name and base city, 37 suburbs and neighborhoods from Conroe and The Woodlands to League City and Texas City",
+    "Website and published phone on all 137 rows",
+    "Published email on 43 rows, transcribed exactly as the business prints it, with the source page recorded",
+    "Contact form status and form page URL, 42 confirmed contact or quote forms",
+    "Public rating and review count where the business shows them",
+    "Gap flags for targeting: no published email, no contact form, no online booking, no website"
+   ],
+   "limits": "Most small HVAC operators do not publish an email, which is why the email count is 43 and not 137. This pack tells you the truth about each business instead of padding the file with guessed addresses. Data is a dated November 2026 snapshot; a refresh is planned on a 90 day cycle. Files: CSV and XLSX.",
+   "metro": "Houston",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 137,
+   "rows_label": "137 verified companies",
+   "sample_cover": "assets/covers/hvac-sample.png",
+   "sample_label": "Free 15 row sample",
+   "sample_url": "https://parcelready.gumroad.com/l/phyzm",
+   "stats": [
+    {
+     "k": "Verified companies",
+     "v": "137"
+    },
+    {
+     "k": "Rows with a phone",
+     "v": "137"
+    },
+    {
+     "k": "Verified emails",
+     "v": "43"
+    },
+    {
+     "k": "Confirmed forms",
+     "v": "42"
+    }
+   ],
+   "tagline": "137 verified local leads with phones, emails and gap flags",
+   "title": "Houston HVAC Companies",
+   "trade": "HVAC",
+   "state": "TX",
+   "category": "HVAC",
+   "data_as_of": "2026-11-16",
+   "sample_csv": "lead:houston-hvac",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "lead-packs/houston-hvac/houston-hvac-pack-2026-11-16.csv + .xlsx",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "houston",
+   "coverage": "Houston metro",
+   "refresh_schedule": "Fully re-verified monthly",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "build_date": "November 16, 2026",
+   "buy_url": "https://parcelready.gumroad.com/l/keddu",
+   "buyer": "Agencies and reps who sell to roofers",
+   "cover": "assets/covers/roofing-pack.png",
+   "family": "trade",
+   "featured": false,
+   "id": "austin-sa-roofing",
+   "inside": [
+    "Business name, base city, website, and a published phone on all 130 rows",
+    "Published email on 68 rows, each transcribed exactly from the company's own site with the source page recorded",
+    "Contact form status with the form page URL, 47 confirmed",
+    "Public rating and review count where the company shows them",
+    "Gap flags for targeting: no published email, no contact form, no online booking",
+    "Plan or membership offers the company publishes on its own site, 6 found, plan names recorded verbatim"
+   ],
+   "limits": "An email is listed only where the company publishes one itself; 68 of 130 do, and that is the real rate for this trade, not a shortfall we hid. Small independent operators only: national chains, franchise locations, and lead generation template sites were screened out. Dated November 2026 snapshot, refreshed on a 90 day cycle. License: one business, use it across your own campaigns; do not resell or redistribute the raw file.",
+   "metro": "Austin to San Antonio",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 130,
+   "rows_label": "130 verified companies",
+   "sample_cover": "assets/covers/roofing-sample.png",
+   "sample_label": "Free 15 row sample",
+   "sample_url": "https://parcelready.gumroad.com/l/bwtfap",
+   "stats": [
+    {
+     "k": "Verified companies",
+     "v": "130"
+    },
+    {
+     "k": "Corridor cities",
+     "v": "26"
+    },
+    {
+     "k": "Verified emails",
+     "v": "68"
+    },
+    {
+     "k": "Confirmed forms",
+     "v": "47"
+    }
+   ],
+   "tagline": "130 verified local leads across 26 corridor cities",
+   "title": "Austin to San Antonio Roofing Companies",
+   "trade": "Roofing",
+   "state": "TX",
+   "category": "Roofing",
+   "data_as_of": "2026-11-16",
+   "sample_csv": "lead:austin-sa-roofing",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "lead-packs/austin-sa-roofing/austin-sa-roofing-pack-2026-11-16.csv + .xlsx",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "austin-san-antonio",
+   "coverage": "26 corridor cities, Austin to San Antonio",
+   "refresh_schedule": "Fully re-verified monthly",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "build_date": "October 12, 2026 data",
+   "buy_url": "https://parcelready.gumroad.com/l/nwxhps",
+   "buyer": "Real estate investors, wholesalers, and direct mail marketers working Dallas County",
+   "cover": "assets/covers/dallas-absentee.png",
+   "family": "county",
+   "featured": false,
+   "id": "dallas-absentee",
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value, median $273,185 across the file",
+    "Year built, bedrooms, full baths, living area square feet",
+    "Deed transfer date and years owned",
+    "DCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Dallas Central Appraisal District's current ownership file, not scraped and not resold from another list vendor. Every record passed an owner occupied check: if the mailing address matched the property address, it is not on this list. Values are county appraised values, not sale prices. Years of ownership is an equity signal, not a mortgage balance. If more than 2 percent of your mailing comes back undeliverable, tell us and we will make it right.",
+   "metro": "Dallas County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 53887,
+   "rows_label": "53,887 records",
+   "sample_label": "Free sample pack",
+   "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "53,887"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Median value",
+     "v": "$273,185"
+    },
+    {
+     "k": "Ownership filter",
+     "v": "11+ years"
+    }
+   ],
+   "tagline": "53,887 owners who get their tax mail somewhere else, 11+ years of ownership",
+   "title": "Dallas County Absentee Owners, Long Term",
+   "trade": "Absentee Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-10-12",
+   "sample_csv": "dallas_absentee_longterm_sample100.csv",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "dallas_absentee_longterm_full.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Dallas County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter",
+    "statewide_price": 199
+   }
+  },
+  {
+   "build_date": "Live city data, refreshed weekly",
+   "buy_url": "https://parcelready.gumroad.com/l/xlvkiz",
+   "buyer": "Investors and contractors who work early distress signals",
+   "cover": "assets/covers/code-cases.png",
+   "family": "county",
+   "featured": false,
+   "id": "dallas-code-cases",
+   "inside": [
+    "Case number, case type, status, and date opened, with days open",
+    "Property address and ZIP",
+    "Owner name and owner mailing address, matched to the county appraisal roll",
+    "Latest appraised market value",
+    "DCAD account number on matched records",
+    "Match rate published in every refresh: 86 percent (6,260 of 7,260) on the current build"
+   ],
+   "limits": "Dallas publishes the case, not the inspector's notes, so the file tells you a property has an open code problem and how long it has been open, not the specific violation detail. Unmatched cases are included and clearly flagged; owners are never guessed. Subscription only, because stale code data is worthless. That is the point of the refresh.",
+   "metro": "Dallas",
+   "price": 79,
+   "price_note": "per month, refreshed weekly",
+   "rows": 7260,
+   "rows_label": "7,260 open cases",
+   "sample_label": "Free sample pack",
+   "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "stats": [
+    {
+     "k": "Open cases",
+     "v": "7,260"
+    },
+    {
+     "k": "Owner matched",
+     "v": "86%"
+    },
+    {
+     "k": "Refresh",
+     "v": "Weekly"
+    },
+    {
+     "k": "Source",
+     "v": "City 311 + DCAD"
+    }
+   ],
+   "tagline": "7,260 open cases with the property owner matched and attached",
+   "title": "Dallas Open Code Cases, Owner Matched",
+   "trade": "Code Cases",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-16",
+   "sample_csv": "dallas_open_code_cases_v3_sample100.csv",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "dallas_open_code_cases_v3.csv",
+    "billing": "subscription",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "City of Dallas",
+   "refresh_schedule": "Refreshed weekly",
+   "membership": {
+    "price": 79,
+    "per": "month"
+   }
+  },
+  {
+   "build_date": "2026 permit year",
+   "buy_url": "https://parcelready.gumroad.com/l/hazks",
+   "buyer": "Contractors, suppliers, and investors watching who is building what, and where",
+   "cover": "assets/covers/permits.png",
+   "family": "county",
+   "featured": false,
+   "id": "dallas-permits",
+   "inside": [
+    "Permit number, permit type, and issue date",
+    "Street address and ZIP",
+    "Contractor name where the city publishes it",
+    "Declared project value, $3.77 billion across the file",
+    "Area, work description, and land use",
+    "The mix: 12,079 residential plumbing permits, 6,922 residential electrical, 2,953 commercial alterations, 2,142 new residential construction"
+   ],
+   "limits": "Declared values are what applicants wrote on the permit, and contractors are listed only where the city publishes them. This is the city's own data, cleaned and organized, nothing added and nothing invented.",
+   "metro": "Dallas",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 55920,
+   "rows_label": "55,920 permits",
+   "sample_label": "Free sample pack",
+   "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "stats": [
+    {
+     "k": "Permits",
+     "v": "55,920"
+    },
+    {
+     "k": "Declared value",
+     "v": "$3.77B"
+    },
+    {
+     "k": "Coverage",
+     "v": "Full year 2026"
+    },
+    {
+     "k": "Format",
+     "v": "CSV"
+    }
+   ],
+   "tagline": "All 55,920 permits with contractors and project values",
+   "title": "Dallas Building Permits 2026, Full Year",
+   "trade": "Building Permits",
+   "state": "TX",
+   "category": "Construction",
+   "data_as_of": "2026-11-09",
+   "sample_csv": "dallas_permits_2026_sample100.csv",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "dallas_permits_2026.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "City of Dallas",
+   "refresh_schedule": "Refreshed monthly, plus a January close-out build",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "build_date": "Tax roll dated November 6, 2026",
+   "buy_url": "https://parcelready.gumroad.com/l/usszp",
+   "buyer": "Investors who work the oldest motivated seller signal there is",
+   "cover": "assets/covers/tarrant-tax.png",
+   "family": "county",
+   "featured": false,
+   "id": "tarrant-tax-delinquent",
+   "inside": [
+    "Owner name and mailing address",
+    "Property address",
+    "Appraised market value",
+    "Current year amount due and prior year amount due",
+    "Total amount due, median $3,328, sorted largest first",
+    "County tax account number on every record"
+   ],
+   "limits": "Pulled from the county tax office's own weekly tax roll, the same records the collector bills from, not a resold scrape. Delinquent means a prior year balance is still open on the roll as of the run date. Balances change daily as owners pay. Amounts are base tax figures and do not include every penalty or fee a collector may add later.",
+   "metro": "Tarrant County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 12393,
+   "rows_label": "12,393 accounts",
+   "sample_label": "Free sample pack",
+   "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "stats": [
+    {
+     "k": "Accounts",
+     "v": "12,393"
+    },
+    {
+     "k": "Median total due",
+     "v": "$3,328"
+    },
+    {
+     "k": "Source",
+     "v": "County tax roll"
+    },
+    {
+     "k": "Sort",
+     "v": "Largest owed first"
+    }
+   ],
+   "tagline": "12,393 residential accounts that still owe prior year taxes",
+   "title": "Tarrant County Tax Delinquent Properties",
+   "trade": "Tax Delinquent",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-06",
+   "sample_csv": "tarrant_tax_delinquent_sample100.csv",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "tarrant_tax_delinquent.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Tarrant County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "build_date": "County tax roll, weekly source",
+   "buy_url": "https://parcelready.gumroad.com/l/sgwua",
+   "buyer": "Investors who work Tarrant County by street and neighborhood",
+   "cover": "assets/covers/tarrant-absentee.png",
+   "family": "county",
+   "featured": false,
+   "id": "tarrant-absentee",
+   "inside": [
+    "Owner name and mailing address",
+    "Property street address",
+    "Appraised market value",
+    "Date of deed and years owned",
+    "Tax account number on every record"
+   ],
+   "limits": "Priced for exactly what it is, and here is why it costs less than the Dallas list: the tax roll does not publish the property's city or ZIP, or its beds, baths, and square feet, so this file is thinner than the Dallas County version. If you mail by ZIP, buy Dallas. If you work Tarrant by street and neighborhood, this is your list.",
+   "metro": "Tarrant County",
+   "price": 39,
+   "price_note": "one time",
+   "rows": 31156,
+   "rows_label": "31,156 records",
+   "sample_label": "Free sample pack",
+   "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "31,156"
+    },
+    {
+     "k": "Ownership filter",
+     "v": "11+ years"
+    },
+    {
+     "k": "Value floor",
+     "v": "$150,000"
+    },
+    {
+     "k": "Source",
+     "v": "County tax roll"
+    }
+   ],
+   "tagline": "31,156 Fort Worth side owners holding 11+ years, value $150,000 and up",
+   "title": "Tarrant County Absentee Owners, Long Term",
+   "trade": "Absentee Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-09",
+   "sample_csv": "tarrant_absentee_longterm_sample100.csv",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "tarrant_absentee_longterm.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Tarrant County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "build_date": "2026 permit year",
+   "buy_url": "https://parcelready.gumroad.com/l/zokmgd",
+   "buyer": "Subcontractors and suppliers finding active jobs while they are still being built",
+   "cover": "assets/covers/new-construction.png",
+   "family": "county",
+   "featured": false,
+   "id": "dallas-new-construction",
+   "inside": [
+    "Permit number and type, issue date",
+    "Street address and ZIP",
+    "Contractor named on the permit where the city publishes it",
+    "Declared project value, $3.52 billion across the file",
+    "Area, work description, and land use"
+   ],
+   "limits": "Only the ground up work from the Dallas permits file. Declared values are the applicants' own figures, and a permit is a start, not a guarantee the project finished.",
+   "metro": "Dallas",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 3808,
+   "rows_label": "3,808 permits",
+   "sample_label": "Free sample pack",
+   "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "stats": [
+    {
+     "k": "Permits",
+     "v": "3,808"
+    },
+    {
+     "k": "Declared value",
+     "v": "$3.52B"
+    },
+    {
+     "k": "Cut",
+     "v": "Ground up only"
+    },
+    {
+     "k": "Format",
+     "v": "CSV"
+    }
+   ],
+   "tagline": "3,808 ground up projects with contractors, $3.52 billion declared",
+   "title": "Dallas New Construction Permits 2026",
+   "trade": "New Construction",
+   "state": "TX",
+   "category": "Construction",
+   "data_as_of": "2026-11-09",
+   "sample_csv": "dallas_new_construction_sample100.csv",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "dallas_new_construction_permits_2026.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "City of Dallas",
+   "refresh_schedule": "Refreshed monthly, plus a January close-out build",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "build_date": "2026 permit year",
+   "buy_url": "https://parcelready.gumroad.com/l/lcvikh",
+   "buyer": "Lot buyers and builders watching redevelopment street by street",
+   "cover": "assets/covers/demolition.png",
+   "family": "county",
+   "featured": false,
+   "id": "dallas-demolition",
+   "inside": [
+    "Permit number and issue date",
+    "Street address and ZIP",
+    "Contractor where the city publishes it",
+    "Work description and land use"
+   ],
+   "limits": "Every demolition permit the City of Dallas issued in 2026. Demolition permits do not say who bought the lot or what replaces the structure. This is the signal list, not the whole story.",
+   "metro": "Dallas",
+   "price": 39,
+   "price_note": "one time",
+   "rows": 1249,
+   "rows_label": "1,249 permits",
+   "sample_label": "Free sample pack",
+   "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "stats": [
+    {
+     "k": "Permits",
+     "v": "1,249"
+    },
+    {
+     "k": "Coverage",
+     "v": "Full year 2026"
+    },
+    {
+     "k": "Signal",
+     "v": "Teardowns"
+    },
+    {
+     "k": "Format",
+     "v": "CSV"
+    }
+   ],
+   "tagline": "1,249 teardowns, the lots about to change hands",
+   "title": "Dallas Demolition Permits 2026",
+   "trade": "Demolition",
+   "state": "TX",
+   "category": "Construction",
+   "data_as_of": "2026-11-09",
+   "sample_csv": "dallas_demolition_sample100.csv",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "dallas_demolition_permits_2026.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "City of Dallas",
+   "refresh_schedule": "Refreshed monthly, plus a January close-out build",
+   "membership": {
+    "price": 39,
+    "per": "quarter"
+   }
+  },
+  {
+   "build_date": "Collin CAD data, November 1, 2026",
+   "buy_url": "https://parcelready.gumroad.com/l/ainbwv",
+   "buyer": "Investors working the north side of the DFW map",
+   "cover": "assets/covers/collin-absentee.png",
+   "family": "county",
+   "featured": false,
+   "id": "collin-absentee",
+   "inside": [
+    "Owner name and mailing address",
+    "Property address, city, and ZIP",
+    "Market value, labeled as prior year appraised value in the file itself",
+    "Year built, deed date, and years owned",
+    "Collin CAD property ID on every record"
+   ],
+   "limits": "Built from Collin CAD's official appraisal dataset on the Texas Open Data Portal, with the same owner occupied check as the Dallas list: if the mailing street matched the property street, the record never made the file, and the verification pass found zero slips. Values are prior year appraised values, because the current year value field in the county's published file is empty for every record; the column is labeled exactly that way in the file.",
+   "metro": "Collin County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 14227,
+   "rows_label": "14,227 records",
+   "sample_label": "Free sample pack",
+   "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "14,227"
+    },
+    {
+     "k": "Ownership filter",
+     "v": "11+ years"
+    },
+    {
+     "k": "Value floor",
+     "v": "$150,000"
+    },
+    {
+     "k": "Owner occupied slips",
+     "v": "0 found"
+    }
+   ],
+   "tagline": "14,227 Plano, McKinney, Frisco, and Allen owners holding 11+ years",
+   "title": "Collin County Absentee Owners, Long Term",
+   "trade": "Absentee Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-01",
+   "sample_csv": "collin_absentee_longterm_sample100.csv",
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": "collin_absentee_longterm.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Collin County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "build_date": "Current builds",
+   "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "buyer": "Anyone who wants to inspect the data before spending a dollar",
+   "cover": "assets/covers/sample-pack.png",
+   "family": "county",
+   "featured": false,
+   "id": "free-sample-pack",
+   "inside": [
+    "100 real records drawn from every paid list in the store",
+    "The exact columns and format of the full files",
+    "Owner matched records shown with their match quality visible"
+   ],
+   "limits": "Check the columns, the addresses, and the match quality before you spend anything. If the samples do not convince you, the full lists will not either, and we would rather you find that out for free.",
+   "metro": "All lists",
+   "price": 0,
+   "price_note": "free",
+   "rows": 100,
+   "rows_label": "100 records from every list",
+   "sample_label": "Get the free sample pack",
+   "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "100"
+    },
+    {
+     "k": "Lists covered",
+     "v": "Every paid list"
+    },
+    {
+     "k": "Price",
+     "v": "$0"
+    },
+    {
+     "k": "Format",
+     "v": "CSV + XLSX"
+    }
+   ],
+   "tagline": "100 real records from every paid list, in the exact format of the full files",
+   "title": "ParcelReady Free Sample Pack",
+   "trade": "Free Sample",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-16",
+   "sample_csv": null,
+   "store": {
+    "mode": "gumroad",
+    "delivery_file": null,
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": null,
+   "coverage": "Drawn from every live list",
+   "refresh_schedule": "Rolls with each source pack's refresh",
+   "membership": null
+  }
+ ],
+ "sample_percent": 10,
+ "metros": {
+  "dfw": {
+   "name": "Dallas Fort Worth",
+   "slug": "dallas-fort-worth",
+   "state": "TX",
+   "coverage": "Dallas, Tarrant, Collin, Denton, Ellis, Hunt, Johnson, Kaufman, Parker, Rockwall, and Wise counties"
+  },
+  "houston": {
+   "name": "Houston",
+   "slug": "houston",
+   "state": "TX",
+   "coverage": "Harris, Fort Bend, Montgomery, Brazoria, Galveston, Liberty, Waller, Chambers, and Austin counties"
+  },
+  "austin-san-antonio": {
+   "name": "Austin to San Antonio",
+   "slug": "austin-to-san-antonio",
+   "state": "TX",
+   "coverage": "The I-35 corridor: Travis, Williamson, Hays, Comal, Guadalupe, and Bexar counties"
+  }
+ }
+}
