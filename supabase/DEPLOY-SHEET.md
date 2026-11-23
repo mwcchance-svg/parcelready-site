@@ -16,9 +16,11 @@ the function base is https://<project-ref>.supabase.co/functions/v1/parcelready-
 
 ## 2. Secrets FIRST (Edge Functions, Secrets) - before anything else
 
-Anvil's urgent rule from his Nov 21 incident: held dialogs and waiting
-windows die on timers, so the key lands in its slot before any other
-build step. The secret slot is project level; it does not need the
+The key lands in its slot before any other build step because the
+sitting's later steps depend on the secret being in place: the
+function's first sync and checkout calls read it. No dialog is being
+held open anywhere; the placement is a rotation at this step, not a
+rescue. The secret slot is project level; it does not need the
 function to exist.
 
 Platform-injected, never entered by hand: SUPABASE_URL,
