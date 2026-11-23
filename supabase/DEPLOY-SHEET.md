@@ -4,7 +4,7 @@ One page. Dashboard route; if Anvil's Tool One mechanics used the CLI
 for any step, that step swaps to his pattern without changing the rest.
 
 **Function:** `parcelready-store`. **Code:** one file, paste whole:
-`supabase/dist/parcelready-store.single.ts` (21,339 bytes, type-checked
+`supabase/dist/parcelready-store.single.ts` (21,662 bytes, type-checked
 with `deno check`, generated from supabase/src/index.ts with the pack
 registry inlined). It contains NO key material.
 
@@ -25,8 +25,13 @@ Platform-injected, never entered by hand: SUPABASE_URL,
 SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY.
 
 Set these:
-- STRIPE_SECRET_KEY: placed screen to screen from the held Stripe
-  reveal dialog, FIRST, before the schema, the function, or storage.
+- STRIPE_SECRET_KEY: the earlier value is gone (its reveal dialog
+  closed during the abandoned Cloudflare attempt; it was never
+  deposited anywhere we control). At this step the key ROTATES ONCE in
+  the Stripe window (rotation needed no verification last time), the
+  fresh value is revealed, and the agent places it screen to screen
+  into this secret, the dialog under agent control end to end. FIRST,
+  before the schema, the function, or storage.
 - SITE_BASE = https://parcelreadydata.com
 - API_BASE = https://<project-ref>.supabase.co/functions/v1/parcelready-store
 - ALLOWED_ORIGINS = https://parcelreadydata.com,https://mwcchance-svg.github.io
@@ -53,13 +58,14 @@ Paste the single file as index.ts and deploy with **verify_jwt OFF**
 (Stripe webhooks and browser calls carry no Supabase JWT; the design's
 own signature and token checks are the gate).
 
-## 5. Storage uploads (bucket parcelready-files, 20 objects)
+## 5. Storage uploads (bucket parcelready-files, 22 objects)
 
 Create folders packs/ and samples/ in the bucket, then upload. Pack
 files are in ~/workspace/data-products/; sample files are in the site
 repo under delivery/samples/. Keys:
 
 - packs/houston-hvac-pack-2026-11-16.csv
+- packs/houston-plumbing-pack-2026-11-22.csv
 - packs/austin-sa-roofing-pack-2026-11-16.csv
 - packs/dallas_absentee_longterm_full.csv
 - packs/dallas_open_code_cases_v3.csv
@@ -70,6 +76,7 @@ repo under delivery/samples/. Keys:
 - packs/dallas_demolition_permits_2026.csv
 - packs/collin_absentee_longterm.csv
 - samples/houston-hvac-sample.csv
+- samples/houston-plumbing-sample.csv
 - samples/austin-sa-roofing-sample.csv
 - samples/dallas-absentee-sample.csv
 - samples/dallas-code-cases-sample.csv

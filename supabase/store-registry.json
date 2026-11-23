@@ -15,6 +15,20 @@
    "sample_file_key": "samples/houston-hvac-sample.csv"
   },
   {
+   "id": "houston-plumbing",
+   "title": "Houston Plumbing Companies",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/houston-plumbing-pack-2026-11-22.csv",
+   "sample_file_key": "samples/houston-plumbing-sample.csv"
+  },
+  {
    "id": "austin-sa-roofing",
    "title": "Austin to San Antonio Roofing Companies",
    "store": {

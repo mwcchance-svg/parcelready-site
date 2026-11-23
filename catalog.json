@@ -2,16 +2,6 @@
  "coming_soon": [
   {
    "family": "trade",
-   "metro": "Houston first, then Phoenix, Atlanta",
-   "status": "In production",
-   "trade": "Plumbing",
-   "states": [
-    "TX"
-   ],
-   "launch_price": 79
-  },
-  {
-   "family": "trade",
    "metro": "Houston first",
    "status": "In production",
    "trade": "Electrical",
@@ -174,6 +164,70 @@
    "store": {
     "mode": "gumroad",
     "delivery_file": "lead-packs/houston-hvac/houston-hvac-pack-2026-11-16.csv + .xlsx",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "houston",
+   "coverage": "Houston metro",
+   "refresh_schedule": "Fully re-verified monthly",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "build_date": "November 22, 2026",
+   "buyer": "Agencies, answering services, and sales teams who prospect local plumbing companies",
+   "cover": "assets/covers/plumbing-pack.png",
+   "family": "trade",
+   "id": "houston-plumbing",
+   "inside": [
+    "Business name and base city, 36 cities from Houston and Katy to Kingwood, The Woodlands, Magnolia, and Baytown",
+    "Website and published phone on all 135 rows",
+    "Published email on 42 rows, transcribed exactly as the business prints it, with the source page recorded",
+    "Contact form status and form page URL, 90 confirmed contact or quote forms",
+    "Public rating and review count where the business shows them",
+    "Gap flags for targeting: no published email, no contact form, no online booking, no reviews found, low rating",
+    "Maintenance plan and membership offers: 16 companies publish one, plan names recorded verbatim"
+   ],
+   "limits": "Most small plumbing operators do not publish an email, which is why the email count is 42 and not 135. Four rows carry a form status we could not confirm from the published pages, and the file says so rather than guess. This pack tells you the truth about each business instead of padding the file with guessed addresses. Data is a dated November 2026 snapshot; the pack is fully re-verified monthly. Files: CSV and XLSX.",
+   "metro": "Houston",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 135,
+   "rows_label": "135 verified companies",
+   "sample_cover": "assets/covers/plumbing-sample.png",
+   "sample_label": "Free 15 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/houston-plumbing.html",
+   "stats": [
+    {
+     "k": "Verified companies",
+     "v": "135"
+    },
+    {
+     "k": "Rows with a phone",
+     "v": "135"
+    },
+    {
+     "k": "Verified emails",
+     "v": "42"
+    },
+    {
+     "k": "Confirmed forms",
+     "v": "90"
+    }
+   ],
+   "tagline": "135 verified local leads with phones, emails and gap flags",
+   "title": "Houston Plumbing Companies",
+   "trade": "Plumbing",
+   "state": "TX",
+   "category": "Plumbing",
+   "data_as_of": "2026-11-22",
+   "sample_csv": "lead:houston-plumbing",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "lead-packs/houston-plumbing/houston-plumbing-pack-2026-11-22.csv + .xlsx",
     "billing": "one_time",
     "stripe_product_id": null,
     "stripe_price_id": null

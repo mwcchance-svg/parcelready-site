@@ -1,3 +1,10 @@
+    method: "POST",
+    body: JSON.stringify({ token, pack_id: pack.id, email, kind, expires_at: expires }),
+  });
+  const base = env("API_BASE") || env("SITE_BASE");
+  const link = `${base}/api/download?token=${token}`;
+  const what = kind === "sample" ? `the free sample of ${pack.title}` : pack.title;
+  await sendEmail(
     email,
     `Your ParcelReady download: ${pack.title}`,
     `Here is ${what}.\n\nDownload (link good for 72 hours):\n${link}\n\n` +
@@ -204,12 +211,3 @@ async function handleWebhook(req: Request) {
 
 async function handleSample(req: Request) {
   const body = await req.json();
-  const email = (body.email || "").trim();
-  if (!email || !email.includes("@")) return json({ error: "email_required" }, 400, req);
-  const lead = {
-    at: new Date().toISOString(),
-    business_name: body.business_name || "",
-    email,
-    trade: body.trade || "",
-    state: body.state || "",
-    metro: body.metro || "",

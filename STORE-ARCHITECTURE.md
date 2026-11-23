@@ -294,3 +294,11 @@ ported from the Worker design the same day:
   supabase/DEPLOY-SHEET.md. The Cloudflare Worker code stays in worker/
   as the design record of the abandoned route; wrangler.toml and the
   dashboard sheet under worker/ are not operative.
+
+First stripe mode pack (HQ designation, Nov 23, 2026): Houston
+Plumbing, stripe mode from birth at $79 one time, 135 rows, data as of
+November 22, 2026. None of the 13 feeder packs flip; Dallas Code Cases
+stays on its Gumroad path untouched. The plumbing listing sequences
+live with the test purchase. Membership checkout for trade packs (a
+second, subscription price) is a follow on; the pack page's membership
+card keeps its follow up list framing until that lands.
