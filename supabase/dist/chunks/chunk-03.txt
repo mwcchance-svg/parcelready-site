@@ -121,6 +121,33 @@ async function handleAdminSync(req: Request) {
 
 /* ---------------- checkout ---------------- */
 
+// Landing pipeline upload (HQ sanction, Nov 23, 2026): the desk posts
+// a pack or sample CSV as the raw request body with ?key=packs/<name>
+// or ?key=samples/<name>. Same gate as the sync route: dark (404)
+// until ADMIN_TOKEN is set, 401 on a wrong token. CSV keys only,
+// 25 MB cap, upsert so a refresh replaces the delivered object.
+async function handleAdminUpload(req: Request, url: URL) {
+  if (!env("ADMIN_TOKEN")) return new Response("not found", { status: 404 });
+  if (req.headers.get("x-admin-token") !== env("ADMIN_TOKEN")) return json({ error: "unauthorized" }, 401);
+  const key = url.searchParams.get("key") || "";
+  if (!/^(packs|samples)\/[A-Za-z0-9._-]+\.csv$/.test(key) || key.includes("..")) {
+    return json({ error: "bad_key" }, 400);
+  }
+  const body = new Uint8Array(await req.arrayBuffer());
+  if (!body.length) return json({ error: "empty_body" }, 400);
+  if (body.length > 25 * 1024 * 1024) return json({ error: "too_large" }, 413);
+  const res = await fetch(
+    `${env("SUPABASE_URL")}/storage/v1/object/parcelready-files/${key}`,
+    {
+      method: "POST",
+      headers: { ...restHeaders(), "Content-Type": "text/csv", "x-upsert": "true" },
+      body,
+    }
+  );
+  if (!res.ok) return json({ error: "storage_" + res.status }, 502);
+  return json({ ok: true, key, bytes: body.length });
+}
+
 async function handleCheckout(req: Request) {
   const { pack_id } = await req.json();
   const pack = packById(pack_id);
@@ -178,33 +205,3 @@ async function packForPrice(priceId: string) {
 }
 
 async function handleWebhook(req: Request) {
-  const raw = await req.text();
-  if (!(await verifyStripe(req, raw))) return new Response("bad signature", { status: 400 });
-  const event = JSON.parse(raw);
-  if (event.type === "checkout.session.completed") {
-    const s = event.data.object;
-    const pack = packById(s.metadata && s.metadata.pack_id);
-    const email = s.customer_details && s.customer_details.email;
-    if (pack && email) await deliver(pack, email, "purchase");
-  }
-  if (event.type === "invoice.paid") {
-    const line = event.data.object.lines && event.data.object.lines.data[0];
-    const priceId = line && line.price && line.price.id;
-    const pack = priceId ? await packForPrice(priceId) : null;
-    const email = event.data.object.customer_email;
-    // The first invoice is already covered by checkout.session.completed.
-    if (pack && email && event.data.object.billing_reason !== "subscription_create") {
-      await deliver(pack, email, "refresh");
-    }
-  }
-  return json({ received: true });
-}
-
-/* ---------------- sample capture + download ---------------- */
-
-async function handleSample(req: Request) {
-  const body = await req.json();
-  const email = (body.email || "").trim();
-  if (!email || !email.includes("@")) return json({ error: "email_required" }, 400, req);
-  const lead = {
-    at: new Date().toISOString(),

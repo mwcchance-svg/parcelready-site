@@ -392,6 +392,33 @@ async function handleAdminSync(req: Request) {
 
 /* ---------------- checkout ---------------- */
 
+// Landing pipeline upload (HQ sanction, Nov 23, 2026): the desk posts
+// a pack or sample CSV as the raw request body with ?key=packs/<name>
+// or ?key=samples/<name>. Same gate as the sync route: dark (404)
+// until ADMIN_TOKEN is set, 401 on a wrong token. CSV keys only,
+// 25 MB cap, upsert so a refresh replaces the delivered object.
+async function handleAdminUpload(req: Request, url: URL) {
+  if (!env("ADMIN_TOKEN")) return new Response("not found", { status: 404 });
+  if (req.headers.get("x-admin-token") !== env("ADMIN_TOKEN")) return json({ error: "unauthorized" }, 401);
+  const key = url.searchParams.get("key") || "";
+  if (!/^(packs|samples)\/[A-Za-z0-9._-]+\.csv$/.test(key) || key.includes("..")) {
+    return json({ error: "bad_key" }, 400);
+  }
+  const body = new Uint8Array(await req.arrayBuffer());
+  if (!body.length) return json({ error: "empty_body" }, 400);
+  if (body.length > 25 * 1024 * 1024) return json({ error: "too_large" }, 413);
+  const res = await fetch(
+    `${env("SUPABASE_URL")}/storage/v1/object/parcelready-files/${key}`,
+    {
+      method: "POST",
+      headers: { ...restHeaders(), "Content-Type": "text/csv", "x-upsert": "true" },
+      body,
+    }
+  );
+  if (!res.ok) return json({ error: "storage_" + res.status }, 502);
+  return json({ ok: true, key, bytes: body.length });
+}
+
 async function handleCheckout(req: Request) {
   const { pack_id } = await req.json();
   const pack = packById(pack_id);
@@ -559,6 +586,7 @@ Deno.serve(async (req: Request) => {
     if (req.method === "POST" && path === "/api/webhook") return handleWebhook(req);
     if (req.method === "POST" && path === "/api/sample") return handleSample(req);
     if (req.method === "POST" && path === "/api/admin/sync") return handleAdminSync(req);
+    if (req.method === "POST" && path === "/api/admin/upload") return handleAdminUpload(req, url);
     if (req.method === "GET" && path === "/api/download") return handleDownload(req);
     return new Response("not found", { status: 404 });
   } catch (err) {

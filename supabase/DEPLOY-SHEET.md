@@ -40,8 +40,10 @@ Set these:
 - MAIL_FROM = ParcelReady <delivery@parcelreadydata.com>
 - LEADS_INBOX = hello@parcelreadydata.com
 - TAX_MODE = off
-- ADMIN_TOKEN (optional): any long random string; enables the bulk
-  sync endpoint. Report only that it exists, never its value.
+- ADMIN_TOKEN (set at the Nov 23 window sitting): any long random string; enables the bulk
+  sync endpoint and the admin upload endpoint (the landing pipeline's
+  bucket route, packs/ and samples/ CSV keys only). HQ passes the
+  value to Mason's desk. Report only that it exists, never its value.
 - RESEND_API_KEY: later step, skip now.
 
 Live and sandbox are separate universes: this key is live (rk_live).

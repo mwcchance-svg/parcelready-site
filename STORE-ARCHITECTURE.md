@@ -82,6 +82,13 @@ carry this catalog. Purchases happen on parcelreadydata.com.
    finds by registry metadata first) and records the ids.
 5. One commit deploys the site; the pack is purchasable the same day.
 
+Admin upload route (HQ sanction, Nov 23, 2026): POST
+/api/admin/upload, gated by the same admin token as the sync route,
+writes delivery files to the bucket with the service role, restricted
+to packs/ and samples/ keys and CSV payloads. With the token set, the
+landing pipeline runs end to end from Mason's desk (check, build,
+upload, redeploy); the window is touched only for the function paste.
+
 ## GO-LIVE RULING (Matt, Nov 23, 2026)
 
 The store and all products are live ahead of the tax permit, which

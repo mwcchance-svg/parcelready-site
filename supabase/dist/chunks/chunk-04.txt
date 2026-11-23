@@ -1,3 +1,33 @@
+  const raw = await req.text();
+  if (!(await verifyStripe(req, raw))) return new Response("bad signature", { status: 400 });
+  const event = JSON.parse(raw);
+  if (event.type === "checkout.session.completed") {
+    const s = event.data.object;
+    const pack = packById(s.metadata && s.metadata.pack_id);
+    const email = s.customer_details && s.customer_details.email;
+    if (pack && email) await deliver(pack, email, "purchase");
+  }
+  if (event.type === "invoice.paid") {
+    const line = event.data.object.lines && event.data.object.lines.data[0];
+    const priceId = line && line.price && line.price.id;
+    const pack = priceId ? await packForPrice(priceId) : null;
+    const email = event.data.object.customer_email;
+    // The first invoice is already covered by checkout.session.completed.
+    if (pack && email && event.data.object.billing_reason !== "subscription_create") {
+      await deliver(pack, email, "refresh");
+    }
+  }
+  return json({ received: true });
+}
+
+/* ---------------- sample capture + download ---------------- */
+
+async function handleSample(req: Request) {
+  const body = await req.json();
+  const email = (body.email || "").trim();
+  if (!email || !email.includes("@")) return json({ error: "email_required" }, 400, req);
+  const lead = {
+    at: new Date().toISOString(),
     business_name: body.business_name || "",
     email,
     trade: body.trade || "",
@@ -78,6 +108,7 @@ Deno.serve(async (req: Request) => {
     if (req.method === "POST" && path === "/api/webhook") return handleWebhook(req);
     if (req.method === "POST" && path === "/api/sample") return handleSample(req);
     if (req.method === "POST" && path === "/api/admin/sync") return handleAdminSync(req);
+    if (req.method === "POST" && path === "/api/admin/upload") return handleAdminUpload(req, url);
     if (req.method === "GET" && path === "/api/download") return handleDownload(req);
     return new Response("not found", { status: 404 });
   } catch (err) {
