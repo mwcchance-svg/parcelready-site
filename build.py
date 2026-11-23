@@ -636,22 +636,28 @@ def build_combo(name, code, cat, urls):
     urls.append(f"states/{sslug}/{cslug}/")
 
 
-def records_total():
+def records_total(sample_counts=None):
     """Sum the data rows of every live pack's delivery file.
 
     The Free Sample Pack is excluded on purpose: its 100 records are
     drawn from the other packs, so counting it would count them twice.
-    Falls back to the catalog figure only if a file is missing.
+    Counts come from write_sample_json's read of the same files (one
+    read per build, not two); the direct read is the fallback for any
+    pack the sample draw did not touch. Falls back to the catalog
+    figure only if a file is missing.
     """
     per = {}
     for p in CATALOG["packs"]:
         if p["id"] == "free-sample-pack":
             continue
         n = None
-        path = full_file_path(p)
-        if path and os.path.exists(path):
-            with open(path, newline="", encoding="utf-8-sig") as f:
-                n = sum(1 for _ in csv.reader(f)) - 1
+        if sample_counts and p["id"] in sample_counts:
+            n = sample_counts[p["id"]][1]
+        if n is None:
+            path = full_file_path(p)
+            if path and os.path.exists(path):
+                with open(path, newline="", encoding="utf-8-sig") as f:
+                    n = sum(1 for _ in csv.reader(f)) - 1
         if n is None:
             n = p["rows"] if isinstance(p.get("rows"), int) else 0
         per[p["id"]] = n
@@ -703,7 +709,7 @@ def main():
     print(f"Built {len(CATALOG['packs'])} pack pages, {len(STATES)} state hubs, "
           f"{len(STATES) * len(CATEGORIES)} state x category pages, sitemap with {len(urls)} URLs")
     print("Sample JSON rows:", counts)
-    per, total = records_total()
+    per, total = records_total(counts)
     patch_index_records(total)
     print("Records compiled per pack:", per)
     print("Records compiled total:", total)
