@@ -1,3 +1,14 @@
+    mode: sub ? "subscription" : "payment",
+    "line_items[0][price]": priceId,
+    "line_items[0][quantity]": "1",
+    success_url: `${env("SITE_BASE")}/thanks.html?pack=${pack.id}`,
+    cancel_url: `${env("SITE_BASE")}/packs/${pack.id}.html`,
+    "metadata[pack_id]": pack.id,
+  };
+  if (sub) params["subscription_data[metadata][pack_id]"] = pack.id;
+  else params["payment_intent_data[metadata][pack_id]"] = pack.id;
+  if (taxOn()) {
+    params["automatic_tax[enabled]"] = "true";
     // Stripe Tax needs the buyer's address to place the sale; Checkout
     // collects it before payment, and the tax line resolves inside the
     // inclusive price on the hosted page.
@@ -171,7 +182,3 @@ Deno.serve(async (req: Request) => {
     if (req.method === "POST" && path === "/api/admin/upload") return handleAdminUpload(req, url);
     if (req.method === "GET" && path === "/api/download") return handleDownload(req);
     return new Response("not found", { status: 404 });
-  } catch (err) {
-    return json({ error: "server_error" }, 500, req);
-  }
-});

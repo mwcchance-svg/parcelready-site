@@ -169,6 +169,20 @@
    "sample_file_key": "samples/harris-absentee-sample.csv"
   },
   {
+   "id": "harris-commercial",
+   "title": "Harris County Commercial Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/harris-commercial-2026-11-23.csv",
+   "sample_file_key": "samples/harris-commercial-sample.csv"
+  },
+  {
    "id": "free-sample-pack",
    "title": "ParcelReady Free Sample Pack",
    "store": {

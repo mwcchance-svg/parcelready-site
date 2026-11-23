@@ -1,3 +1,12 @@
+        : `<p style="margin:16px 0 0;">Every ParcelReady pack lists its source, its build date, and its limits on the label, and this file is the one its page describes.</p>`) +
+      promiseBlockHtml()
+  );
+  await sendEmail(email, `Your ParcelReady download: ${pack.title}`, text, html);
+}
+
+/* ---------------- tax (Matt's ruling, Nov 23, 2026) ----------------
+   Prices are tax-inclusive: the sticker is the whole price, and Stripe
+   Tax carves the buyer-state tax out of it wherever ParcelReady has a
    registration (Texas only today; other states switch on as their
    economic thresholds cross). The category is Stripe's Website Data
    Processing code, per Matt's data-processing treatment. If the CPA
@@ -188,14 +197,3 @@ async function handleCheckout(req: Request) {
   }
   const sub = pack.store.billing === "subscription";
   const params: Record<string, string> = {
-    mode: sub ? "subscription" : "payment",
-    "line_items[0][price]": priceId,
-    "line_items[0][quantity]": "1",
-    success_url: `${env("SITE_BASE")}/thanks.html?pack=${pack.id}`,
-    cancel_url: `${env("SITE_BASE")}/packs/${pack.id}.html`,
-    "metadata[pack_id]": pack.id,
-  };
-  if (sub) params["subscription_data[metadata][pack_id]"] = pack.id;
-  else params["payment_intent_data[metadata][pack_id]"] = pack.id;
-  if (taxOn()) {
-    params["automatic_tax[enabled]"] = "true";

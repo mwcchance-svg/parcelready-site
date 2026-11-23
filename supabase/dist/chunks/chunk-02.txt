@@ -1,3 +1,12 @@
+async function sendEmail(to: string, subject: string, text: string, html?: string) {
+  if (!env("RESEND_API_KEY")) return false;
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env("RESEND_API_KEY")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
       from: env("MAIL_FROM") || "ParcelReady <delivery@parcelreadydata.com>",
       to, subject, text, ...(html ? { html } : {}),
     }),
@@ -130,12 +139,3 @@ async function deliver(pack: any, email: string, kind: string) {
       WARM_WINDOW_HTML +
       (isSample
         ? `<p style="margin:16px 0 0;">If the sample earns its keep, the full pack is listed on parcelreadydata.com with its record count, its exact pull date, and its refresh schedule printed on the label.</p>`
-        : `<p style="margin:16px 0 0;">Every ParcelReady pack lists its source, its build date, and its limits on the label, and this file is the one its page describes.</p>`) +
-      promiseBlockHtml()
-  );
-  await sendEmail(email, `Your ParcelReady download: ${pack.title}`, text, html);
-}
-
-/* ---------------- tax (Matt's ruling, Nov 23, 2026) ----------------
-   Prices are tax-inclusive: the sticker is the whole price, and Stripe
-   Tax carves the buyer-state tax out of it wherever ParcelReady has a

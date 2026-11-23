@@ -1,7 +1,8 @@
-ParcelReady store function paste chunks: 4 chunks, 35526 bytes total.
+ParcelReady store function paste chunks: 5 chunks, 35852 bytes total.
 Paste chunk-01 into the empty editor file, then APPEND each next chunk in order at the end.
-Assembly check: the joined file is exactly 35526 bytes and its last line is: });
-chunk-01.txt: 8993 bytes
-chunk-02.txt: 8995 bytes
-chunk-03.txt: 8960 bytes
-chunk-04.txt: 8578 bytes
+Assembly check: the joined file is exactly 35852 bytes and its last line is: });
+chunk-01.txt: 8962 bytes
+chunk-02.txt: 8845 bytes
+chunk-03.txt: 8982 bytes
+chunk-04.txt: 8983 bytes
+chunk-05.txt: 80 bytes

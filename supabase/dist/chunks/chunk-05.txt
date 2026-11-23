@@ -1,0 +1,4 @@
+  } catch (err) {
+    return json({ error: "server_error" }, 500, req);
+  }
+});

@@ -877,6 +877,68 @@ window.CATALOG = {
    }
   },
   {
+   "id": "harris-commercial",
+   "title": "Harris County Commercial Owners",
+   "tagline": "71,263 commercial properties with the owner's mailing address, classes F1 and F2",
+   "buyer": "Commercial real estate investors, brokers, lenders, and service firms working Harris County and the Houston metro",
+   "cover": "assets/covers/harris-commercial.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Harris County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 71263,
+   "rows_label": "71,263 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/harris-commercial.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "71,263"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Median value",
+     "v": "$767,865"
+    },
+    {
+     "k": "Classes",
+     "v": "F1 and F2"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value, median $767,865 across the file",
+    "Deed transfer date and years owned",
+    "Year built, living area, beds, and baths ship blank on this pack (the district publishes commercial buildings separately from the residential building file, and blank fields are never estimated)",
+    "HCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Harris County Appraisal District's published ownership files, not scraped and not resold from another list vendor. The list is the district's commercial classes, F1 and F2: every owner record in them, with no absentee test and no value filter applied. Values are county appraised values, not sale prices. Deed transfer dates are the appraisal district's recorded new owner dates. Year built and living area ship blank, as the inside list states. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Commercial Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-22",
+   "build_date": "November 22, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/harris/harris-commercial-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "houston",
+   "coverage": "Harris County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
    "build_date": "Current builds",
    "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
    "buyer": "Anyone who wants to inspect the data before spending a dollar",
