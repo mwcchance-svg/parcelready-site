@@ -93,7 +93,14 @@ async function handleWebhook(req: Request) {
     const s = event.data.object;
     const pack = packById(s.metadata && s.metadata.pack_id);
     const email = s.customer_details && s.customer_details.email;
-    if (pack && email) await deliver(pack, email, "purchase");
+    if (pack && email) {
+      await deliver(pack, email, "purchase");
+      await sendEmail(
+        env("LEADS_INBOX") || "hello@parcelreadydata.com",
+        `ParcelReady sale: ${pack.title}`,
+        ...saleNotice(pack, email, s.amount_total, s.currency, false)
+      );
+    }
   }
   if (event.type === "invoice.paid") {
     const line = event.data.object.lines && event.data.object.lines.data[0];
@@ -103,6 +110,11 @@ async function handleWebhook(req: Request) {
     // The first invoice is already covered by checkout.session.completed.
     if (pack && email && event.data.object.billing_reason !== "subscription_create") {
       await deliver(pack, email, "refresh");
+      await sendEmail(
+        env("LEADS_INBOX") || "hello@parcelreadydata.com",
+        `ParcelReady renewal: ${pack.title}`,
+        ...saleNotice(pack, email, event.data.object.amount_paid, event.data.object.currency, true)
+      );
     }
   }
   return json({ received: true });
@@ -146,48 +158,37 @@ function leadNotice(lead: any, pack: any): [string, string] {
   return [text, html];
 }
 
-/* ---------------- sample capture + download ---------------- */
-
-async function handleSample(req: Request) {
-  const body = await req.json();
-  const email = (body.email || "").trim();
-  if (!email || !email.includes("@")) return json({ error: "email_required" }, 400, req);
-  const lead = {
-    at: new Date().toISOString(),
-    business_name: body.business_name || "",
-    email,
-    trade: body.trade || "",
-    state: body.state || "",
-    metro: body.metro || "",
-    reply_route: body.reply_route || "",
-    pack_id: body.pack_id || "",
-    source_page: body.source_page || "",
-    request_kind: body.request_kind || "",
-    source: body.source || "",
-  };
-  await rest("leads", { method: "POST", body: JSON.stringify({ payload: lead }) });
-  const pack = lead.pack_id ? packById(lead.pack_id) : null;
-  await sendEmail(
-    env("LEADS_INBOX") || "hello@parcelreadydata.com",
-    `ParcelReady sample lead: ${lead.trade || lead.pack_id} ${lead.state}`.trim(),
-    ...leadNotice(lead, pack)
-  );
-  if (pack && pack.sample_file_key) {
-    await deliver(pack, email, "sample");
-    return json({ ok: true, delivered: "sample" }, 200, req);
-  }
-  if (lead.request_kind === "state") {
-    const stateName = lead.state || "your state";
-    const hasPacks = (body.state_has_packs || "") === "1";
-    const stateBody = hasPacks
-      ? `It is recorded with ${stateName} as its source. ${stateName} packs are live now, ` +
-        `and our team follows up from hello@parcelreadydata.com with the sample that fits ` +
-        `your trade. There is nothing further you need to do.`
-      : `${stateName} is in the build queue, and your request is recorded with the state ` +
-        `as its source. Requests are how states move up the build order. When the first ` +
-        `${stateName} pack passes verification, its free sample comes to this address ` +
-        `first, before the pack is listed for anyone else. There is nothing further you need to do.`;
-    const stateText = `Thank you for your request.\n\n` + stateBody;
-    const stateHtml = emailShell(
-      `<p style="margin:0;">Thank you for your request.</p>\n  <p style="margin:14px 0 0;">${stateBody}</p>`
-    );
+/* Internal sale notification (Matt's order via Atlas, Nov 23, 2026):
+   our own notice to the leads inbox when money lands, in the same
+   branded shell as the lead notice. Stripe's own notification settings
+   are untouched. Renewals (an invoice.paid that fires a refresh
+   delivery) carry the same notice labeled as a renewal. Returns
+   [text, html] for sendEmail. */
+function saleNotice(pack: any, email: string, amountCents: any, currency: string, renewal: boolean): [string, string] {
+  const cents = typeof amountCents === "number" ? amountCents : null;
+  const amount = cents === null
+    ? "Not shown"
+    : currency && currency.toLowerCase() !== "usd"
+      ? `${(cents / 100).toFixed(2)} ${currency.toUpperCase()}`
+      : `$${(cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const when = new Date().toISOString().replace("T", " ").replace(/\.\d+Z$/, " UTC");
+  const lines: Array<[string, string]> = [
+    ["What", renewal ? "Subscription renewal" : "New sale"],
+    ["Pack", pack.title],
+    ["Amount paid", amount],
+    ["Buyer", email],
+    ["Received", when],
+  ];
+  const intro = renewal
+    ? "A subscription renewed on the store."
+    : "A sale landed on the store.";
+  const outro = renewal
+    ? "The subscriber has been sent a fresh delivery email with the download links."
+    : "The buyer has been sent the delivery email with the download links.";
+  const text =
+    `${intro}\n\n` +
+    lines.map(([k, v]) => `${k}: ${v}`).join("\n") +
+    `\n\n${outro}`;
+  const rows = lines
+    .map(([k, v]) =>
+      `<tr><td style="padding:5px 18px 5px 0;font-size:13px;color:#3D5546;white-space:nowrap;">${escHtml(k)}</td>` +

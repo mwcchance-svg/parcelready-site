@@ -493,7 +493,14 @@ async function handleWebhook(req: Request) {
     const s = event.data.object;
     const pack = packById(s.metadata && s.metadata.pack_id);
     const email = s.customer_details && s.customer_details.email;
-    if (pack && email) await deliver(pack, email, "purchase");
+    if (pack && email) {
+      await deliver(pack, email, "purchase");
+      await sendEmail(
+        env("LEADS_INBOX") || "hello@parcelreadydata.com",
+        `ParcelReady sale: ${pack.title}`,
+        ...saleNotice(pack, email, s.amount_total, s.currency, false)
+      );
+    }
   }
   if (event.type === "invoice.paid") {
     const line = event.data.object.lines && event.data.object.lines.data[0];
@@ -503,6 +510,11 @@ async function handleWebhook(req: Request) {
     // The first invoice is already covered by checkout.session.completed.
     if (pack && email && event.data.object.billing_reason !== "subscription_create") {
       await deliver(pack, email, "refresh");
+      await sendEmail(
+        env("LEADS_INBOX") || "hello@parcelreadydata.com",
+        `ParcelReady renewal: ${pack.title}`,
+        ...saleNotice(pack, email, event.data.object.amount_paid, event.data.object.currency, true)
+      );
     }
   }
   return json({ received: true });
@@ -542,6 +554,50 @@ function leadNotice(lead: any, pack: any): [string, string] {
     `<p style="margin:0;">A new sample request came in through the site.</p>
   <table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px 0 4px;">${rows}</table>
   <p style="margin:14px 0 0;font-size:13px;color:#3D5546;">The lead is recorded in the leads table, and the requester has been answered by the usual route.</p>`
+  );
+  return [text, html];
+}
+
+/* Internal sale notification (Matt's order via Atlas, Nov 23, 2026):
+   our own notice to the leads inbox when money lands, in the same
+   branded shell as the lead notice. Stripe's own notification settings
+   are untouched. Renewals (an invoice.paid that fires a refresh
+   delivery) carry the same notice labeled as a renewal. Returns
+   [text, html] for sendEmail. */
+function saleNotice(pack: any, email: string, amountCents: any, currency: string, renewal: boolean): [string, string] {
+  const cents = typeof amountCents === "number" ? amountCents : null;
+  const amount = cents === null
+    ? "Not shown"
+    : currency && currency.toLowerCase() !== "usd"
+      ? `${(cents / 100).toFixed(2)} ${currency.toUpperCase()}`
+      : `$${(cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const when = new Date().toISOString().replace("T", " ").replace(/\.\d+Z$/, " UTC");
+  const lines: Array<[string, string]> = [
+    ["What", renewal ? "Subscription renewal" : "New sale"],
+    ["Pack", pack.title],
+    ["Amount paid", amount],
+    ["Buyer", email],
+    ["Received", when],
+  ];
+  const intro = renewal
+    ? "A subscription renewed on the store."
+    : "A sale landed on the store.";
+  const outro = renewal
+    ? "The subscriber has been sent a fresh delivery email with the download links."
+    : "The buyer has been sent the delivery email with the download links.";
+  const text =
+    `${intro}\n\n` +
+    lines.map(([k, v]) => `${k}: ${v}`).join("\n") +
+    `\n\n${outro}`;
+  const rows = lines
+    .map(([k, v]) =>
+      `<tr><td style="padding:5px 18px 5px 0;font-size:13px;color:#3D5546;white-space:nowrap;">${escHtml(k)}</td>` +
+      `<td style="padding:5px 0;font-size:14px;color:#122B1E;">${escHtml(v)}</td></tr>`)
+    .join("\n");
+  const html = emailShell(
+    `<p style="margin:0;">${intro}</p>
+  <table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px 0 4px;">${rows}</table>
+  <p style="margin:14px 0 0;font-size:13px;color:#3D5546;">${outro}</p>`
   );
   return [text, html];
 }
