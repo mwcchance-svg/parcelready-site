@@ -267,7 +267,7 @@
     "Deed transfer date and years owned",
     "DCAD account number on every record, for verification"
    ],
-   "limits": "Built from the Dallas Central Appraisal District's current ownership file, not scraped and not resold from another list vendor. Every record passed an owner occupied check: if the mailing address matched the property address, it is not on this list. Values are county appraised values, not sale prices. Years of ownership is an equity signal, not a mortgage balance. If more than 2 percent of your mailing comes back undeliverable, tell us and we will make it right.",
+   "limits": "Built from the Dallas Central Appraisal District's current ownership file, not scraped and not resold from another list vendor. Every record passed an owner occupied check: if the mailing address matched the property address, it is not on this list. Values are county appraised values, not sale prices. Years of ownership is an equity signal, not a mortgage balance. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
    "metro": "Dallas County",
    "price": 49,
    "price_note": "one time",

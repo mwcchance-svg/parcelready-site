@@ -59,7 +59,7 @@ async function deliver(env, pack, email, kind) {
     text:
       `Here is ${what}.\n\nDownload (link good for 72 hours):\n${link}\n\n` +
       `Every ParcelReady product lists its source, its build date, and its limits on the label. ` +
-      `If more than 2 percent of a mailing comes back undeliverable, tell us and we will make it right.\n\n` +
+      `If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund that pack.\n\n` +
       `Questions: hello@parcelreadydata.com`,
   });
 }

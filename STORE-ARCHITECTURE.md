@@ -116,10 +116,10 @@ is short:
    pricing, contact email, and the draft terms and privacy pages in this
    build give it a real site to review.
 2. Stripe signup for ParcelReady (about 15 minutes of his hands):
-   - Business type and legal name as he rules for this venture (open
-     choice for him: which entity sells ParcelReady; the answer also feeds
-     CPA Flag 1, so it comes first in the sitting).
-   - EIN for that entity, or his SSN if he rules sole proprietor.
+   - Business type and legal name: RULED Nov 23, 2026, sole proprietor,
+     buyer facing name ParcelReady, legal name back office only (not
+     Page Harbor Studio, LLC). CPA Flag 1 is answered on that basis.
+   - His SSN as the sole proprietor tax id.
    - Business address and phone; date of birth and SSN tail for identity
      verification (Stripe's standard KYC for the account representative).
    - Bank account and routing numbers for payouts.
@@ -140,10 +140,16 @@ is short:
    records. Creating it is a signup, so it sits on the same list as the
    Stripe account; the Worker code treats the provider key as a secret
    set at deploy time.
-6. Matt confirms the refund wording on the draft terms page at the
-   sitting (the staged draft carries the standing product promise: if more
-   than 2 percent of a mailing comes back undeliverable, we make it
-   right). The terms page does not publish before his confirmation.
+6. Refund and entity rulings, both confirmed by Matt Nov 23, 2026:
+   the undeliverable percentage promise is OUT everywhere (terms, verify
+   page, pack limits, and the delivery email); the promise attaches to
+   the label, not to freshness (fix or refund within 30 days if a pack
+   does not match what its page promised; ordinary staleness expressly
+   not covered, the refresh schedule and the membership are the answer).
+   The ParcelReady Stripe account is a SOLE PROPRIETOR account, buyer
+   facing name ParcelReady, legal name back office only, NOT Page Harbor
+   Studio, LLC. TAX_MODE stays off and the sync assigns no tax codes;
+   the CPA question stands as flagged.
 
 ## What is staged in this build
 
