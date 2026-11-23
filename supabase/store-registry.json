@@ -183,6 +183,76 @@
    "sample_file_key": "samples/harris-commercial-sample.csv"
   },
   {
+   "id": "harris-high-equity",
+   "title": "Harris County High Equity Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 5900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/harris-high-equity-2026-11-23.csv",
+   "sample_file_key": "samples/harris-high-equity-sample.csv"
+  },
+  {
+   "id": "harris-long-term",
+   "title": "Harris County Long-Term Owners, 20+ Years",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/harris-long-term-2026-11-23.csv",
+   "sample_file_key": "samples/harris-long-term-sample.csv"
+  },
+  {
+   "id": "harris-out-of-area",
+   "title": "Harris County Owners Who Live Elsewhere",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/harris-out-of-area-2026-11-23.csv",
+   "sample_file_key": "samples/harris-out-of-area-sample.csv"
+  },
+  {
+   "id": "harris-tired-landlords",
+   "title": "Harris County Tired Landlords",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/harris-tired-landlords-2026-11-23.csv",
+   "sample_file_key": "samples/harris-tired-landlords-sample.csv"
+  },
+  {
+   "id": "harris-multifamily",
+   "title": "Harris County Multifamily Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/harris-multifamily-2026-11-23.csv",
+   "sample_file_key": "samples/harris-multifamily-sample.csv"
+  },
+  {
    "id": "free-sample-pack",
    "title": "ParcelReady Free Sample Pack",
    "store": {

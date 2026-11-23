@@ -816,7 +816,7 @@ window.CATALOG = {
   {
    "id": "harris-absentee",
    "title": "Harris County Absentee Owners, Long Term",
-   "tagline": "79,951 owners who get their tax mail somewhere else, 11+ years of ownership",
+   "tagline": "78,514 owners who get their tax mail somewhere else, 11+ years of ownership",
    "buyer": "Real estate investors, wholesalers, and direct mail marketers working Harris County and the Houston metro",
    "cover": "assets/covers/harris-absentee.png",
    "family": "county",
@@ -824,14 +824,14 @@ window.CATALOG = {
    "metro": "Harris County",
    "price": 49,
    "price_note": "one time",
-   "rows": 79951,
-   "rows_label": "79,951 records",
+   "rows": 78514,
+   "rows_label": "78,514 records",
    "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelreadydata.com/packs/harris-absentee.html",
    "stats": [
     {
      "k": "Records",
-     "v": "79,951"
+     "v": "78,514"
     },
     {
      "k": "Columns",
@@ -839,7 +839,7 @@ window.CATALOG = {
     },
     {
      "k": "Median value",
-     "v": "$248,378"
+     "v": "$247,287"
     },
     {
      "k": "Ownership filter",
@@ -849,7 +849,7 @@ window.CATALOG = {
    "inside": [
     "Owner name and owner mailing address, city, state, and ZIP",
     "Property address, city, and ZIP",
-    "Latest appraised market value, median $248,378 across the file",
+    "Latest appraised market value, median $247,287 across the file",
     "Year built and living area square feet (beds and baths are not keyed in the district's published files and ship blank, never estimated)",
     "Deed transfer date and years owned",
     "HCAD account number on every record, for verification"
@@ -879,7 +879,7 @@ window.CATALOG = {
   {
    "id": "harris-commercial",
    "title": "Harris County Commercial Owners",
-   "tagline": "71,263 commercial properties with the owner's mailing address, classes F1 and F2",
+   "tagline": "71,185 commercial properties with the owner's mailing address, classes F1 and F2",
    "buyer": "Commercial real estate investors, brokers, lenders, and service firms working Harris County and the Houston metro",
    "cover": "assets/covers/harris-commercial.png",
    "family": "county",
@@ -887,14 +887,14 @@ window.CATALOG = {
    "metro": "Harris County",
    "price": 79,
    "price_note": "one time",
-   "rows": 71263,
-   "rows_label": "71,263 records",
+   "rows": 71185,
+   "rows_label": "71,185 records",
    "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelreadydata.com/packs/harris-commercial.html",
    "stats": [
     {
      "k": "Records",
-     "v": "71,263"
+     "v": "71,185"
     },
     {
      "k": "Columns",
@@ -902,7 +902,7 @@ window.CATALOG = {
     },
     {
      "k": "Median value",
-     "v": "$767,865"
+     "v": "$768,483"
     },
     {
      "k": "Classes",
@@ -912,7 +912,7 @@ window.CATALOG = {
    "inside": [
     "Owner name and owner mailing address, city, state, and ZIP",
     "Property address, city, and ZIP",
-    "Latest appraised market value, median $767,865 across the file",
+    "Latest appraised market value, median $768,483 across the file",
     "Deed transfer date and years owned",
     "Year built, living area, beds, and baths ship blank on this pack (the district publishes commercial buildings separately from the residential building file, and blank fields are never estimated)",
     "HCAD account number on every record, for verification"
@@ -926,6 +926,317 @@ window.CATALOG = {
    "store": {
     "mode": "stripe",
     "delivery_file": "county-packs/harris/harris-commercial-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "houston",
+   "coverage": "Harris County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "harris-high-equity",
+   "title": "Harris County High Equity Owners",
+   "tagline": "191,999 residential owners with modeled equity of 65 percent or more (ESTIMATE)",
+   "buyer": "Real estate investors and direct mail marketers who target equity rich, long held homes in Harris County and the Houston metro",
+   "cover": "assets/covers/harris-high-equity.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Harris County",
+   "price": 59,
+   "price_note": "one time",
+   "rows": 191999,
+   "rows_label": "191,999 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/harris-high-equity.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "191,999"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Median estimated equity",
+     "v": "90%"
+    },
+    {
+     "k": "Basis",
+     "v": "Modeled (ESTIMATE)"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "Deed transfer date and years owned (the model's amortization start)",
+    "Year built and living area square feet (beds and baths are not keyed in the district's published files and ship blank, never estimated)",
+    "HCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Harris County Appraisal District's published ownership files, not scraped and not resold from another list vendor. Equity on this pack is a modeled estimate, never a verified figure: the original loan is modeled at 80 percent of current appraised value, 30 year fixed at 6.5 percent, amortized from the deed transfer date to the roll date, and a record qualifies when the estimated equity reaches 65 percent or more of current value. No lender, lien, or mortgage record was checked for any record. Records with placeholder deed dates are excluded, because an amortization horizon computed off a conversion date is fabricated precision. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "High Equity Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-22",
+   "build_date": "November 22, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/harris/harris-high-equity-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "houston",
+   "coverage": "Harris County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 59,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "harris-long-term",
+   "title": "Harris County Long-Term Owners, 20+ Years",
+   "tagline": "342,211 owners holding since 2005 or earlier, across every market class",
+   "buyer": "Real estate investors, wholesalers, and direct mail marketers who target long held property in Harris County and the Houston metro",
+   "cover": "assets/covers/harris-long-term.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Harris County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 342211,
+   "rows_label": "342,211 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/harris-long-term.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "342,211"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Ownership filter",
+     "v": "20+ years"
+    },
+    {
+     "k": "Exempt classes",
+     "v": "Excluded"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "Deed transfer date and years owned",
+    "Year built and living area square feet (beds and baths are not keyed in the district's published files and ship blank, never estimated)",
+    "HCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Harris County Appraisal District's published ownership files, not scraped and not resold from another list vendor. The population is every owner record with a deed transfer date on or before December 31, 2005, across all market property classes. The exempt division (government, religious, charitable, and educational institutions) is excluded: those are not sellable owners on an investor list. Deed transfer dates are the appraisal district's recorded new owner dates; the district's legacy conversion date appears on pre-digital transfers and is counted in the open (42,711 records carry it), never hidden. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Long-Term Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-22",
+   "build_date": "November 22, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/harris/harris-long-term-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "houston",
+   "coverage": "Harris County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "harris-out-of-area",
+   "title": "Harris County Owners Who Live Elsewhere",
+   "tagline": "73,323 absentee owners, segmented out of state and out of county on every row",
+   "buyer": "Real estate investors and direct mail marketers who work out of area owners in Harris County and the Houston metro",
+   "cover": "assets/covers/harris-out-of-area.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Harris County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 73323,
+   "rows_label": "73,323 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/harris-out-of-area.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "73,323"
+    },
+    {
+     "k": "Columns",
+     "v": "17"
+    },
+    {
+     "k": "Out of state",
+     "v": "32,985"
+    },
+    {
+     "k": "Out of county (TX)",
+     "v": "40,338"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "A Segment column on every record: Out of state or Out of county (TX)",
+    "Deed transfer date and years owned",
+    "HCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Harris County Appraisal District's published ownership files, not scraped and not resold from another list vendor. The population is the county's residential absentee owners (282,835 owners whose mailing address differs from the property address), cut by where the owner actually is: owners mailing from another state, and Texas owners mailing from outside Harris County. Owners who mail from inside Harris County are not on this list. This pack applies no deed date or value filter; it is the full absentee population segmented by geography. Values are county appraised values, not sale prices. Deed transfer dates are the appraisal district's recorded new owner dates. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Out-of-Area Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-22",
+   "build_date": "November 22, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/harris/harris-out-of-area-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "houston",
+   "coverage": "Harris County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "harris-tired-landlords",
+   "title": "Harris County Tired Landlords",
+   "tagline": "11,087 properties held by 1,067 owners of 5 or more homes, half held since 2015 or earlier",
+   "buyer": "Real estate investors who buy portfolios and long held rentals in Harris County and the Houston metro",
+   "cover": "assets/covers/harris-tired-landlords.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Harris County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 11087,
+   "rows_label": "11,087 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/harris-tired-landlords.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "11,087"
+    },
+    {
+     "k": "Columns",
+     "v": "18"
+    },
+    {
+     "k": "Qualifying owners",
+     "v": "1,067"
+    },
+    {
+     "k": "Minimum portfolio",
+     "v": "5 properties"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "Owner Property Count and Owner Long-Held Count columns, so each owner's footprint in the file is visible on every row",
+    "Deed transfer date and years owned",
+    "HCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Harris County Appraisal District's published ownership files, not scraped and not resold from another list vendor. Owner identity is normalized on owner name plus mailing address, and properties are counted on residential records only. An owner qualifies with 5 or more properties where at least half the deed transfer dates fall on or before December 31, 2015. The district's legacy conversion date counts toward the long held half, because a pre-digital transfer is genuinely long ownership; 98 of the 1,067 qualifying owners have such a date inside their counts, stated here in the open. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Tired Landlords",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-22",
+   "build_date": "November 22, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/harris/harris-tired-landlords-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "houston",
+   "coverage": "Harris County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "harris-multifamily",
+   "title": "Harris County Multifamily Owners",
+   "tagline": "16,428 multifamily properties in classes B1 to B4, with the owner's mailing address",
+   "buyer": "Multifamily investors, brokers, and lenders working Harris County and the Houston metro",
+   "cover": "assets/covers/harris-multifamily.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Harris County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 16428,
+   "rows_label": "16,428 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/harris-multifamily.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "16,428"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Classes",
+     "v": "B1 to B4"
+    },
+    {
+     "k": "Unit counts",
+     "v": "Not published"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value",
+    "Class mix across the file: B2 is the largest class at 9,854 records, then B1 at 5,815, B3 at 502, B4 at 257",
+    "Deed transfer date and years owned",
+    "Year built and living area square feet where the district's building file carries the property",
+    "HCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Harris County Appraisal District's published ownership files, not scraped and not resold from another list vendor. The list is the district's multifamily state classes, B1 through B4: every owner record in them. Unit counts are not published by the district in its account or building files, so they are marked not published and never approximated. Values are county appraised values, not sale prices. Deed transfer dates are the appraisal district's recorded new owner dates. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Multifamily Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-22",
+   "build_date": "November 22, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/harris/harris-multifamily-2026-11-23.csv",
     "billing": "one_time",
     "stripe_product_id": null,
     "stripe_price_id": null
