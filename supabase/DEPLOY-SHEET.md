@@ -14,26 +14,19 @@ A Supabase project for ParcelReady (free tier), in the same account as
 Tool One unless Anvil's mechanics say otherwise. Note the project ref;
 the function base is https://<project-ref>.supabase.co/functions/v1/parcelready-store
 
-## 2. Schema (SQL editor, paste and run once)
+## 2. Secrets FIRST (Edge Functions, Secrets) - before anything else
 
-`supabase/migrations/0001_store.sql`: four tables (delivery_tokens,
-leads, store_config, price_map) with RLS on and no public policies, plus
-the private Storage bucket `parcelready-files`.
-
-## 3. Function (Edge Functions, create function parcelready-store)
-
-Paste the single file as index.ts and deploy with **verify_jwt OFF**
-(Stripe webhooks and browser calls carry no Supabase JWT; the design's
-own signature and token checks are the gate).
-
-## 4. Secrets (Edge Functions, Secrets)
+Anvil's urgent rule from his Nov 21 incident: held dialogs and waiting
+windows die on timers, so the key lands in its slot before any other
+build step. The secret slot is project level; it does not need the
+function to exist.
 
 Platform-injected, never entered by hand: SUPABASE_URL,
 SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY.
 
 Set these:
 - STRIPE_SECRET_KEY: placed screen to screen from the held Stripe
-  reveal dialog. This is the step the dialog is being held for.
+  reveal dialog, FIRST, before the schema, the function, or storage.
 - SITE_BASE = https://parcelreadydata.com
 - API_BASE = https://<project-ref>.supabase.co/functions/v1/parcelready-store
 - ALLOWED_ORIGINS = https://parcelreadydata.com,https://mwcchance-svg.github.io
@@ -43,6 +36,22 @@ Set these:
 - ADMIN_TOKEN (optional): any long random string; enables the bulk
   sync endpoint. Report only that it exists, never its value.
 - RESEND_API_KEY: later step, skip now.
+
+Live and sandbox are separate universes: this key is live (rk_live).
+Nothing from the ParcelReady sandbox account (a different account id)
+goes anywhere near this project.
+
+## 3. Schema (SQL editor, paste and run once)
+
+`supabase/migrations/0001_store.sql`: four tables (delivery_tokens,
+leads, store_config, price_map) with RLS on and no public policies, plus
+the private Storage bucket `parcelready-files`.
+
+## 4. Function (Edge Functions, create function parcelready-store)
+
+Paste the single file as index.ts and deploy with **verify_jwt OFF**
+(Stripe webhooks and browser calls carry no Supabase JWT; the design's
+own signature and token checks are the gate).
 
 ## 5. Storage uploads (bucket parcelready-files, 20 objects)
 
