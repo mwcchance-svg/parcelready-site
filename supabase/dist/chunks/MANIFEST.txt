@@ -3,4 +3,4 @@ Paste chunk-01 into the empty editor file, then APPEND each next chunk in order 
 Assembly check: the joined file is exactly 21339 bytes and its last line is: });
 chunk-01.txt: 9000 bytes
 chunk-02.txt: 8995 bytes
-chunk-03.txt: 3345 bytes
+chunk-03.txt: 3344 bytes

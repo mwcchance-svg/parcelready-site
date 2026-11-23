@@ -6,10 +6,9 @@ import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 src_path = os.path.join(ROOT, "supabase", "dist", "parcelready-store.single.ts")
 data = open(src_path, "rb").read()
-lines = data.split(b"\n")
+lines = data.splitlines(keepends=True)
 chunks, cur = [], b""
-for line in lines:
-    piece = line + b"\n"
+for piece in lines:
     if len(cur) + len(piece) > 9000 and cur:
         chunks.append(cur)
         cur = b""
@@ -26,7 +25,7 @@ manifest = [
     f"ParcelReady store function paste chunks: {len(chunks)} chunks, {len(data)} bytes total.",
     "Paste chunk-01 into the empty editor file, then APPEND each next chunk in order at the end.",
     "Assembly check: the joined file is exactly "
-    f"{len(data)} bytes and its last line is: {lines[-2].decode() if len(lines) > 1 else ''}",
+    f"{len(data)} bytes and its last line is: {lines[-1].decode().strip() if lines else ''}",
 ] + [f"chunk-{i:02d}.txt: {len(c)} bytes" for i, c in enumerate(chunks, 1)]
 open(os.path.join(outdir, "MANIFEST.txt"), "w").write("\n".join(manifest) + "\n")
 print("\n".join(manifest))
