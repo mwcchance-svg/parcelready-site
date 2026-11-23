@@ -1,3 +1,21 @@
+    : `Thank you for your purchase. We are glad to have you with us.\n\n` +
+      `Your copy of ${pack.title} is ready. It comes in two formats, with every field exactly ` +
+      `as it ships: CSV, which opens straight into Google Sheets, and XLSX, the same data in ` +
+      `Excel's own format.\n\n` +
+      `Download CSV:\n${link}\n\nDownload XLSX:\n${linkXlsx}\n\n${WARM_WINDOW}\n\n` +
+      `Every ParcelReady pack lists its source, its build date, and its limits on the label, and ` +
+      `this file is the one its page describes.\n\n` +
+      `The label promise\n${LABEL_PROMISE}`;
+  const html = emailShell(
+    (isSample
+      ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
+  <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready. It carries every field, exactly as the full pack ships them, so you can judge the data the way it will actually arrive.</p>`
+      : `<p style="margin:0;">Thank you for your purchase. We are glad to have you with us.</p>
+  <p style="margin:14px 0 0;">Your copy of <strong>${escHtml(pack.title)}</strong> is ready, in two formats, with every field exactly as it ships.</p>`) +
+      downloadBlockHtml(link, linkXlsx) +
+      WARM_WINDOW_HTML +
+      (isSample
+        ? `<p style="margin:16px 0 0;">If the sample earns its keep, the full pack is listed on parcelreadydata.com with its record count, its exact pull date, and its refresh schedule printed on the label.</p>`
         : `<p style="margin:16px 0 0;">Every ParcelReady pack lists its source, its build date, and its limits on the label, and this file is the one its page describes.</p>`) +
       promiseBlockHtml()
   );
@@ -162,38 +180,3 @@ async function handleAdminSync(req: Request) {
 // (the format pair, Atlas's ruling Nov 23, 2026), 25 MB cap, upsert
 // so a refresh replaces the delivered object.
 const XLSX_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-async function handleAdminUpload(req: Request, url: URL) {
-  if (!env("ADMIN_TOKEN")) return new Response("not found", { status: 404 });
-  if (req.headers.get("x-admin-token") !== env("ADMIN_TOKEN")) return json({ error: "unauthorized" }, 401);
-  const key = url.searchParams.get("key") || "";
-  if (!/^(packs|samples)\/[A-Za-z0-9._-]+\.(csv|xlsx)$/.test(key) || key.includes("..")) {
-    return json({ error: "bad_key" }, 400);
-  }
-  const body = new Uint8Array(await req.arrayBuffer());
-  if (!body.length) return json({ error: "empty_body" }, 400);
-  if (body.length > 25 * 1024 * 1024) return json({ error: "too_large" }, 413);
-  const res = await fetch(
-    `${env("SUPABASE_URL")}/storage/v1/object/parcelready-files/${key}`,
-    {
-      method: "POST",
-      headers: { ...restHeaders(), "Content-Type": key.endsWith(".xlsx") ? XLSX_TYPE : "text/csv", "x-upsert": "true" },
-      body,
-    }
-  );
-  if (!res.ok) return json({ error: "storage_" + res.status }, 502);
-  return json({ ok: true, key, bytes: body.length });
-}
-
-async function handleCheckout(req: Request) {
-  const { pack_id } = await req.json();
-  const pack = packById(pack_id);
-  if (!pack || pack.store.mode !== "stripe") return json({ error: "pack_not purchasable_here" }, 400, req);
-  let priceId;
-  try {
-    priceId = await ensurePrice(pack);
-    await ensureWebhook().catch(() => {});
-  } catch (err) {
-    return json({ error: "sync_failed" }, 502, req);
-  }
-  const sub = pack.store.billing === "subscription";
-  const params: Record<string, string> = {

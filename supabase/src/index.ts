@@ -416,7 +416,7 @@ async function handleAdminUpload(req: Request, url: URL) {
   }
   const body = new Uint8Array(await req.arrayBuffer());
   if (!body.length) return json({ error: "empty_body" }, 400);
-  if (body.length > 25 * 1024 * 1024) return json({ error: "too_large" }, 413);
+  if (body.length > 64 * 1024 * 1024) return json({ error: "too_large" }, 413);
   const res = await fetch(
     `${env("SUPABASE_URL")}/storage/v1/object/parcelready-files/${key}`,
     {

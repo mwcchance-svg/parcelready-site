@@ -1,3 +1,28 @@
+  const queuedHtml = emailShell(
+    `<p style="margin:0;">Thank you for your request.</p>
+  <p style="margin:14px 0 0;">The pack you asked about is still in production, so there is no sample file to send today. We would rather tell you that plainly than send you something unfinished. The moment it passes verification, your sample rows come to this address first, before the pack is listed for anyone else. There is nothing further you need to do.</p>`
+  );
+  await sendEmail(email, "Your ParcelReady sample request", queuedText, queuedHtml);
+  return json({ ok: true, delivered: "queued" }, 200, req);
+}
+
+async function handleDownload(req: Request) {
+  const url = new URL(req.url);
+  const token = url.searchParams.get("token");
+  if (!token) return new Response("missing token", { status: 400 });
+  const rows = await rest(
+    `delivery_tokens?token=eq.${encodeURIComponent(token)}&select=pack_id,kind,expires_at`
+  );
+  const record = rows && rows.length ? rows[0] : null;
+  if (!record || new Date(record.expires_at).getTime() < Date.now()) {
+    return new Response("link expired or invalid", { status: 403 });
+  }
+  const pack = packById(record.pack_id);
+  // Format choice (Atlas's ruling, Nov 23, 2026): the same token
+  // serves both formats; ?format=xlsx swaps the staged CSV key for
+  // its XLSX sibling. No format parameter means CSV, so every link
+  // already in a buyer's inbox keeps working exactly as before.
+  const xlsx = url.searchParams.get("format") === "xlsx";
   let key = record.kind === "sample" ? pack.sample_file_key : pack.file_key;
   if (!key) return new Response("file not staged yet", { status: 404 });
   if (xlsx) key = key.replace(/\.csv$/, ".xlsx");

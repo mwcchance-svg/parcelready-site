@@ -1,3 +1,38 @@
+async function handleAdminUpload(req: Request, url: URL) {
+  if (!env("ADMIN_TOKEN")) return new Response("not found", { status: 404 });
+  if (req.headers.get("x-admin-token") !== env("ADMIN_TOKEN")) return json({ error: "unauthorized" }, 401);
+  const key = url.searchParams.get("key") || "";
+  if (!/^(packs|samples)\/[A-Za-z0-9._-]+\.(csv|xlsx)$/.test(key) || key.includes("..")) {
+    return json({ error: "bad_key" }, 400);
+  }
+  const body = new Uint8Array(await req.arrayBuffer());
+  if (!body.length) return json({ error: "empty_body" }, 400);
+  if (body.length > 64 * 1024 * 1024) return json({ error: "too_large" }, 413);
+  const res = await fetch(
+    `${env("SUPABASE_URL")}/storage/v1/object/parcelready-files/${key}`,
+    {
+      method: "POST",
+      headers: { ...restHeaders(), "Content-Type": key.endsWith(".xlsx") ? XLSX_TYPE : "text/csv", "x-upsert": "true" },
+      body,
+    }
+  );
+  if (!res.ok) return json({ error: "storage_" + res.status }, 502);
+  return json({ ok: true, key, bytes: body.length });
+}
+
+async function handleCheckout(req: Request) {
+  const { pack_id } = await req.json();
+  const pack = packById(pack_id);
+  if (!pack || pack.store.mode !== "stripe") return json({ error: "pack_not purchasable_here" }, 400, req);
+  let priceId;
+  try {
+    priceId = await ensurePrice(pack);
+    await ensureWebhook().catch(() => {});
+  } catch (err) {
+    return json({ error: "sync_failed" }, 502, req);
+  }
+  const sub = pack.store.billing === "subscription";
+  const params: Record<string, string> = {
     mode: sub ? "subscription" : "payment",
     "line_items[0][price]": priceId,
     "line_items[0][quantity]": "1",
@@ -156,28 +191,3 @@ async function handleSample(req: Request) {
     `today. We would rather tell you that plainly than send you something unfinished. The ` +
     `moment it passes verification, your sample rows come to this address first, before ` +
     `the pack is listed for anyone else. There is nothing further you need to do.`;
-  const queuedHtml = emailShell(
-    `<p style="margin:0;">Thank you for your request.</p>
-  <p style="margin:14px 0 0;">The pack you asked about is still in production, so there is no sample file to send today. We would rather tell you that plainly than send you something unfinished. The moment it passes verification, your sample rows come to this address first, before the pack is listed for anyone else. There is nothing further you need to do.</p>`
-  );
-  await sendEmail(email, "Your ParcelReady sample request", queuedText, queuedHtml);
-  return json({ ok: true, delivered: "queued" }, 200, req);
-}
-
-async function handleDownload(req: Request) {
-  const url = new URL(req.url);
-  const token = url.searchParams.get("token");
-  if (!token) return new Response("missing token", { status: 400 });
-  const rows = await rest(
-    `delivery_tokens?token=eq.${encodeURIComponent(token)}&select=pack_id,kind,expires_at`
-  );
-  const record = rows && rows.length ? rows[0] : null;
-  if (!record || new Date(record.expires_at).getTime() < Date.now()) {
-    return new Response("link expired or invalid", { status: 403 });
-  }
-  const pack = packById(record.pack_id);
-  // Format choice (Atlas's ruling, Nov 23, 2026): the same token
-  // serves both formats; ?format=xlsx swaps the staged CSV key for
-  // its XLSX sibling. No format parameter means CSV, so every link
-  // already in a buyer's inbox keeps working exactly as before.
-  const xlsx = url.searchParams.get("format") === "xlsx";

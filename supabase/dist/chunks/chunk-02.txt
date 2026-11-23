@@ -1,3 +1,51 @@
+function restHeaders(extra: Record<string, string> = {}) {
+  const key = env("SUPABASE_SERVICE_ROLE_KEY");
+  return { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", ...extra };
+}
+
+async function rest(path: string, init: RequestInit = {}) {
+  const res = await fetch(`${env("SUPABASE_URL")}/rest/v1/${path}`, {
+    ...init,
+    headers: { ...restHeaders(), ...(init.headers || {}) },
+  });
+  if (!res.ok) throw new Error(`rest_${res.status}:${path}`);
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+const configGet = async (key: string) => {
+  const rows = await rest(`store_config?key=eq.${encodeURIComponent(key)}&select=value`);
+  return rows && rows.length ? rows[0].value : null;
+};
+const configSet = (key: string, value: string) =>
+  rest("store_config", {
+    method: "POST",
+    headers: { Prefer: "resolution=merge-duplicates" },
+    body: JSON.stringify({ key, value }),
+  });
+
+const priceMapGet = async (priceId: string) => {
+  const rows = await rest(`price_map?price_id=eq.${encodeURIComponent(priceId)}&select=pack_id`);
+  return rows && rows.length ? rows[0].pack_id : null;
+};
+const priceMapSet = (priceId: string, packId: string) =>
+  rest("price_map", {
+    method: "POST",
+    headers: { Prefer: "resolution=merge-duplicates" },
+    body: JSON.stringify({ price_id: priceId, pack_id: packId }),
+  });
+
+async function storageObject(key: string) {
+  const res = await fetch(
+    `${env("SUPABASE_URL")}/storage/v1/object/parcelready-files/${key}`,
+    { headers: restHeaders() }
+  );
+  if (!res.ok) return null;
+  return res;
+}
+
+/* ---------------- email + delivery ---------------- */
+
 async function sendEmail(to: string, subject: string, text: string, html?: string) {
   if (!env("RESEND_API_KEY")) return false;
   const res = await fetch("https://api.resend.com/emails", {
@@ -121,21 +169,3 @@ async function deliver(pack: any, email: string, kind: string) {
       `If the sample earns its keep, the full pack is listed on parcelreadydata.com with its ` +
       `record count, its exact pull date, and its refresh schedule printed on the label.\n\n` +
       `The label promise\n${LABEL_PROMISE}`
-    : `Thank you for your purchase. We are glad to have you with us.\n\n` +
-      `Your copy of ${pack.title} is ready. It comes in two formats, with every field exactly ` +
-      `as it ships: CSV, which opens straight into Google Sheets, and XLSX, the same data in ` +
-      `Excel's own format.\n\n` +
-      `Download CSV:\n${link}\n\nDownload XLSX:\n${linkXlsx}\n\n${WARM_WINDOW}\n\n` +
-      `Every ParcelReady pack lists its source, its build date, and its limits on the label, and ` +
-      `this file is the one its page describes.\n\n` +
-      `The label promise\n${LABEL_PROMISE}`;
-  const html = emailShell(
-    (isSample
-      ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
-  <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready. It carries every field, exactly as the full pack ships them, so you can judge the data the way it will actually arrive.</p>`
-      : `<p style="margin:0;">Thank you for your purchase. We are glad to have you with us.</p>
-  <p style="margin:14px 0 0;">Your copy of <strong>${escHtml(pack.title)}</strong> is ready, in two formats, with every field exactly as it ships.</p>`) +
-      downloadBlockHtml(link, linkXlsx) +
-      WARM_WINDOW_HTML +
-      (isSample
-        ? `<p style="margin:16px 0 0;">If the sample earns its keep, the full pack is listed on parcelreadydata.com with its record count, its exact pull date, and its refresh schedule printed on the label.</p>`
