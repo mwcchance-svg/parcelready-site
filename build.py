@@ -739,6 +739,30 @@ def patch_index_records(total):
         f.write(page)
 
 
+def stamp_css_version():
+    """Cache-bust the stylesheet: every page links site.css?v=<hash of
+    the CSS file itself>, so a CSS fix reaches returning browsers on
+    their next load instead of waiting out a cached copy. (Added Nov 23,
+    2026 after a verified fix read as still-broken from a stale cache.)"""
+    import hashlib
+    css_path = os.path.join(ROOT, "assets", "site.css")
+    v = hashlib.md5(open(css_path, "rb").read()).hexdigest()[:8]
+    pat = re.compile(r'(href="[^"]*assets/site\.css)(\?v=[0-9a-f]+)?"')
+    changed = 0
+    for dirpath, _dirs, files in os.walk(ROOT):
+        if ".git" in dirpath.split(os.sep):
+            continue
+        for fn in files:
+            if fn.endswith(".html"):
+                p = os.path.join(dirpath, fn)
+                src = open(p).read()
+                out = pat.sub(lambda m: f'{m.group(1)}?v={v}"', src)
+                if out != src:
+                    open(p, "w").write(out)
+                    changed += 1
+    print(f"CSS version stamp ?v={v} applied to {changed} pages")
+
+
 def main():
     counts = write_sample_json()
     SAMPLE_COUNTS.update(counts)
@@ -772,6 +796,7 @@ def main():
     print("Sample JSON rows:", counts)
     per, total = records_total(counts)
     patch_index_records(total)
+    stamp_css_version()
     print("Records compiled per pack:", per)
     print("Records compiled total:", total)
     # Matt's rule (Nov 23, 2026): when the data updates, the ticker
