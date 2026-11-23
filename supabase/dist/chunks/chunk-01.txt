@@ -106,7 +106,7 @@ async function storageObject(key: string) {
 
 /* ---------------- email + delivery ---------------- */
 
-async function sendEmail(to: string, subject: string, text: string) {
+async function sendEmail(to: string, subject: string, text: string, html?: string) {
   if (!env("RESEND_API_KEY")) return false;
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -116,13 +116,11 @@ async function sendEmail(to: string, subject: string, text: string) {
     },
     body: JSON.stringify({
       from: env("MAIL_FROM") || "ParcelReady <delivery@parcelreadydata.com>",
-      to, subject, text,
+      to, subject, text, ...(html ? { html } : {}),
     }),
   });
   return res.ok;
 }
 
-async function deliver(pack: any, email: string, kind: string) {
-  const token = randomToken();
-  const expires = new Date(Date.now() + 72 * 3600 * 1000).toISOString();
-  await rest("delivery_tokens", {
+/* ---------------- client email design (Matt's order, Nov 23, 2026) ----
+   Every client facing email is a branded HTML message with a plain

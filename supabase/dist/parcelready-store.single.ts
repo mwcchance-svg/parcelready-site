@@ -106,7 +106,7 @@ async function storageObject(key: string) {
 
 /* ---------------- email + delivery ---------------- */
 
-async function sendEmail(to: string, subject: string, text: string) {
+async function sendEmail(to: string, subject: string, text: string, html?: string) {
   if (!env("RESEND_API_KEY")) return false;
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -116,11 +116,89 @@ async function sendEmail(to: string, subject: string, text: string) {
     },
     body: JSON.stringify({
       from: env("MAIL_FROM") || "ParcelReady <delivery@parcelreadydata.com>",
-      to, subject, text,
+      to, subject, text, ...(html ? { html } : {}),
     }),
   });
   return res.ok;
 }
+
+/* ---------------- client email design (Matt's order, Nov 23, 2026) ----
+   Every client facing email is a branded HTML message with a plain
+   text fallback: a ParcelReady header, a courteous opening, a download
+   button with the raw link beneath it, the 72 hour window stated
+   warmly, the label promise carried in full, and a courteous sign off.
+   Tone: a national data company that respects the buyer's time. No
+   hype, no exclamation marks. */
+
+const SUPPORT = "hello@parcelreadydata.com";
+
+// The label promise, carried verbatim from the terms page. It is a
+// legal commitment; its substance does not get paraphrased.
+const LABEL_PROMISE =
+  "The promise attaches to the label, not to freshness. If a pack does not match what its page " +
+  "promised (the wrong file, a file that will not open, counts that do not match the label, or a " +
+  "field marked verified that was not), tell us within 30 days of purchase and we will fix it or " +
+  "refund that pack. Ordinary staleness is not covered: public records change after the pull date, " +
+  "and some addresses and emails will go bad over time. The answer to that is the published refresh " +
+  "schedule, and the membership, whose members always hold the current file. A field left blank was " +
+  "not verified, and we say so on the label rather than guess.";
+
+function escHtml(v: string) {
+  return v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function emailShell(bodyHtml: string) {
+  return `<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#F1E6C9;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F1E6C9;padding:28px 12px;">
+<tr><td align="center">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#FFFFFF;border:1px solid #D9CBA3;border-radius:10px;overflow:hidden;">
+<tr><td style="background:#06331F;padding:26px 34px;">
+  <div style="font-family:'Archivo','Helvetica Neue',Arial,sans-serif;font-weight:900;font-size:24px;color:#F6E8C8;letter-spacing:0.01em;">ParcelReady</div>
+  <div style="font-family:'IBM Plex Mono','Courier New',monospace;font-size:11px;letter-spacing:0.22em;color:#E9B949;padding-top:6px;">WE DO THE WORK. YOU GET THE LEADS.</div>
+</td></tr>
+<tr><td style="padding:30px 34px 8px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15.5px;line-height:1.62;color:#122B1E;">
+${bodyHtml}
+</td></tr>
+<tr><td style="padding:18px 34px 30px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:15.5px;line-height:1.62;color:#122B1E;">
+  <p style="margin:0;">Thank you for choosing ParcelReady.</p>
+  <p style="margin:10px 0 0;">Warm regards,<br><strong>ParcelReady</strong></p>
+  <p style="margin:14px 0 0;font-size:13.5px;color:#3D5546;">Questions, or a hand with your file: <a href="mailto:${SUPPORT}" style="color:#0A4A2A;">${SUPPORT}</a></p>
+</td></tr>
+<tr><td style="background:#FBF5E2;padding:14px 34px;border-top:1px solid #E4D6AC;font-family:'IBM Plex Mono','Courier New',monospace;font-size:10.5px;letter-spacing:0.14em;color:#6B7A6E;">
+  PARCELREADY &middot; CLEAN, READY TO USE DATASETS FROM PUBLIC RECORDS
+</td></tr>
+</table>
+</td></tr></table>
+</body></html>`;
+}
+
+function downloadBlockHtml(link: string, buttonLabel: string) {
+  return `
+  <table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px;">
+    <tr><td style="background:#E9B949;border-radius:8px;">
+      <a href="${escHtml(link)}" style="display:inline-block;padding:13px 26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#122B1E;text-decoration:none;">${escHtml(buttonLabel)}</a>
+    </td></tr>
+  </table>
+  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">If the button does not work in your mail program, copy this link into your browser:<br>
+  <a href="${escHtml(link)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(link)}</a></p>`;
+}
+
+function promiseBlockHtml() {
+  return `
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0 4px;">
+    <tr><td style="background:#FBF5E2;border:1px solid #E4D6AC;border-radius:8px;padding:16px 18px;">
+      <div style="font-family:'IBM Plex Mono','Courier New',monospace;font-size:10.5px;letter-spacing:0.2em;color:#0A4A2A;padding-bottom:8px;">THE LABEL PROMISE</div>
+      <p style="margin:0;font-size:13.5px;line-height:1.6;color:#3D5546;">${escHtml(LABEL_PROMISE)}</p>
+    </td></tr>
+  </table>`;
+}
+
+const WARM_WINDOW =
+  "Your link stays open for 72 hours, so there is no rush. If it closes before you have had a " +
+  "chance to download, write to us and we will send a fresh one.";
+const WARM_WINDOW_HTML = `<p style="margin:16px 0 0;">${WARM_WINDOW}</p>`;
 
 async function deliver(pack: any, email: string, kind: string) {
   const token = randomToken();
@@ -131,15 +209,36 @@ async function deliver(pack: any, email: string, kind: string) {
   });
   const base = env("API_BASE") || env("SITE_BASE");
   const link = `${base}/api/download?token=${token}`;
-  const what = kind === "sample" ? `the free sample of ${pack.title}` : pack.title;
-  await sendEmail(
-    email,
-    `Your ParcelReady download: ${pack.title}`,
-    `Here is ${what}.\n\nDownload (link good for 72 hours):\n${link}\n\n` +
-      `Every ParcelReady product lists its source, its build date, and its limits on the label. ` +
-      `If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund that pack.\n\n` +
-      `Questions: hello@parcelreadydata.com`
+  const isSample = kind === "sample";
+  const text = isSample
+    ? `Thank you for asking to see the data first. That is exactly what the sample is for.\n\n` +
+      `Your free sample of ${pack.title} is ready. It carries every field, exactly as the full ` +
+      `pack ships them, so you can judge the data the way it will actually arrive.\n\n` +
+      `Download your sample:\n${link}\n\n${WARM_WINDOW}\n\n` +
+      `If the sample earns its keep, the full pack is listed on parcelreadydata.com with its ` +
+      `record count, its exact pull date, and its refresh schedule printed on the label.\n\n` +
+      `The label promise\n${LABEL_PROMISE}`
+    : `Thank you for your purchase. We are glad to have you with us.\n\n` +
+      `Your copy of ${pack.title} is ready. The link below downloads the full file, with every ` +
+      `field exactly as it ships.\n\n` +
+      `Download your file:\n${link}\n\n${WARM_WINDOW}\n\n` +
+      `Every ParcelReady pack lists its source, its build date, and its limits on the label, and ` +
+      `this file is the one its page describes.\n\n` +
+      `The label promise\n${LABEL_PROMISE}`;
+  const html = emailShell(
+    (isSample
+      ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
+  <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready. It carries every field, exactly as the full pack ships them, so you can judge the data the way it will actually arrive.</p>`
+      : `<p style="margin:0;">Thank you for your purchase. We are glad to have you with us.</p>
+  <p style="margin:14px 0 0;">Your copy of <strong>${escHtml(pack.title)}</strong> is ready. The link below downloads the full file, with every field exactly as it ships.</p>`) +
+      downloadBlockHtml(link, isSample ? "Download the free sample" : "Download your file") +
+      WARM_WINDOW_HTML +
+      (isSample
+        ? `<p style="margin:16px 0 0;">If the sample earns its keep, the full pack is listed on parcelreadydata.com with its record count, its exact pull date, and its refresh schedule printed on the label.</p>`
+        : `<p style="margin:16px 0 0;">Every ParcelReady pack lists its source, its build date, and its limits on the label, and this file is the one its page describes.</p>`) +
+      promiseBlockHtml()
   );
+  await sendEmail(email, `Your ParcelReady download: ${pack.title}`, text, html);
 }
 
 /* ---------------- tax (Matt's ruling, Nov 23, 2026) ----------------
@@ -400,13 +499,17 @@ async function handleSample(req: Request) {
     await deliver(pack, email, "sample");
     return json({ ok: true, delivered: "sample" }, 200, req);
   }
-  await sendEmail(
-    email,
-    "Your ParcelReady sample request",
-    `Thanks for the request. The pack you asked about is in production or queued, ` +
-      `so there is no sample file yet. The moment it passes verification, your sample rows ` +
-      `come to this address first.\n\nQuestions: hello@parcelreadydata.com`
+  const queuedText =
+    `Thank you for your request.\n\n` +
+    `The pack you asked about is still in production, so there is no sample file to send ` +
+    `today. We would rather tell you that plainly than send you something unfinished. The ` +
+    `moment it passes verification, your sample rows come to this address first, before ` +
+    `the pack is listed for anyone else. There is nothing further you need to do.`;
+  const queuedHtml = emailShell(
+    `<p style="margin:0;">Thank you for your request.</p>
+  <p style="margin:14px 0 0;">The pack you asked about is still in production, so there is no sample file to send today. We would rather tell you that plainly than send you something unfinished. The moment it passes verification, your sample rows come to this address first, before the pack is listed for anyone else. There is nothing further you need to do.</p>`
   );
+  await sendEmail(email, "Your ParcelReady sample request", queuedText, queuedHtml);
   return json({ ok: true, delivered: "queued" }, 200, req);
 }
 
