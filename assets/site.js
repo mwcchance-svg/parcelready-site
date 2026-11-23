@@ -1,5 +1,9 @@
 /* ParcelReady site behavior: motion layer, catalog rendering, filters.
    Everything degrades gracefully: if a CDN fails, content still shows. */
+/* Store API base: empty means same origin (pre-launch). At Worker deploy
+   this becomes the Worker's origin, e.g. https://parcelready-store.<acct>.workers.dev */
+var PR_API = "";
+
 (function () {
   "use strict";
 
@@ -199,7 +203,7 @@
       var data = Object.fromEntries(new FormData(form).entries());
       data.source_page = window.location.pathname;
       note(form, "Sending...");
-      fetch("/api/sample", {
+      fetch(PR_API + "/api/sample", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }).then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
@@ -210,7 +214,7 @@
   document.querySelectorAll("[data-checkout]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       btn.disabled = true;
-      fetch("/api/checkout", {
+      fetch(PR_API + "/api/checkout", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pack_id: btn.dataset.checkout }),
       }).then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })

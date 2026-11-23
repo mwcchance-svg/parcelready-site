@@ -10,6 +10,10 @@ compatibility_date = "2026-11-01"
 
 [vars]
 SITE_BASE = "https://parcelreadydata.com"
+# The Worker's own public origin (workers.dev until a custom route exists).
+# Download links and the webhook registration use it. Set at deploy.
+API_BASE = "SET_AT_DEPLOY"
+ALLOWED_ORIGINS = "https://parcelreadydata.com,https://mwcchance-svg.github.io"
 MAIL_FROM = "ParcelReady <delivery@parcelreadydata.com>"
 LEADS_INBOX = "hello@parcelreadydata.com"
 # TAX_MODE stays "off" until the CPA ruling lands (see STORE-ARCHITECTURE.md).
@@ -27,8 +31,11 @@ id = "SET_AT_DEPLOY"
 binding = "LEADS"
 id = "SET_AT_DEPLOY"
 
-# Secrets set at deploy (wrangler secret put NAME):
-#   STRIPE_SECRET_KEY       restricted key from the ParcelReady Stripe account
-#   STRIPE_WEBHOOK_SECRET   from the webhook endpoint registration
-#   RESEND_API_KEY          delivery email provider
-#   DELIVERY_SECRET         any long random string, minted at deploy
+# Secrets (dashboard-set on the Worker; they persist across deploys and
+# never live in this file or on any workstation):
+#   STRIPE_SECRET_KEY       restricted key, placed screen to screen from
+#                           the Stripe reveal dialog (Nov 23, 2026 ruling)
+#   RESEND_API_KEY          delivery email provider (later step)
+#   ADMIN_TOKEN             optional; enables POST /api/admin/sync
+# The webhook signing secret is NOT set by hand: the Worker registers
+# its own endpoint and keeps the secret in the TOKENS KV.

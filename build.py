@@ -242,11 +242,18 @@ def write_store_registry():
         delivery = store.get("delivery_file") or ""
         file_key = "packs/" + delivery.split(" + ")[0].split("/")[-1] if delivery else None
         sample_key = f"samples/{p['id']}-sample.csv" if delivery else None
+        amt, interval, count = p["price"], "month", 1
+        if store.get("billing") == "subscription" and p.get("membership"):
+            amt = p["membership"]["price"]
+            if p["membership"]["per"] == "quarter":
+                interval, count = "month", 3
         packs.append({
             "id": p["id"], "title": p["title"],
             "store": {"mode": store.get("mode", "gumroad"),
                       "billing": store.get("billing", "one_time"),
                       "stripe_price_id": store.get("stripe_price_id")},
+            "price_cents": int(round(amt * 100)),
+            "interval": interval, "interval_count": count,
             "file_key": file_key, "sample_file_key": sample_key,
         })
     out = os.path.join(ROOT, "worker", "store-registry.json")

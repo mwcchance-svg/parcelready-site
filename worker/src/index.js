@@ -1,17 +1,32 @@
 // ParcelReady store worker: checkout, delivery, and sample capture.
-// All secrets arrive as environment bindings (see README.md). No key,
-// account id, or price id is hard coded here. The pack registry is the
-// generated store-registry.json, bundled at deploy time.
+//
+// Key architecture (Nov 23, 2026): the Stripe restricted key exists ONLY
+// as a dashboard-set Worker secret. It never reaches any workstation, so
+// the product and price sync runs here, server side: ensurePrice performs
+// the same idempotent create-or-find stripe_sync.py used to run locally
+// (find the product by its pack_id metadata, reuse a price that matches
+// amount and interval, create what is missing, assign NO tax codes).
+// Checkout calls ensurePrice lazily; POST /api/admin/sync runs it for
+// every stripe-mode pack at once and is dark unless ADMIN_TOKEN is set.
+//
+// The webhook endpoint is also created from here (ensureWebhook, called
+// by the admin sync): the endpoint is registered for this Worker's own
+// /api/webhook URL and its signing secret is kept in the TOKENS KV under
+// config:webhook_secret, because Stripe shows that secret only once, at
+// creation. env.STRIPE_WEBHOOK_SECRET, if ever set, takes precedence.
 
 import registry from "../store-registry.json";
 
 const enc = new TextEncoder();
 
-function json(body, status = 200) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
+function json(body, status = 200, env = null, request = null) {
+  const headers = { "Content-Type": "application/json" };
+  if (env && request) {
+    const origin = request.headers.get("Origin") || "";
+    const allowed = (env.ALLOWED_ORIGINS || env.SITE_BASE || "").split(",").map((s) => s.trim());
+    if (allowed.includes(origin)) headers["Access-Control-Allow-Origin"] = origin;
+  }
+  return new Response(JSON.stringify(body), { status, headers });
 }
 
 function packById(id) {
@@ -26,8 +41,17 @@ async function hmacHex(secret, data) {
   return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+function randomToken() {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  return [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/* ---------------- email + delivery ---------------- */
+
 async function sendEmail(env, { to, subject, text }) {
   // Delivery provider: Resend (free tier), key set at deploy time.
+  if (!env.RESEND_API_KEY) return false;
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -43,11 +67,12 @@ async function sendEmail(env, { to, subject, text }) {
 }
 
 async function mintDelivery(env, pack, email, kind) {
-  const token = await hmacHex(env.DELIVERY_SECRET, `${pack.id}|${email}|${Date.now()}|${kind}`);
+  const token = randomToken();
   await env.TOKENS.put(token, JSON.stringify({ pack: pack.id, email, kind }), {
     expirationTtl: 72 * 3600,
   });
-  return `${env.SITE_BASE}/api/download?token=${token}`;
+  const base = env.API_BASE || env.SITE_BASE;
+  return `${base}/api/download?token=${token}`;
 }
 
 async function deliver(env, pack, email, kind) {
@@ -64,48 +89,188 @@ async function deliver(env, pack, email, kind) {
   });
 }
 
-async function stripe(env, path, params) {
-  const res = await fetch(`https://api.stripe.com/v1/${path}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams(params).toString(),
-  });
+/* ---------------- stripe helpers ---------------- */
+
+async function stripeCall(env, method, path, params) {
+  const init = {
+    method,
+    headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` },
+  };
+  let url = `https://api.stripe.com/v1/${path}`;
+  if (method === "GET" && params) {
+    url += `?${new URLSearchParams(params).toString()}`;
+  } else if (params) {
+    init.headers["Content-Type"] = "application/x-www-form-urlencoded";
+    init.body = new URLSearchParams(params).toString();
+  }
+  const res = await fetch(url, init);
   return res.json();
 }
+const stripePost = (env, path, params) => stripeCall(env, "POST", path, params);
+const stripeGet = (env, path, params) => stripeCall(env, "GET", path, params);
+
+/* -------- server-side product and price sync (idempotent) -------- */
+
+async function findProduct(env, pack) {
+  const searched = await stripeGet(env, "products/search", {
+    query: `metadata['pack_id']:'${pack.id}'`,
+  });
+  if (searched && Array.isArray(searched.data) && searched.data.length) {
+    return searched.data[0];
+  }
+  // Fallback: list and filter (search indexing can lag a fresh create).
+  const listed = await stripeGet(env, "products", { limit: "100", active: "true" });
+  if (listed && Array.isArray(listed.data)) {
+    return listed.data.find((p) => p.metadata && p.metadata.pack_id === pack.id) || null;
+  }
+  return null;
+}
+
+async function ensurePrice(env, pack) {
+  let product = await findProduct(env, pack);
+  if (!product || !product.id) {
+    product = await stripePost(env, "products", {
+      name: pack.title,
+      description: "Downloadable dataset from ParcelReady. We do the work. You get the leads.",
+      "metadata[pack_id]": pack.id,
+      "metadata[registry]": "parcelready",
+    });
+    if (!product.id) throw new Error(`product_create_failed:${pack.id}`);
+  }
+  const cents = Math.round((pack.price_cents || 0));
+  const sub = pack.store.billing === "subscription";
+  const prices = await stripeGet(env, "prices", { product: product.id, active: "true", limit: "100" });
+  const match = (prices.data || []).find((pr) => {
+    if (pr.unit_amount !== cents || pr.currency !== "usd") return false;
+    if (!sub) return !pr.recurring;
+    return (
+      pr.recurring &&
+      pr.recurring.interval === (pack.interval || "month") &&
+      pr.recurring.interval_count === (pack.interval_count || 1)
+    );
+  });
+  let price = match;
+  if (!price) {
+    const params = {
+      product: product.id,
+      unit_amount: String(cents),
+      currency: "usd",
+      "metadata[pack_id]": pack.id,
+    };
+    if (sub) {
+      params["recurring[interval]"] = pack.interval || "month";
+      if ((pack.interval_count || 1) > 1) params["recurring[interval_count]"] = String(pack.interval_count);
+    }
+    // No tax codes and no tax behavior are ever assigned (TAX_MODE off).
+    price = await stripePost(env, "prices", params);
+    if (!price.id) throw new Error(`price_create_failed:${pack.id}`);
+  }
+  await env.TOKENS.put(`pricepack:${price.id}`, pack.id);
+  return price.id;
+}
+
+async function ensureWebhook(env) {
+  const existingSecret = await env.TOKENS.get("config:webhook_secret");
+  if (env.STRIPE_WEBHOOK_SECRET) return { status: "env_secret_in_use" };
+  const url = `${env.API_BASE}/api/webhook`;
+  const listed = await stripeGet(env, "webhook_endpoints", { limit: "100" });
+  const mine = (listed.data || []).filter((w) => w.url === url);
+  if (mine.length && existingSecret) return { status: "already_registered", id: mine[0].id };
+  // The signing secret is shown only at creation; if we hold no secret,
+  // replace the endpoint so a fresh secret lands in KV. Pre-launch safe.
+  for (const w of mine) await stripeCall(env, "DELETE", `webhook_endpoints/${w.id}`);
+  const created = await stripePost(env, "webhook_endpoints", {
+    url,
+    "enabled_events[0]": "checkout.session.completed",
+    "enabled_events[1]": "invoice.paid",
+    description: "ParcelReady store worker (auto-registered)",
+  });
+  if (!created.id || !created.secret) throw new Error("webhook_create_failed");
+  await env.TOKENS.put("config:webhook_secret", created.secret);
+  return { status: "registered", id: created.id };
+}
+
+async function handleAdminSync(request, env) {
+  if (!env.ADMIN_TOKEN) return new Response("not found", { status: 404 });
+  if (request.headers.get("x-admin-token") !== env.ADMIN_TOKEN) {
+    return json({ error: "unauthorized" }, 401);
+  }
+  const report = { synced: [], webhook: null, errors: [] };
+  for (const pack of registry.packs) {
+    if (pack.store.mode !== "stripe") continue;
+    try {
+      report.synced.push({ pack: pack.id, price: await ensurePrice(env, pack) });
+    } catch (err) {
+      report.errors.push({ pack: pack.id, error: String(err) });
+    }
+  }
+  try {
+    report.webhook = await ensureWebhook(env);
+  } catch (err) {
+    report.errors.push({ webhook: String(err) });
+  }
+  return json(report, report.errors.length ? 207 : 200);
+}
+
+/* ---------------- checkout ---------------- */
 
 async function handleCheckout(request, env) {
   const { pack_id } = await request.json();
   const pack = packById(pack_id);
-  if (!pack || pack.store.mode !== "stripe" || !pack.store.stripe_price_id) {
-    return json({ error: "pack_not purchasable_here" }, 400);
+  if (!pack || pack.store.mode !== "stripe") {
+    return json({ error: "pack_not purchasable_here" }, 400, env, request);
+  }
+  let priceId;
+  try {
+    priceId = await ensurePrice(env, pack);
+    // Lazy webhook registration too: the first checkout makes sure the
+    // endpoint exists and its signing secret is in KV. Idempotent.
+    await ensureWebhook(env).catch(() => {});
+  } catch (err) {
+    return json({ error: "sync_failed" }, 502, env, request);
   }
   const sub = pack.store.billing === "subscription";
   const params = {
     mode: sub ? "subscription" : "payment",
-    "line_items[0][price]": pack.store.stripe_price_id,
+    "line_items[0][price]": priceId,
     "line_items[0][quantity]": "1",
     success_url: `${env.SITE_BASE}/thanks.html?pack=${pack.id}`,
     cancel_url: `${env.SITE_BASE}/packs/${pack.id}.html`,
     "metadata[pack_id]": pack.id,
   };
-  if (env.TAX_MODE === "stripe_tax") {
-    params.automatic_tax = "true";
-  }
-  const session = await stripe(env, "checkout/sessions", params);
-  if (!session.url) return json({ error: "checkout_failed" }, 502);
-  return json({ url: session.url });
+  if (sub) params["subscription_data[metadata][pack_id]"] = pack.id;
+  else params["payment_intent_data[metadata][pack_id]"] = pack.id;
+  if (env.TAX_MODE === "stripe_tax") params.automatic_tax = "true";
+  const session = await stripePost(env, "checkout/sessions", params);
+  if (!session.url) return json({ error: "checkout_failed" }, 502, env, request);
+  return json({ url: session.url }, 200, env, request);
+}
+
+/* ---------------- webhook ---------------- */
+
+async function webhookSecret(env) {
+  if (env.STRIPE_WEBHOOK_SECRET) return env.STRIPE_WEBHOOK_SECRET;
+  return env.TOKENS.get("config:webhook_secret");
 }
 
 async function verifyStripe(request, env, raw) {
+  const secret = await webhookSecret(env);
+  if (!secret) return false;
   const header = request.headers.get("stripe-signature") || "";
   const parts = Object.fromEntries(header.split(",").map((kv) => kv.split("=")));
   if (!parts.t || !parts.v1) return false;
   if (Math.abs(Date.now() / 1000 - Number(parts.t)) > 300) return false;
-  const expected = await hmacHex(env.STRIPE_WEBHOOK_SECRET, `${parts.t}.${raw}`);
+  const expected = await hmacHex(secret, `${parts.t}.${raw}`);
   return expected === parts.v1;
+}
+
+async function packForPrice(env, priceId) {
+  const cached = await env.TOKENS.get(`pricepack:${priceId}`);
+  if (cached) return packById(cached);
+  const price = await stripeGet(env, `prices/${priceId}`);
+  const id = price && price.metadata && price.metadata.pack_id;
+  if (id) await env.TOKENS.put(`pricepack:${priceId}`, id);
+  return id ? packById(id) : null;
 }
 
 async function handleWebhook(request, env) {
@@ -124,9 +289,7 @@ async function handleWebhook(request, env) {
     // Membership refresh delivery: the invoice's price maps back to a pack.
     const line = event.data.object.lines && event.data.object.lines.data[0];
     const priceId = line && line.price && line.price.id;
-    const pack = registry.packs.find(
-      (p) => p.store.stripe_price_id && p.store.stripe_price_id === priceId
-    );
+    const pack = priceId ? await packForPrice(env, priceId) : null;
     const email = event.data.object.customer_email;
     // The first invoice is already covered by checkout.session.completed.
     if (pack && email && event.data.object.billing_reason !== "subscription_create") {
@@ -136,10 +299,12 @@ async function handleWebhook(request, env) {
   return json({ received: true });
 }
 
+/* ---------------- sample capture + download ---------------- */
+
 async function handleSample(request, env) {
   const body = await request.json();
   const email = (body.email || "").trim();
-  if (!email || !email.includes("@")) return json({ error: "email_required" }, 400);
+  if (!email || !email.includes("@")) return json({ error: "email_required" }, 400, env, request);
   const lead = {
     at: new Date().toISOString(),
     business_name: body.business_name || "",
@@ -160,7 +325,7 @@ async function handleSample(request, env) {
   const pack = lead.pack_id ? packById(lead.pack_id) : null;
   if (pack && pack.sample_file_key) {
     await deliver(env, pack, email, "sample");
-    return json({ ok: true, delivered: "sample" });
+    return json({ ok: true, delivered: "sample" }, 200, env, request);
   }
   await sendEmail(env, {
     to: email,
@@ -170,7 +335,7 @@ async function handleSample(request, env) {
       `so there is no sample file yet. The moment it passes verification, your sample rows ` +
       `come to this address first.\n\nQuestions: hello@parcelreadydata.com`,
   });
-  return json({ ok: true, delivered: "queued" });
+  return json({ ok: true, delivered: "queued" }, 200, env, request);
 }
 
 async function handleDownload(request, env) {
@@ -195,13 +360,26 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     try {
+      if (request.method === "OPTIONS" && url.pathname.startsWith("/api/")) {
+        const origin = request.headers.get("Origin") || "";
+        const allowed = (env.ALLOWED_ORIGINS || env.SITE_BASE || "").split(",").map((s) => s.trim());
+        return new Response(null, {
+          status: 204,
+          headers: {
+            "Access-Control-Allow-Origin": allowed.includes(origin) ? origin : (env.SITE_BASE || ""),
+            "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
+        });
+      }
       if (request.method === "POST" && url.pathname === "/api/checkout") return handleCheckout(request, env);
       if (request.method === "POST" && url.pathname === "/api/webhook") return handleWebhook(request, env);
       if (request.method === "POST" && url.pathname === "/api/sample") return handleSample(request, env);
+      if (request.method === "POST" && url.pathname === "/api/admin/sync") return handleAdminSync(request, env);
       if (request.method === "GET" && url.pathname === "/api/download") return handleDownload(request, env);
       return new Response("not found", { status: 404 });
     } catch (err) {
-      return json({ error: "server_error" }, 500);
+      return json({ error: "server_error" }, 500, env, request);
     }
   },
 };
