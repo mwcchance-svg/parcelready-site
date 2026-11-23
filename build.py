@@ -134,7 +134,7 @@ def card(p, prefix):
         <p class="tagline">{esc(p['tagline'])}</p>
         <p class="asof">Data as of {asof}<br>{esc(p['refresh_schedule'])}</p>
         <div class="rowline"><span class="rows">{esc(p['rows_label'])}</span><span class="price">{money(p['price'])} <small>{esc(p['price_note'])}</small></span></div>
-        <div class="card-links"><a href="{prefix}packs/{p['id']}.html">See what is inside</a><a href="{esc(p['sample_url'])}" target="_blank" rel="noopener">Free sample</a></div>
+        <div class="card-links"><a href="{prefix}packs/{p['id']}.html">See what is inside</a><a href="{prefix}packs/{p['id']}.html#sample">Free sample</a></div>
       </div>
     </article>"""
 
@@ -213,7 +213,7 @@ SAMPLE_COUNTS = {}
 def sample_section(p):
     if p["id"] not in SAMPLE_COUNTS:
         return f"""
-    <section class="preview">
+    <section class="preview" id="sample">
       <div class="wrap">
         <p class="kicker">The free sample</p>
         <h2>This pack is the sample</h2>
@@ -224,7 +224,7 @@ def sample_section(p):
     kind = "trade" if p["family"] == "trade" else "county"
     noun = "rows" if kind == "trade" else "sample records"
     return f"""
-    <section class="preview reveal">
+    <section class="preview reveal" id="sample">
       <div class="wrap">
         <p class="kicker">Free sample, viewable right here</p>
         <h2>Inspect the data before you spend a dollar</h2>
@@ -385,7 +385,7 @@ def build_pack(p):
       <p class="buyer-line">Coverage: {esc(p['coverage'])}{metro_link(p)}.</p>
       <div class="pack-actions">
         {buy_button(p)}
-        <a class="btn btn-ghost" href="{esc(p['sample_url'])}" target="_blank" rel="noopener">{esc(p['sample_label'])}</a>
+        <a class="btn btn-ghost" href="#sample">{esc(p['sample_label'])}</a>
       </div>
       <p class="fineprint">{fresh} {'Sold and delivered through Gumroad.' if p.get("store", {}).get("mode") == "gumroad" else 'Sold and delivered on this site.'}</p>
     </div>
@@ -403,7 +403,7 @@ def build_pack(p):
     <aside class="limits reveal">
       <p class="kicker">Honest limits</p>
       <p>{esc(p['limits'])}</p>
-      <div class="pack-actions"><a class="btn btn-gold" href="{esc(p['sample_url'])}" target="_blank" rel="noopener">Start with the free sample</a></div>
+      <div class="pack-actions"><a class="btn btn-gold" href="#sample">Start with the free sample</a></div>
     </aside>
   </div>
 </section>
