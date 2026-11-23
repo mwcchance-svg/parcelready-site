@@ -137,7 +137,7 @@ window.CATALOG = {
     "Public rating and review count where the business shows them",
     "Gap flags for targeting: no published email, no contact form, no online booking, no website"
    ],
-   "limits": "Most small HVAC operators do not publish an email, which is why the email count is 43 and not 137. This pack tells you the truth about each business instead of padding the file with guessed addresses. Data is a dated November 2026 snapshot; a refresh is planned on a 90 day cycle. Files: CSV and XLSX.",
+   "limits": "Most small HVAC operators do not publish an email, which is why the email count is 43 and not 137. This pack tells you the truth about each business instead of padding the file with guessed addresses. Data is a dated November 2026 snapshot; the pack is fully re-verified monthly. Files: CSV and XLSX.",
    "metro": "Houston",
    "price": 79,
    "price_note": "one time",
@@ -202,7 +202,7 @@ window.CATALOG = {
     "Gap flags for targeting: no published email, no contact form, no online booking",
     "Plan or membership offers the company publishes on its own site, 6 found, plan names recorded verbatim"
    ],
-   "limits": "An email is listed only where the company publishes one itself; 68 of 130 do, and that is the real rate for this trade, not a shortfall we hid. Small independent operators only: national chains, franchise locations, and lead generation template sites were screened out. Dated November 2026 snapshot, refreshed on a 90 day cycle. License: one business, use it across your own campaigns; do not resell or redistribute the raw file.",
+   "limits": "An email is listed only where the company publishes one itself; 68 of 130 do, and that is the real rate for this trade, not a shortfall we hid. Small independent operators only: national chains, franchise locations, and lead generation template sites were screened out. Dated November 2026 snapshot, fully re-verified monthly. License: one business, use it across your own campaigns; do not resell or redistribute the raw file.",
    "metro": "Austin to San Antonio",
    "price": 79,
    "price_note": "one time",
