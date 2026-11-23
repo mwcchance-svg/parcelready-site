@@ -1,8 +1,8 @@
 /* ParcelReady site behavior: motion layer, catalog rendering, filters.
    Everything degrades gracefully: if a CDN fails, content still shows. */
-/* Store API base: empty means same origin (pre-launch). At Worker deploy
-   this becomes the Worker's origin, e.g. https://parcelready-store.<acct>.workers.dev */
-var PR_API = "";
+/* Store API base: the parcelready-store Supabase Edge Function.
+   Empty would mean same origin (pre-launch). */
+var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-store";
 
 (function () {
   "use strict";
