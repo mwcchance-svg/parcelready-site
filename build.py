@@ -713,6 +713,16 @@ def main():
     patch_index_records(total)
     print("Records compiled per pack:", per)
     print("Records compiled total:", total)
+    # Matt's rule (Nov 23, 2026): when the data updates, the ticker
+    # updates. No build is complete until the written home page is
+    # re-read and its counter matches the recount.
+    written = open(os.path.join(ROOT, "index.html")).read()
+    m = re.search(r'data-total="(\d+)"', written)
+    if not m or int(m.group(1)) != total:
+        raise SystemExit(f"COUNTER MISMATCH: home page carries "
+                         f"{m.group(1) if m else 'nothing'}, recount is {total}")
+    print(f"COUNTER VERIFIED: rendered home page reads {total:,}; "
+          f"delivered set recounts {total:,}; match.")
 
 
 if __name__ == "__main__":
