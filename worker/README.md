@@ -49,11 +49,16 @@ sample files come from the site repo's delivery/samples/ folder.
 
 Largest file is about 10.6 MB, inside dashboard upload limits.
 
-## Route A: dashboard deploy (no wrangler auth needed)
+## Route A: dashboard deploy - CLOSED Nov 23, 2026 (record only)
+
+Route A never executed: no Worker shell exists and no secret was ever
+placed (Cloudflare sign in is bot walled in the cloud browser; the
+route was abandoned on Matt's call). The governing route is the
+Supabase port, supabase/DEPLOY-SHEET.md. The steps below are retained
+as the design record only.
 
 1. Cloudflare dashboard, Workers and Pages: open the `parcelready-store`
-   shell (the one holding the STRIPE_SECRET_KEY secret; dashboard-set
-   secrets persist across code edits).
+   shell. STRUCK PREMISE: the shell and its secret never existed.
 2. Create the R2 bucket `parcelready-files` and upload the 20 objects
    above (R2, parcelready-files, Upload).
 3. Create two KV namespaces (Workers, KV): names of your choosing; the

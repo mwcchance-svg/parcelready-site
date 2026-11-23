@@ -1,8 +1,20 @@
+# SUPERSEDED - RECORD ONLY (struck Nov 23, 2026, HQ order)
+
+No Cloudflare Worker exists. No shell was ever created and no secret
+was ever placed anywhere: Cloudflare was never reached (its sign in
+Turnstile fails in the cloud browser even on an empty form), and the
+route was abandoned on Matt's call, Nov 23, 2026. Route A is CLOSED.
+The governing route is the Supabase port: supabase/DEPLOY-SHEET.md.
+This sheet is retained only as the port spec record (the binding map
+PACK_FILES, TOKENS, LEADS and the variables list, which transferred to
+their Supabase equivalents). Any line below that speaks of an existing
+shell or a placed secret is struck and does not describe reality.
+
 # Dashboard deploy sheet: parcelready-store Worker (Route A)
 
 One page. Everything the dashboard run needs, nothing else.
 
-**Worker:** `parcelready-store` (the existing shell holding the secret).
+**Worker:** `parcelready-store`. STRUCK: there is no existing shell and no secret on it.
 **Code:** one file, paste whole, no chunking or minifying needed:
 `worker/dist/parcelready-store.single.js` (19,708 bytes, from the repo at
 commit of this sheet). Paste it over the shell's code in Edit code and
@@ -27,8 +39,9 @@ Deploy. It contains NO key material; the key is read from the secret.
 
 ## Secrets (encrypted, Settings)
 
-- STRIPE_SECRET_KEY: already being placed on the shell; confirm it is
-  listed. Do not re-enter or replace it.
+- STRIPE_SECRET_KEY: STRUCK. Nothing is placed anywhere. The key
+  rotates once at the Supabase sitting and is placed screen to screen
+  into the Supabase secrets form.
 - ADMIN_TOKEN: optional. Any long random string; enables the bulk sync
   endpoint. If set, tell Mason it exists (not its value).
 - RESEND_API_KEY: later step, skip now.
