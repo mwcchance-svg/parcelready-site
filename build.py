@@ -17,6 +17,7 @@ Copy rule: no em dashes in customer facing text.
 import csv
 import json
 import os
+import re
 from datetime import date
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -174,11 +175,25 @@ def write_sample_json():
         cols = [c for c in TRADE_COLS if c in headers] if kind == "trade" else headers
         if len(cols) < 4:
             cols = headers
+        teaser = []
+        for r in sample[:25]:
+            row = {c: (r.get(c) or "") for c in cols}
+            if kind == "trade":
+                # Proof surface, not a delivery surface (Matt's ruling,
+                # Nov 23, 2026): contact values never ship in the page
+                # data. Presence is shown; the values travel only in
+                # the delivered sample file.
+                if "Published email" in row:
+                    row["Published email"] = "Published" if row["Published email"] else ""
+                if "Phone" in row:
+                    row["Phone"] = "Listed" if row["Phone"] else ""
+            teaser.append(row)
         out = os.path.join(ROOT, "assets", "data", p["id"] + "-sample.json")
         with open(out, "w") as f:
             json.dump({"columns": cols,
-                       "rows": [{c: (r.get(c) or "") for c in cols} for r in sample[:500]],
-                       "kind": kind, "sample_total": len(sample),
+                       "rows": teaser,
+                       "kind": kind, "masked": kind == "trade",
+                       "sample_total": len(sample),
                        "delivered_total": len(delivered),
                        "full_total": p["rows"] if isinstance(p["rows"], int) else len(all_rows),
                        "sample_percent": pct}, f)
@@ -213,9 +228,12 @@ def sample_section(p):
       <div class="wrap">
         <p class="kicker">Free sample, viewable right here</p>
         <h2>Inspect the data before you spend a dollar</h2>
-        <p class="explorer-sub">The free sample is {CATALOG.get("sample_percent", 10)} percent of the full file (15 rows at minimum, 50 at most), the same rule on every pack in the catalog, drawn evenly across the whole dataset, and it carries the same fields as the full pack: nothing the pack sells is held back from the sample. Search it and judge it the way your clients will. The sample file itself is delivered by email below.</p>
-        <div class="explorer" data-explorer="../assets/data/{p['id']}-sample.json"></div>
-        <p class="fineprint">Sample {noun} shown exactly as they ship, including the blanks. A blank field means it could not be verified. It is never guessed.</p>
+        <p class="explorer-sub">What you see here is the proof surface: real rows drawn evenly from the full file, real counts, and the same fields the pack carries, with contact details masked on screen. The free sample file itself, {CATALOG.get("sample_percent", 10)} percent of the full file (15 rows at minimum, 50 at most, the same rule on every pack in the catalog), carries every field exactly as it ships, and it is delivered by email below. Inspect the structure and the counts here; the usable file comes by email.</p>
+        <div class="explorer-frame">
+          <p class="explorer-frame-head"><span>LIVE PREVIEW · {esc(p['title'].upper())}</span><span>PULLED {esc(fmt_date(p['data_as_of']).upper())}{' · CONTACT DETAILS MASKED' if kind == 'trade' else ''}</span></p>
+          <div class="explorer" data-explorer="../assets/data/{p['id']}-sample.json"></div>
+        </div>
+        <p class="fineprint">Preview rows shown with contact details masked. A blank field means it could not be verified. It is never guessed. The delivered sample carries every value.</p>
         <form class="capture" data-capture>
           <input type="hidden" name="pack_id" value="{p['id']}">
           <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
@@ -601,6 +619,42 @@ def build_combo(name, code, cat, urls):
     urls.append(f"states/{sslug}/{cslug}/")
 
 
+def records_total():
+    """Sum the data rows of every live pack's delivery file.
+
+    The Free Sample Pack is excluded on purpose: its 100 records are
+    drawn from the other packs, so counting it would count them twice.
+    Falls back to the catalog figure only if a file is missing.
+    """
+    per = {}
+    for p in CATALOG["packs"]:
+        if p["id"] == "free-sample-pack":
+            continue
+        n = None
+        path = full_file_path(p)
+        if path and os.path.exists(path):
+            with open(path, newline="", encoding="utf-8-sig") as f:
+                n = sum(1 for _ in csv.reader(f)) - 1
+        if n is None:
+            n = p["rows"] if isinstance(p.get("rows"), int) else 0
+        per[p["id"]] = n
+    return per, sum(per.values())
+
+
+def patch_index_records(total):
+    path = os.path.join(ROOT, "index.html")
+    with open(path) as f:
+        page = f.read()
+    page = re.sub(
+        r'(<p class="records-num" data-records data-total=")\d+(">)[\d,]+',
+        lambda m: f"{m.group(1)}{total}{m.group(2)}{total:,}", page)
+    page = re.sub(
+        r'(<span class="hero-pin-tag" data-records-tag>)[^<]*',
+        lambda m: f"{m.group(1)}{total:,} RECORDS COMPILED", page)
+    with open(path, "w") as f:
+        f.write(page)
+
+
 def main():
     counts = write_sample_json()
     SAMPLE_COUNTS.update(counts)
@@ -632,6 +686,10 @@ def main():
     print(f"Built {len(CATALOG['packs'])} pack pages, {len(STATES)} state hubs, "
           f"{len(STATES) * len(CATEGORIES)} state x category pages, sitemap with {len(urls)} URLs")
     print("Sample JSON rows:", counts)
+    per, total = records_total()
+    patch_index_records(total)
+    print("Records compiled per pack:", per)
+    print("Records compiled total:", total)
 
 
 if __name__ == "__main__":

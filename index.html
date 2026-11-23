@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="assets/site.css">
 <link rel="icon" href="assets/img/logo.webp">
 </head>
-<body>
+<body class="home">
 <header class="topbar">
   <a class="brand" href="index.html"><img src="assets/img/logo.webp" alt="ParcelReady logo"><span>ParcelReady</span></a>
   <nav>
@@ -25,10 +25,12 @@
   </nav>
 </header>
 
-<section class="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="wrap hero-inner">
-    <div>
+<section class="hero2">
+  <div class="hero2-grid"></div>
+  <p class="hero2-coord coord-a">29.7604° N · 95.3698° W</p>
+  <p class="hero2-coord coord-b">GRID 72 · SURVEYED FROM SOURCE</p>
+  <div class="wrap hero2-inner">
+    <div class="hero2-copy">
       <p class="kicker">Verified data, sold like it should be</p>
       <h1>We do the work. <span class="accent">You get the leads.</span></h1>
       <p class="lede hero-sub">You do not have to hunt for prospects or build lists out of raw records. We already did: clean, ready to use datasets pulled from public records and verified by hand, property owner lists, code cases, permits, and local business lead packs. Every pack shows you its free sample, the exact date its data was pulled, and the refresh schedule it stays current on, before you spend a dollar.</p>
@@ -41,11 +43,23 @@
         <a class="btn btn-gold" href="catalog.html">Browse the catalog</a>
         <a class="btn btn-ghost" href="sample.html">Get a free sample</a>
       </div>
+      <div class="records">
+        <p class="records-num" data-records data-total="179979">179,979</p>
+        <p class="records-label">RECORDS COMPILED</p>
+        <p class="records-sub">Counted from the live pack files every time the catalog builds. The number grows when a pack is built or refreshed, and not before.</p>
+      </div>
     </div>
-    <div class="hero-art">
-      <img class="sheet" src="assets/covers/hvac-pack.png" alt="" aria-hidden="true">
-      <img class="logo-card" src="assets/img/logo.webp" alt="ParcelReady: a map pin holding a spreadsheet, dropped on a parcel grid">
-      <span class="hero-pin-tag">180,000+ RECORDS LIVE</span>
+    <div class="hero2-art" aria-hidden="true">
+      <img class="h2-sheet" src="assets/covers/hvac-pack.png" alt="" data-drift="-26">
+      <div class="specimen" data-drift="-64">
+        <p class="spec-head">SPECIMEN · HOUSTON HVAC · PULLED NOV 16, 2026</p>
+        <div class="spec-row"><b>Davis Mechanical Contractors</b><span>Alvin</span><em>email: not published</em><em>phone: listed</em></div>
+        <div class="spec-row"><b>MVP Air Conditioning &amp; Heating LLC</b><span>Cleveland</span><em>email: published</em><em>phone: listed</em></div>
+        <div class="spec-row"><b>Blue Label Services</b><span>Cypress</span><em>email: not published</em><em>phone: listed</em></div>
+        <p class="spec-foot">CONTACT DETAILS MASKED IN PREVIEW · EVERY VALUE IN THE FILE</p>
+      </div>
+      <img class="h2-logo" src="assets/img/logo.webp" alt="" data-drift="-110">
+      <span class="hero-pin-tag" data-records-tag>179,979 RECORDS COMPILED</span>
     </div>
   </div>
   <div class="ticker" aria-hidden="true">
@@ -68,7 +82,7 @@
         </div>
         <div class="pack-actions">
           <a class="btn btn-gold" href="packs/houston-hvac.html">See what is inside</a>
-          <a class="btn btn-ghost" href="https://parcelready.gumroad.com/l/phyzm" target="_blank" rel="noopener">Get the free sample</a>
+          <a class="btn btn-ghost" href="packs/houston-hvac.html">Get the free sample</a>
         </div>
       </div>
       <a href="packs/houston-hvac.html" class="reveal"><img src="assets/covers/hvac-pack.png" alt="Houston HVAC lead pack data preview"></a>
@@ -85,23 +99,23 @@
     </div>
     <div class="card-grid">
       <article class="card reveal">
-        <a href="https://parcelready.gumroad.com/l/phyzm" target="_blank" rel="noopener"><img src="assets/covers/hvac-sample.png" alt="Houston HVAC free sample data preview"></a>
+        <a href="packs/houston-hvac.html"><img src="assets/covers/hvac-sample.png" alt="Houston HVAC free sample data preview"></a>
         <div class="card-body">
           <p class="meta">Houston · HVAC</p>
           <h3>Free Sample: Houston HVAC Companies</h3>
           <p class="tagline">15 verified rows from the full pack. Same columns, same verification standard, no filler.</p>
           <div class="rowline"><span class="rows">15 verified rows</span><span class="price">Free</span></div>
-          <div class="card-links"><a href="https://parcelready.gumroad.com/l/phyzm" target="_blank" rel="noopener">Download the sample</a></div>
+          <div class="card-links"><a href="packs/houston-hvac.html">Get the sample by email</a></div>
         </div>
       </article>
       <article class="card reveal">
-        <a href="https://parcelready.gumroad.com/l/bwtfap" target="_blank" rel="noopener"><img src="assets/covers/roofing-sample.png" alt="Austin to San Antonio roofing free sample data preview"></a>
+        <a href="packs/austin-sa-roofing.html"><img src="assets/covers/roofing-sample.png" alt="Austin to San Antonio roofing free sample data preview"></a>
         <div class="card-body">
           <p class="meta">Austin to San Antonio · Roofing</p>
           <h3>Free Sample: Roofing Companies</h3>
           <p class="tagline">15 verified roofing companies from the corridor pack. Take it, call two numbers, check the emails.</p>
           <div class="rowline"><span class="rows">15 verified rows</span><span class="price">Free</span></div>
-          <div class="card-links"><a href="https://parcelready.gumroad.com/l/bwtfap" target="_blank" rel="noopener">Download the sample</a></div>
+          <div class="card-links"><a href="packs/austin-sa-roofing.html">Get the sample by email</a></div>
         </div>
       </article>
       <article class="card reveal">
@@ -122,10 +136,19 @@
   <div class="wrap">
     <p class="kicker">Do your own inspection</p>
     <h2>The free sample, live on this page</h2>
-    <p class="explorer-sub">Rows drawn from the Houston HVAC pack itself. Search a city, filter by what matters to you, and judge the data the way your clients will. The delivered free sample is 15 rows of this same file; the full pack runs 137 rows deep.</p>
-    <div class="explorer reveal" data-explorer="assets/data/houston-hvac-sample.json"></div>
+    <p class="explorer-sub">This is the proof surface: real rows from the Houston HVAC pack, with the counts printed exactly. Contact details are masked here, on purpose. The sample file itself carries every field, and it is delivered by email: inspect the structure and the counts on screen, then take the usable file.</p>
+    <div class="explorer-frame reveal">
+      <p class="explorer-frame-head"><span>LIVE PREVIEW · HOUSTON HVAC</span><span>PULLED NOV 16, 2026 · CONTACT DETAILS MASKED</span></p>
+      <div class="explorer" data-explorer="assets/data/houston-hvac-sample.json"></div>
+    </div>
+    <form class="capture" data-capture>
+      <input type="hidden" name="pack_id" value="houston-hvac">
+      <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
+      <label>Email for the sample file<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
+      <button class="btn btn-gold" type="submit">Email me the free sample</button>
+      <p class="capture-status" role="status"></p>
+    </form>
     <div class="pack-actions">
-      <a class="btn btn-gold" href="https://parcelready.gumroad.com/l/phyzm" target="_blank" rel="noopener">Download this sample free</a>
       <a class="btn btn-ghost" href="packs/houston-hvac.html">See the full pack</a>
     </div>
   </div>
@@ -159,7 +182,7 @@
     </div>
     <div class="pack-actions reveal">
       <a class="btn btn-ghost" href="verify.html">Read the full verification standard</a>
-      <a class="btn btn-gold" href="catalog.html">Browse all 13 products</a>
+      <a class="btn btn-gold" href="catalog.html">Browse all 14 products</a>
     </div>
   </div>
 </section>
@@ -172,7 +195,7 @@
       <p>The catalog is organized the way buyers search: state, then category, then the exact pack with its free sample and its data as of date. Texas is live today, and the build is moving across the ranked metros.</p>
     </div>
     <div class="pack-actions reveal">
-      <a class="btn btn-gold" href="states/texas/index.html">Texas: 11 packs live</a>
+      <a class="btn btn-gold" href="states/texas/index.html">Texas: 12 packs live</a>
       <a class="btn btn-ghost" href="states/index.html">Browse all 50 states</a>
     </div>
   </div>

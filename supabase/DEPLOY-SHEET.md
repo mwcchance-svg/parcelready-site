@@ -54,6 +54,16 @@ goes anywhere near this project.
 leads, store_config, price_map) with RLS on and no public policies, plus
 the private Storage bucket `parcelready-files`.
 
+**Grant step (learned live, Nov 23, 2026):** tables created by raw SQL
+on a new Supabase project carry no Data API grants, and the service role
+bypasses RLS but NOT table privileges, so the function's writes fail
+with rest_403 until the grants land. In the same SQL sitting, run:
+`grant all on all tables in schema public to service_role;`
+`grant all on all sequences in schema public to service_role;`
+plus matching `alter default privileges` statements so future tables
+inherit the grants. Grant nothing to anon or authenticated; they stay
+locked out by design.
+
 ## 4. Function (Edge Functions, create function parcelready-store)
 
 Paste the single file as index.ts and deploy with **verify_jwt OFF**

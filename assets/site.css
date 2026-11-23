@@ -315,3 +315,126 @@ a.chip { text-decoration: none; display: inline-block; }
 .scope-row select { font: inherit; font-size: 1rem; letter-spacing: 0; text-transform: none; padding: 0.65rem 0.8rem; border-radius: 10px; border: 1px solid var(--line); background: var(--green-900); color: var(--cream); min-width: 220px; }
 .scope-result { margin-top: 1.1rem; font-size: 1.02rem; min-height: 1.4em; }
 .scope-result a { color: var(--gold-soft); }
+
+/* ---------- design pass v2: art direction (Nov 23, 2026) ----------
+   The survey and the spreadsheet, at scale. Home page first; the
+   system rolls to the templates after the customer-eyes gate. */
+
+.hero2 { position: relative; padding: 6.5rem 0 0; overflow: hidden; background:
+  radial-gradient(1100px 520px at 85% -10%, rgba(233,185,73,0.13), transparent 60%),
+  linear-gradient(180deg, var(--green-900), var(--green-950) 70%); }
+.hero2-grid { position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(242,206,123,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242,206,123,0.08) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 100% 90% at 50% 0%, black 25%, transparent 78%); }
+.hero2-coord { position: absolute; font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
+  letter-spacing: 0.22em; color: rgba(242,206,123,0.55); z-index: 2; }
+.coord-a { top: 1.6rem; right: 4vw; }
+.coord-b { bottom: 6.2rem; left: 4vw; writing-mode: vertical-rl; transform: rotate(180deg); }
+.hero2-inner { position: relative; z-index: 3; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3.5rem; align-items: center; padding-bottom: 5.5rem; }
+.hero2 h1 { font-size: clamp(3rem, 7.2vw, 5.6rem); line-height: 0.98; }
+.hero2 h1 .accent { color: var(--gold); display: block; }
+.hero2 .ticker { margin-top: 0; position: relative; z-index: 3; background: rgba(4,36,26,0.55); }
+
+.hero2-art { position: relative; min-height: 480px; }
+.h2-sheet { position: absolute; width: 88%; right: 6%; top: 6%; border-radius: 14px;
+  border: 1px solid rgba(242,206,123,0.35); transform: rotate(3.5deg);
+  box-shadow: 0 40px 90px rgba(0,0,0,0.55); }
+.specimen { position: absolute; left: 0; bottom: 12%; width: min(430px, 92%);
+  background: var(--paper); color: var(--ink); border-radius: 12px; padding: 1.1rem 1.2rem 0.9rem;
+  box-shadow: 0 34px 70px rgba(0,0,0,0.5); transform: rotate(-2deg); }
+.spec-head, .spec-foot { font-family: "IBM Plex Mono", monospace; font-size: 0.66rem;
+  letter-spacing: 0.14em; color: var(--green-700); font-weight: 600; }
+.spec-foot { margin-top: 0.7rem; color: #8a6d1f; }
+.spec-row { display: flex; flex-wrap: wrap; gap: 0.2rem 0.8rem; align-items: baseline;
+  padding: 0.55rem 0; border-bottom: 1px dashed rgba(18,43,30,0.22); }
+.spec-row b { font-size: 0.92rem; }
+.spec-row span { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; color: var(--ink-soft); }
+.spec-row em { font-family: "IBM Plex Mono", monospace; font-style: normal; font-size: 0.7rem;
+  border: 1px solid rgba(18,43,30,0.3); border-radius: 999px; padding: 0.12rem 0.55rem; color: var(--green-800); }
+.h2-logo { position: absolute; width: 104px; right: 2%; bottom: 2%; border-radius: 22px;
+  box-shadow: 0 24px 50px rgba(0,0,0,0.5); }
+.hero2-art .hero-pin-tag { left: auto; right: 8%; bottom: auto; top: -8px; transform: none; }
+
+.home .claims-list li { padding: 1.5rem 0 1.5rem 4.6rem; font-size: 1.06rem; }
+.home .claims-list li::before { font-size: 2.6rem; top: 1.1rem; }
+.home .steps { gap: 0; border-top: 2px solid var(--gold); }
+.home .step { border: none; border-bottom: 1px solid var(--line); border-radius: 0; padding: 1.8rem 1.4rem 1.8rem 0; }
+.home .step .n { font-size: 0.9rem; }
+.home .step h3 { font-size: 1.45rem; }
+.home .featured h2 { font-size: clamp(2.1rem, 4.2vw, 3.2rem); }
+.home .mini-stats b { font-size: 2rem; }
+.home .card { border-radius: 18px; }
+
+.explorer-frame { border: 1px solid rgba(242,206,123,0.4); border-radius: 16px; overflow: hidden; margin-top: 1.8rem; background: rgba(6,51,31,0.5); }
+.explorer-frame-head { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; letter-spacing: 0.16em;
+  padding: 0.8rem 1.2rem; background: var(--green-900); color: var(--gold-soft);
+  border-bottom: 1px solid rgba(242,206,123,0.3); }
+.explorer-frame .explorer { padding: 0 1.2rem 1.2rem; }
+.explorer-frame .table-scroll { border: none; margin-top: 0.6rem; }
+.preview .capture label { color: rgba(246,232,200,0.75); }
+.preview .capture-status { color: rgba(246,232,200,0.85); }
+
+@media (max-width: 900px) {
+  .hero2-inner { grid-template-columns: 1fr; padding-bottom: 3.5rem; }
+  .hero2-art { min-height: 380px; }
+  .coord-b { display: none; }
+  .home .steps { border-top: none; }
+}
+
+/* ---------- design pass v2: gate fixes from the first read ---------- */
+.specimen { width: min(400px, 90%); }
+.spec-foot { letter-spacing: 0.1em; }
+.h2-logo { width: 96px; }
+.h2-sheet { top: 2%; }
+@media (max-width: 900px) {
+  .hero2-art { min-height: 0; padding-top: 1rem; }
+  .h2-sheet { width: 92%; right: 0; top: 0; }
+  .specimen { position: relative; left: 0; bottom: auto; width: 100%; margin-top: 46%; transform: rotate(-1.2deg); }
+  .h2-logo { width: 84px; bottom: -18px; right: 0; }
+  .hero2-art .hero-pin-tag { top: -12px; right: 2%; }
+}
+
+/* ---------- design pass v2 rollout: pack, catalog, state pages ----------
+   The survey band and the instrument treatment, rolled from the home
+   page after Matt's approval (Nov 23, 2026). */
+
+section:first-of-type:not(.hero2):not(.pack-hero) { position: relative; overflow: hidden;
+  background:
+    radial-gradient(900px 380px at 85% -20%, rgba(233,185,73,0.12), transparent 60%),
+    linear-gradient(180deg, var(--green-900), var(--green-950) 75%);
+  border-bottom: 2px solid rgba(233,185,73,0.35); }
+section:first-of-type:not(.hero2):not(.pack-hero)::before { content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(242,206,123,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242,206,123,0.07) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 20%, transparent 80%); }
+section:first-of-type:not(.hero2):not(.pack-hero) .wrap { position: relative; z-index: 1; }
+
+.pack-hero { position: relative; overflow: hidden;
+  background:
+    radial-gradient(1000px 460px at 85% -10%, rgba(233,185,73,0.12), transparent 60%),
+    linear-gradient(180deg, var(--green-900), var(--green-950) 78%); }
+.pack-hero::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(242,206,123,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(242,206,123,0.07) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 100% 95% at 50% 0%, black 25%, transparent 80%); }
+.pack-hero .wrap { position: relative; z-index: 1; }
+.pack-hero h1 { font-size: clamp(2.5rem, 5.4vw, 4.1rem); line-height: 1.02; }
+.pack-cover img { transform: rotate(2.5deg); border: 1px solid rgba(242,206,123,0.4);
+  box-shadow: 0 34px 70px rgba(0,0,0,0.5); }
+.stat-v { font-size: 1.9rem; }
+.card { border-radius: 18px; }
+
+.records { margin-top: 2.6rem; border-top: 1px solid rgba(242,206,123,0.35); padding-top: 1.4rem; max-width: 430px; }
+.records-num { font-family: "Archivo", sans-serif; font-weight: 900; font-size: clamp(2.7rem, 5vw, 3.9rem);
+  line-height: 1; color: var(--gold); font-variant-numeric: tabular-nums; }
+.records-label { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; letter-spacing: 0.3em;
+  color: var(--cream); margin-top: 0.45rem; }
+.records-sub { font-size: 0.88rem; color: rgba(246,232,200,0.72); margin-top: 0.5rem; line-height: 1.5; }

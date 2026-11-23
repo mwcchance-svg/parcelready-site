@@ -21,6 +21,24 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
     if (pin) {
       gsap.from(pin, { y: -70, opacity: 0, duration: 1.1, ease: "bounce.out", delay: 0.15 });
     }
+    var rec = document.querySelector("[data-records]");
+    if (rec) {
+      var target = parseInt(rec.getAttribute("data-total") || "0", 10);
+      if (target > 0) {
+        var obj = { v: 0 };
+        gsap.to(obj, {
+          v: target, duration: 1.8, ease: "power2.out", delay: 0.35,
+          onUpdate: function () { rec.textContent = Math.round(obj.v).toLocaleString("en-US"); },
+          onComplete: function () { rec.textContent = target.toLocaleString("en-US"); }
+        });
+      }
+    }
+    document.querySelectorAll("[data-drift]").forEach(function (el) {
+      gsap.to(el, {
+        y: parseFloat(el.getAttribute("data-drift")) || -40, ease: "none",
+        scrollTrigger: { trigger: el.closest("section") || el, start: "top bottom", end: "bottom top", scrub: 1.2 }
+      });
+    });
   } else if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("shown"); io.unobserve(e.target); } });
@@ -74,9 +92,10 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
         tbody.innerHTML = rows.map(function (r) {
           return "<tr>" + data.columns.map(function (c) { return "<td>" + show(r[c]) + "</td>"; }).join("") + "</tr>";
         }).join("") || '<tr><td colspan="' + data.columns.length + '">No rows match. That is the data being honest, not a filter bug.</td></tr>';
-        count.textContent = "Preview: showing " + rows.length + " of " + (data.sample_total || data.rows.length) + " rows from a " +
+        count.textContent = "Preview: " + rows.length + " of " + (data.sample_total || data.rows.length) + " rows from a " +
           (data.sample_percent || 10) + "% draw of the full file (" + Number(data.full_total).toLocaleString() + " records)" +
-          (data.delivered_total ? " · the delivered free sample is " + data.delivered_total + " rows, by email below" : "");
+          (data.masked ? ", contact details masked on screen" : "") +
+          (data.delivered_total ? " · the delivered free sample is " + data.delivered_total + " rows with every field, by email below" : "");
       }
       mount.querySelector(".explorer-search").addEventListener("input", function (e) {
         query = e.target.value.trim().toLowerCase(); render();
