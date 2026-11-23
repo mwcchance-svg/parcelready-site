@@ -82,28 +82,33 @@ carry this catalog. Purchases happen on parcelreadydata.com.
    finds by registry metadata first) and records the ids.
 5. One commit deploys the site; the pack is purchasable the same day.
 
-## Sales tax: staged design, CPA flags open
+## Sales tax: RULED by Matt, Nov 23, 2026 (wiring built the same day)
 
-Nothing here guesses at tax treatment. The machinery is built tax ready
-and tax neutral until the CPA answers land:
+Prices are tax-inclusive: the sticker is the whole price, nothing is
+added at checkout, and the tax engine carves the correct buyer-state
+tax out of the sticker wherever ParcelReady has nexus. Today that is
+Texas only; other states switch on as their economic thresholds cross
+(flag 3 below stands as the monitoring rule). The Texas sales tax
+permit is Matt's own item, coming soon; he ruled it does not gate the
+wiring or the launch.
 
-- FLAG 1 (CPA): What are these datasets in Texas? Texas taxes data
-  processing services (with a 20 percent exemption), and the answer for
-  verified datasets sold as files is not obvious. ParcelReady also needs
-  its own sales tax permit posture settled for its entity; the Page Harbor
-  permit belongs to a different LLC and does not cover this venture.
-- FLAG 2 (CPA + spend decision): Stripe Tax can calculate and collect at
-  checkout and produces filing reports, but it activates per account,
-  carries a per transaction fee, and only collects where the business is
-  registered. Whether to switch it on at launch, and in which states,
-  waits on Flag 1 and on nexus advice.
-- FLAG 3 (CPA, later): Economic nexus in other states as the national
-  catalog sells. Threshold monitoring belongs in the monthly books pass
-  once revenue exists.
-- In code: checkout sessions are created with a TAX_MODE environment
-  switch in the Worker, default "off". When the CPA ruling lands, the
-  switch and the products' tax codes are set from the ruling, not before.
-  No tax code is assigned to any product in the sync script today.
+- Mechanism: Stripe Tax in inclusive mode. The function runs with
+  TAX_MODE "stripe_tax"; checkout sessions enable automatic tax and
+  require the billing address (the buyer's state places the sale), and
+  prices are created with tax_behavior inclusive.
+- Category: Stripe tax code txcd_10701300, Website Data Processing,
+  per Matt's data-processing treatment (Texas taxes data processing
+  services with a 20 percent exemption). The alternative determination,
+  Electronically Delivered Information Services (txcd_10701410), is a
+  one-constant flip in the function if the CPA lands there.
+- Pre-ruling prices: the sync never silently reuses a price that lacks
+  inclusive behavior once tax is on. It creates the inclusive price and
+  archives every other active price on the product (Stripe prices
+  cannot be deleted), so exactly one live price per pack remains.
+- FLAG 3 (standing): Economic nexus in other states as the national
+  catalog sells. Threshold monitoring belongs in the monthly books
+  pass once revenue exists; a state switches on by adding its Stripe
+  Tax registration, no code change.
 
 ## What the Matt sitting needs (in order)
 
@@ -148,8 +153,9 @@ is short:
    not covered, the refresh schedule and the membership are the answer).
    The ParcelReady Stripe account is a SOLE PROPRIETOR account, buyer
    facing name ParcelReady, legal name back office only, NOT Page Harbor
-   Studio, LLC. TAX_MODE stays off and the sync assigns no tax codes;
-   the CPA question stands as flagged.
+   Studio, LLC. (The TAX_MODE and tax code posture in this paragraph
+   was superseded the same day by Matt's tax ruling; see the sales tax
+   section.)
 
 ## What is staged in this build
 
@@ -290,7 +296,8 @@ ported from the Worker design the same day:
   (rotate-then-place; no dialog is held open, the earlier value is
   gone); the key never touches the VM, and the sync runs server
   side exactly as designed for the Worker (ensurePrice idempotent
-  create-or-find, no tax codes; the webhook self-registers and keeps
+  create-or-find; tax wiring added Nov 23, 2026 under Matt's ruling,
+  see the sales tax section; the webhook self-registers and keeps
   its signing secret in store_config).
 - Deploy mechanics follow Anvil's Tool One pattern; the run sheet is
   supabase/DEPLOY-SHEET.md. The Cloudflare Worker code stays in worker/

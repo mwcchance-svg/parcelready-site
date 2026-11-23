@@ -138,6 +138,17 @@ async function deliver(pack: any, email: string, kind: string) {
   );
 }
 
+/* ---------------- tax (Matt's ruling, Nov 23, 2026) ----------------
+   Prices are tax-inclusive: the sticker is the whole price, and Stripe
+   Tax carves the buyer-state tax out of it wherever ParcelReady has a
+   registration (Texas only today; other states switch on as their
+   economic thresholds cross). The category is Stripe's Website Data
+   Processing code, per Matt's data-processing treatment. If the CPA
+   determination lands on Electronically Delivered Information Services
+   instead, the flip is this one constant: txcd_10701410. */
+const TAX_CODE = "txcd_10701300";
+const taxOn = () => env("TAX_MODE") === "stripe_tax";
+
 /* ---------------- stripe helpers ---------------- */
 
 async function stripeCall(method: string, path: string, params?: Record<string, string>) {
@@ -174,19 +185,24 @@ async function findProduct(pack: any) {
 async function ensurePrice(pack: any) {
   let product = await findProduct(pack);
   if (!product || !product.id) {
-    product = await stripePost("products", {
+    const created: Record<string, string> = {
       name: pack.title,
       description: "Downloadable dataset from ParcelReady. We do the work. You get the leads.",
       "metadata[pack_id]": pack.id,
       "metadata[registry]": "parcelready",
-    });
+    };
+    if (taxOn()) created.tax_code = TAX_CODE;
+    product = await stripePost("products", created);
     if (!product.id) throw new Error(`product_create_failed:${pack.id}`);
+  } else if (taxOn() && product.tax_code !== TAX_CODE) {
+    await stripePost(`products/${product.id}`, { tax_code: TAX_CODE });
   }
   const cents = Math.round(pack.price_cents || 0);
   const sub = pack.store.billing === "subscription";
   const prices = await stripeGet("prices", { product: product.id, active: "true", limit: "100" });
   const match = (prices.data || []).find((pr: any) => {
     if (pr.unit_amount !== cents || pr.currency !== "usd") return false;
+    if (taxOn() && pr.tax_behavior !== "inclusive") return false;
     if (!sub) return !pr.recurring;
     return (
       pr.recurring &&
@@ -206,11 +222,26 @@ async function ensurePrice(pack: any) {
       params["recurring[interval]"] = pack.interval || "month";
       if ((pack.interval_count || 1) > 1) params["recurring[interval_count]"] = String(pack.interval_count);
     }
-    // No tax codes and no tax behavior are ever assigned (TAX_MODE off).
+    // Under TAX_MODE stripe_tax the price is created tax-inclusive, so
+    // the sticker stays the whole price and the tax carves out of it.
+    // With tax off, no tax behavior is assigned (the pre-ruling shape).
+    if (taxOn()) params.tax_behavior = "inclusive";
     price = await stripePost("prices", params);
     if (!price.id) throw new Error(`price_create_failed:${pack.id}`);
   }
   await priceMapSet(price.id, pack.id);
+  if (taxOn()) {
+    // Deliberate handling of pre-ruling prices: a price created before
+    // the ruling carries no inclusive behavior and must never be picked
+    // up silently once tax is on. Stripe prices cannot be deleted, so
+    // every other active price on this product is archived; exactly one
+    // live price per pack remains, the inclusive one above.
+    for (const pr of prices.data || []) {
+      if (pr.id !== price.id && pr.active) {
+        await stripePost(`prices/${pr.id}`, { active: "false" }).catch(() => {});
+      }
+    }
+  }
   return price.id;
 }
 
@@ -280,7 +311,13 @@ async function handleCheckout(req: Request) {
   };
   if (sub) params["subscription_data[metadata][pack_id]"] = pack.id;
   else params["payment_intent_data[metadata][pack_id]"] = pack.id;
-  if (env("TAX_MODE") === "stripe_tax") params.automatic_tax = "true";
+  if (taxOn()) {
+    params["automatic_tax[enabled]"] = "true";
+    // Stripe Tax needs the buyer's address to place the sale; Checkout
+    // collects it before payment, and the tax line resolves inside the
+    // inclusive price on the hosted page.
+    params.billing_address_collection = "required";
+  }
   const session = await stripePost("checkout/sessions", params);
   if (!session.url) return json({ error: "checkout_failed" }, 502, req);
   return json({ url: session.url }, 200, req);

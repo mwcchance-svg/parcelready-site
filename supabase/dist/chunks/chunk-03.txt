@@ -1,3 +1,49 @@
+  const secret = env("STRIPE_WEBHOOK_SECRET") || (await configGet("webhook_secret"));
+  if (!secret) return false;
+  const header = req.headers.get("stripe-signature") || "";
+  const parts = Object.fromEntries(header.split(",").map((kv) => kv.split("=")));
+  if (!parts.t || !parts.v1) return false;
+  if (Math.abs(Date.now() / 1000 - Number(parts.t)) > 300) return false;
+  const expected = await hmacHex(secret, `${parts.t}.${raw}`);
+  return expected === parts.v1;
+}
+
+async function packForPrice(priceId: string) {
+  const cached = await priceMapGet(priceId);
+  if (cached) return packById(cached);
+  const price = await stripeGet(`prices/${priceId}`);
+  const id = price && price.metadata && price.metadata.pack_id;
+  if (id) await priceMapSet(priceId, id);
+  return id ? packById(id) : null;
+}
+
+async function handleWebhook(req: Request) {
+  const raw = await req.text();
+  if (!(await verifyStripe(req, raw))) return new Response("bad signature", { status: 400 });
+  const event = JSON.parse(raw);
+  if (event.type === "checkout.session.completed") {
+    const s = event.data.object;
+    const pack = packById(s.metadata && s.metadata.pack_id);
+    const email = s.customer_details && s.customer_details.email;
+    if (pack && email) await deliver(pack, email, "purchase");
+  }
+  if (event.type === "invoice.paid") {
+    const line = event.data.object.lines && event.data.object.lines.data[0];
+    const priceId = line && line.price && line.price.id;
+    const pack = priceId ? await packForPrice(priceId) : null;
+    const email = event.data.object.customer_email;
+    // The first invoice is already covered by checkout.session.completed.
+    if (pack && email && event.data.object.billing_reason !== "subscription_create") {
+      await deliver(pack, email, "refresh");
+    }
+  }
+  return json({ received: true });
+}
+
+/* ---------------- sample capture + download ---------------- */
+
+async function handleSample(req: Request) {
+  const body = await req.json();
   const email = (body.email || "").trim();
   if (!email || !email.includes("@")) return json({ error: "email_required" }, 400, req);
   const lead = {

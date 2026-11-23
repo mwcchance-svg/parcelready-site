@@ -110,3 +110,22 @@ Largest file about 10.6 MB.
 3. Mason then: flips the first test pack to stripe mode, sets the
    site's PR_API to the function base in one site commit, and runs the
    live test purchase and refund (delivery email waits on Resend).
+
+## 7. Tax sitting (Matt's ruling, Nov 23, 2026)
+
+In the Stripe dashboard window, in this order:
+
+1. Settings, Tax: enable Stripe Tax on the ParcelReady account.
+2. Add the Texas registration. The registration form asks for the Texas
+   sales tax permit number, which is Matt's own item; the wiring does
+   not wait on it, but this step does.
+3. Redeploy the parcelready-store function from the current chunks
+   (the tax wiring build), verify_jwt OFF as before.
+4. Flip the TAX_MODE function secret to stripe_tax.
+5. Verification legs (unpaid): a checkout call for houston-plumbing
+   returns a session on the NEW inclusive price (the sync creates it
+   and archives the pre-ruling price; the dashboard shows exactly one
+   live price). Open the session URL: a Texas address shows the total
+   holding at $79.00 with the tax broken out inside it; an out-of-state
+   address (no registration) shows $79.00 with no tax. No card is
+   entered and nothing is paid.
