@@ -57,8 +57,7 @@ a { color: var(--gold-soft); }
   position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0.8rem 4vw;
-  background: rgba(4, 36, 26, 0.88);
-  backdrop-filter: blur(10px);
+  background: rgba(4, 36, 26, 0.94);
   border-bottom: 1px solid var(--line);
 }
 .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--cream); font-weight: 900; font-size: 1.25rem; letter-spacing: -0.01em; }

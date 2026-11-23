@@ -36,12 +36,12 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
     reveals.forEach(function (el) { el.classList.add("shown"); });
   }
 
-  /* ---------- smooth scroll (Lenis if present) ---------- */
-  if (window.Lenis) {
-    var lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-    function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-  }
+  /* ---------- scrolling: native (defect fix, Nov 23, 2026) ----------
+     The Lenis smooth-scroll layer re-timed every wheel tick into a
+     1.1 second eased glide, which read as the site scrolling very
+     slowly, and it was never wired to ScrollTrigger. It is removed:
+     native scroll drives the reveals and the drift parallax directly,
+     which is what ScrollTrigger expects. */
 
   /* ---------- sample data explorer ---------- */
   document.querySelectorAll("[data-explorer]").forEach(function (mount) {
