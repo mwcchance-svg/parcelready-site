@@ -1,3 +1,10 @@
+    (init.headers as Record<string, string>)["Content-Type"] = "application/x-www-form-urlencoded";
+    init.body = new URLSearchParams(params).toString();
+  }
+  const res = await fetch(url, init);
+  return res.json();
+}
+const stripePost = (path: string, params: Record<string, string>) => stripeCall("POST", path, params);
 const stripeGet = (path: string, params?: Record<string, string>) => stripeCall("GET", path, params);
 
 /* -------- server-side product and price sync (idempotent) -------- */
@@ -196,12 +203,3 @@ async function verifyStripe(req: Request, raw: string) {
 }
 
 async function packForPrice(priceId: string) {
-  const cached = await priceMapGet(priceId);
-  if (cached) return packById(cached);
-  const price = await stripeGet(`prices/${priceId}`);
-  const id = price && price.metadata && price.metadata.pack_id;
-  if (id) await priceMapSet(priceId, id);
-  return id ? packById(id) : null;
-}
-
-async function handleWebhook(req: Request) {

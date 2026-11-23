@@ -1,3 +1,12 @@
+      from: env("MAIL_FROM") || "ParcelReady <delivery@parcelreadydata.com>",
+      to, subject, text, ...(html ? { html } : {}),
+    }),
+  });
+  return res.ok;
+}
+
+/* ---------------- client email design (Matt's order, Nov 23, 2026) ----
+   Every client facing email is a branded HTML message with a plain
    text fallback: a ParcelReady header, a courteous opening, a download
    button with the raw link beneath it, the 72 hour window stated
    warmly, the label promise carried in full, and a courteous sign off.
@@ -136,10 +145,3 @@ async function stripeCall(method: string, path: string, params?: Record<string, 
   let url = `https://api.stripe.com/v1/${path}`;
   if (method === "GET" && params) url += `?${new URLSearchParams(params).toString()}`;
   else if (params) {
-    (init.headers as Record<string, string>)["Content-Type"] = "application/x-www-form-urlencoded";
-    init.body = new URLSearchParams(params).toString();
-  }
-  const res = await fetch(url, init);
-  return res.json();
-}
-const stripePost = (path: string, params: Record<string, string>) => stripeCall("POST", path, params);

@@ -1,3 +1,12 @@
+  const cached = await priceMapGet(priceId);
+  if (cached) return packById(cached);
+  const price = await stripeGet(`prices/${priceId}`);
+  const id = price && price.metadata && price.metadata.pack_id;
+  if (id) await priceMapSet(priceId, id);
+  return id ? packById(id) : null;
+}
+
+async function handleWebhook(req: Request) {
   const raw = await req.text();
   if (!(await verifyStripe(req, raw))) return new Response("bad signature", { status: 400 });
   const event = JSON.parse(raw);

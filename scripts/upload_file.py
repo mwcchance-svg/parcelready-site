@@ -37,7 +37,15 @@ def main():
         data=body, method="POST",
         headers={"x-admin-token": token, "Content-Type": "text/csv"})
     with urllib.request.urlopen(req) as res:
-        print(res.status, res.read().decode())
+        try:
+            payload = res.read().decode()
+        except Exception as e:
+            # The function's ok body can arrive complete while the
+            # chunked terminator read fails through the egress proxy;
+            # IncompleteRead carries the received bytes on .partial.
+            partial = getattr(e, "partial", b"")
+            payload = partial.decode(errors="replace") if partial else f"<unreadable response: {e}>"
+        print(res.status, payload)
     print(f"uploaded {path} -> {key} ({len(body)} bytes)")
     return 0
 

@@ -814,6 +814,69 @@
    }
   },
   {
+   "id": "harris-absentee",
+   "title": "Harris County Absentee Owners, Long Term",
+   "tagline": "79,951 owners who get their tax mail somewhere else, 11+ years of ownership",
+   "buyer": "Real estate investors, wholesalers, and direct mail marketers working Harris County and the Houston metro",
+   "cover": "assets/covers/harris-absentee.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Harris County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 79951,
+   "rows_label": "79,951 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/harris-absentee.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "79,951"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Median value",
+     "v": "$248,378"
+    },
+    {
+     "k": "Ownership filter",
+     "v": "11+ years"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property address, city, and ZIP",
+    "Latest appraised market value, median $248,378 across the file",
+    "Year built and living area square feet (beds and baths are not keyed in the district's published files and ship blank, never estimated)",
+    "Deed transfer date and years owned",
+    "HCAD account number on every record, for verification"
+   ],
+   "limits": "Built from the Harris County Appraisal District's published ownership files, not scraped and not resold from another list vendor. Every record passed an owner occupied check: if the mailing address matched the property address, it is not on this list. Values are county appraised values, not sale prices. Deed transfer dates are the appraisal district's recorded new owner dates. Years of ownership is an equity signal, not a mortgage balance. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Absentee Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-22",
+   "build_date": "November 22, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/harris/harris-absentee-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "houston",
+   "coverage": "Harris County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter",
+    "statewide_price": 199
+   }
+  },
+  {
    "build_date": "Current builds",
    "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
    "buyer": "Anyone who wants to inspect the data before spending a dollar",
