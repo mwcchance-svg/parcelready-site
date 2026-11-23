@@ -8,8 +8,9 @@ it is never stored in this repo or printed.
 
     PR_ADMIN_TOKEN=... python3 scripts/upload_file.py <local-path> <key>
 
-<key> must be packs/<name>.csv or samples/<name>.csv. The API base
-defaults to the live function and can be overridden with PR_API_BASE.
+<key> must be packs/<name> or samples/<name> ending in .csv or .xlsx
+(the format pair). The API base defaults to the live function and can
+be overridden with PR_API_BASE.
 """
 import os
 import sys

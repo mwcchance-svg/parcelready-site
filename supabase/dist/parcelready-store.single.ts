@@ -174,15 +174,23 @@ ${bodyHtml}
 </body></html>`;
 }
 
-function downloadBlockHtml(link: string, buttonLabel: string) {
+function downloadBlockHtml(csvLink: string, xlsxLink: string) {
   return `
   <table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px;">
-    <tr><td style="background:#E9B949;border-radius:8px;">
-      <a href="${escHtml(link)}" style="display:inline-block;padding:13px 26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#122B1E;text-decoration:none;">${escHtml(buttonLabel)}</a>
-    </td></tr>
+    <tr>
+      <td style="background:#E9B949;border-radius:8px;">
+        <a href="${escHtml(csvLink)}" style="display:inline-block;padding:13px 26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#122B1E;text-decoration:none;">Download CSV</a>
+      </td>
+      <td style="width:10px;"></td>
+      <td style="background:#FBF5E2;border:1px solid #0A4A2A;border-radius:8px;">
+        <a href="${escHtml(xlsxLink)}" style="display:inline-block;padding:12px 25px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#0A4A2A;text-decoration:none;">Download XLSX</a>
+      </td>
+    </tr>
   </table>
-  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">If the button does not work in your mail program, copy this link into your browser:<br>
-  <a href="${escHtml(link)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(link)}</a></p>`;
+  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">If the buttons do not work in your mail program, copy a link into your browser:<br>
+  CSV: <a href="${escHtml(csvLink)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(csvLink)}</a><br>
+  XLSX: <a href="${escHtml(xlsxLink)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(xlsxLink)}</a></p>
+  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">The CSV opens straight into Google Sheets. The XLSX is the same data in Excel's own format.</p>`;
 }
 
 function promiseBlockHtml() {
@@ -209,19 +217,23 @@ async function deliver(pack: any, email: string, kind: string) {
   });
   const base = env("API_BASE") || env("SITE_BASE");
   const link = `${base}/api/download?token=${token}`;
+  const linkXlsx = `${link}&format=xlsx`;
   const isSample = kind === "sample";
   const text = isSample
     ? `Thank you for asking to see the data first. That is exactly what the sample is for.\n\n` +
       `Your free sample of ${pack.title} is ready. It carries every field, exactly as the full ` +
-      `pack ships them, so you can judge the data the way it will actually arrive.\n\n` +
-      `Download your sample:\n${link}\n\n${WARM_WINDOW}\n\n` +
+      `pack ships them, so you can judge the data the way it will actually arrive. It comes in ` +
+      `two formats: CSV, which opens straight into Google Sheets, and XLSX, the same data in ` +
+      `Excel's own format.\n\n` +
+      `Download CSV:\n${link}\n\nDownload XLSX:\n${linkXlsx}\n\n${WARM_WINDOW}\n\n` +
       `If the sample earns its keep, the full pack is listed on parcelreadydata.com with its ` +
       `record count, its exact pull date, and its refresh schedule printed on the label.\n\n` +
       `The label promise\n${LABEL_PROMISE}`
     : `Thank you for your purchase. We are glad to have you with us.\n\n` +
-      `Your copy of ${pack.title} is ready. The link below downloads the full file, with every ` +
-      `field exactly as it ships.\n\n` +
-      `Download your file:\n${link}\n\n${WARM_WINDOW}\n\n` +
+      `Your copy of ${pack.title} is ready. It comes in two formats, with every field exactly ` +
+      `as it ships: CSV, which opens straight into Google Sheets, and XLSX, the same data in ` +
+      `Excel's own format.\n\n` +
+      `Download CSV:\n${link}\n\nDownload XLSX:\n${linkXlsx}\n\n${WARM_WINDOW}\n\n` +
       `Every ParcelReady pack lists its source, its build date, and its limits on the label, and ` +
       `this file is the one its page describes.\n\n` +
       `The label promise\n${LABEL_PROMISE}`;
@@ -230,8 +242,8 @@ async function deliver(pack: any, email: string, kind: string) {
       ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
   <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready. It carries every field, exactly as the full pack ships them, so you can judge the data the way it will actually arrive.</p>`
       : `<p style="margin:0;">Thank you for your purchase. We are glad to have you with us.</p>
-  <p style="margin:14px 0 0;">Your copy of <strong>${escHtml(pack.title)}</strong> is ready. The link below downloads the full file, with every field exactly as it ships.</p>`) +
-      downloadBlockHtml(link, isSample ? "Download the free sample" : "Download your file") +
+  <p style="margin:14px 0 0;">Your copy of <strong>${escHtml(pack.title)}</strong> is ready, in two formats, with every field exactly as it ships.</p>`) +
+      downloadBlockHtml(link, linkXlsx) +
       WARM_WINDOW_HTML +
       (isSample
         ? `<p style="margin:16px 0 0;">If the sample earns its keep, the full pack is listed on parcelreadydata.com with its record count, its exact pull date, and its refresh schedule printed on the label.</p>`
@@ -393,15 +405,17 @@ async function handleAdminSync(req: Request) {
 /* ---------------- checkout ---------------- */
 
 // Landing pipeline upload (HQ sanction, Nov 23, 2026): the desk posts
-// a pack or sample CSV as the raw request body with ?key=packs/<name>
+// a pack or sample file as the raw request body with ?key=packs/<name>
 // or ?key=samples/<name>. Same gate as the sync route: dark (404)
-// until ADMIN_TOKEN is set, 401 on a wrong token. CSV keys only,
-// 25 MB cap, upsert so a refresh replaces the delivered object.
+// until ADMIN_TOKEN is set, 401 on a wrong token. CSV and XLSX keys
+// (the format pair, Atlas's ruling Nov 23, 2026), 25 MB cap, upsert
+// so a refresh replaces the delivered object.
+const XLSX_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 async function handleAdminUpload(req: Request, url: URL) {
   if (!env("ADMIN_TOKEN")) return new Response("not found", { status: 404 });
   if (req.headers.get("x-admin-token") !== env("ADMIN_TOKEN")) return json({ error: "unauthorized" }, 401);
   const key = url.searchParams.get("key") || "";
-  if (!/^(packs|samples)\/[A-Za-z0-9._-]+\.csv$/.test(key) || key.includes("..")) {
+  if (!/^(packs|samples)\/[A-Za-z0-9._-]+\.(csv|xlsx)$/.test(key) || key.includes("..")) {
     return json({ error: "bad_key" }, 400);
   }
   const body = new Uint8Array(await req.arrayBuffer());
@@ -411,7 +425,7 @@ async function handleAdminUpload(req: Request, url: URL) {
     `${env("SUPABASE_URL")}/storage/v1/object/parcelready-files/${key}`,
     {
       method: "POST",
-      headers: { ...restHeaders(), "Content-Type": "text/csv", "x-upsert": "true" },
+      headers: { ...restHeaders(), "Content-Type": key.endsWith(".xlsx") ? XLSX_TYPE : "text/csv", "x-upsert": "true" },
       body,
     }
   );
@@ -561,7 +575,8 @@ async function handleSample(req: Request) {
 }
 
 async function handleDownload(req: Request) {
-  const token = new URL(req.url).searchParams.get("token");
+  const url = new URL(req.url);
+  const token = url.searchParams.get("token");
   if (!token) return new Response("missing token", { status: 400 });
   const rows = await rest(
     `delivery_tokens?token=eq.${encodeURIComponent(token)}&select=pack_id,kind,expires_at`
@@ -571,13 +586,19 @@ async function handleDownload(req: Request) {
     return new Response("link expired or invalid", { status: 403 });
   }
   const pack = packById(record.pack_id);
-  const key = record.kind === "sample" ? pack.sample_file_key : pack.file_key;
+  // Format choice (Atlas's ruling, Nov 23, 2026): the same token
+  // serves both formats; ?format=xlsx swaps the staged CSV key for
+  // its XLSX sibling. No format parameter means CSV, so every link
+  // already in a buyer's inbox keeps working exactly as before.
+  const xlsx = url.searchParams.get("format") === "xlsx";
+  let key = record.kind === "sample" ? pack.sample_file_key : pack.file_key;
   if (!key) return new Response("file not staged yet", { status: 404 });
+  if (xlsx) key = key.replace(/\.csv$/, ".xlsx");
   const object = await storageObject(key);
   if (!object) return new Response("file not staged yet", { status: 404 });
   return new Response(object.body, {
     headers: {
-      "Content-Type": "text/csv; charset=utf-8",
+      "Content-Type": xlsx ? XLSX_TYPE : "text/csv; charset=utf-8",
       "Content-Disposition": `attachment; filename="${key.split("/").pop()}"`,
     },
   });

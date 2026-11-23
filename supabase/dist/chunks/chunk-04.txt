@@ -1,3 +1,27 @@
+    // Stripe Tax needs the buyer's address to place the sale; Checkout
+    // collects it before payment, and the tax line resolves inside the
+    // inclusive price on the hosted page.
+    params.billing_address_collection = "required";
+  }
+  const session = await stripePost("checkout/sessions", params);
+  if (!session.url) return json({ error: "checkout_failed" }, 502, req);
+  return json({ url: session.url }, 200, req);
+}
+
+/* ---------------- webhook ---------------- */
+
+async function verifyStripe(req: Request, raw: string) {
+  const secret = env("STRIPE_WEBHOOK_SECRET") || (await configGet("webhook_secret"));
+  if (!secret) return false;
+  const header = req.headers.get("stripe-signature") || "";
+  const parts = Object.fromEntries(header.split(",").map((kv) => kv.split("=")));
+  if (!parts.t || !parts.v1) return false;
+  if (Math.abs(Date.now() / 1000 - Number(parts.t)) > 300) return false;
+  const expected = await hmacHex(secret, `${parts.t}.${raw}`);
+  return expected === parts.v1;
+}
+
+async function packForPrice(priceId: string) {
   const cached = await priceMapGet(priceId);
   if (cached) return packById(cached);
   const price = await stripeGet(`prices/${priceId}`);
@@ -92,7 +116,8 @@ async function handleSample(req: Request) {
 }
 
 async function handleDownload(req: Request) {
-  const token = new URL(req.url).searchParams.get("token");
+  const url = new URL(req.url);
+  const token = url.searchParams.get("token");
   if (!token) return new Response("missing token", { status: 400 });
   const rows = await rest(
     `delivery_tokens?token=eq.${encodeURIComponent(token)}&select=pack_id,kind,expires_at`
@@ -102,13 +127,19 @@ async function handleDownload(req: Request) {
     return new Response("link expired or invalid", { status: 403 });
   }
   const pack = packById(record.pack_id);
-  const key = record.kind === "sample" ? pack.sample_file_key : pack.file_key;
+  // Format choice (Atlas's ruling, Nov 23, 2026): the same token
+  // serves both formats; ?format=xlsx swaps the staged CSV key for
+  // its XLSX sibling. No format parameter means CSV, so every link
+  // already in a buyer's inbox keeps working exactly as before.
+  const xlsx = url.searchParams.get("format") === "xlsx";
+  let key = record.kind === "sample" ? pack.sample_file_key : pack.file_key;
   if (!key) return new Response("file not staged yet", { status: 404 });
+  if (xlsx) key = key.replace(/\.csv$/, ".xlsx");
   const object = await storageObject(key);
   if (!object) return new Response("file not staged yet", { status: 404 });
   return new Response(object.body, {
     headers: {
-      "Content-Type": "text/csv; charset=utf-8",
+      "Content-Type": xlsx ? XLSX_TYPE : "text/csv; charset=utf-8",
       "Content-Disposition": `attachment; filename="${key.split("/").pop()}"`,
     },
   });
