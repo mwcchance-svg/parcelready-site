@@ -82,6 +82,19 @@ carry this catalog. Purchases happen on parcelreadydata.com.
    finds by registry metadata first) and records the ids.
 5. One commit deploys the site; the pack is purchasable the same day.
 
+## GO-LIVE RULING (Matt, Nov 23, 2026)
+
+The store and all products are live ahead of the tax permit, which
+Matt is obtaining himself for the sole proprietorship; interim Texas
+tax on pre-permit sales is his to front, his explicit call. Every paid
+pack sells through the store's own Stripe checkout (catalog store mode
+"stripe" for all eleven paid packs; Dallas Code Cases on subscription
+billing); Gumroad remains the feeder shelf for the 13 existing
+products, and the Free Sample Pack keeps its Gumroad route. The tax
+verification passed from HQ before the flip: the product carries
+txcd_10701300 and the inclusive price replaced the pre-ruling price,
+which the sync archived.
+
 ## Sales tax: RULED by Matt, Nov 23, 2026 (wiring built the same day)
 
 Prices are tax-inclusive: the sticker is the whole price, nothing is

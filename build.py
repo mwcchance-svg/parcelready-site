@@ -297,6 +297,26 @@ def pricing_block(p):
     m = p.get("membership")
     if not m:
         return ""
+    if (p.get("store") or {}).get("billing") == "subscription":
+        frame = (f"A fresh snapshot costs {money(p['price'])} each time you pull it. Members hold the current "
+                 f"file automatically, delivered on every refresh.")
+        return f"""
+<section class="pricing-offers">
+  <div class="wrap">
+    <p class="kicker">Membership</p>
+    <h2>The current file, delivered on every refresh</h2>
+    <div class="offer-grid">
+      <article class="offer-card offer-member">
+        <p class="meta">Stay current: membership</p>
+        <p class="offer-price">{money(m['price'])} <small>per {m['per']}</small></p>
+        <p>{frame}</p>
+        <p class="stepup">{esc(p['refresh_schedule'])}.</p>
+        {buy_button(p)}
+        <p class="fineprint">Sold and delivered on this site.</p>
+      </article>
+    </div>
+  </div>
+</section>"""
     price = p["price"]
     mp, per = m["price"], m["per"]
     if per == "quarter":
@@ -310,11 +330,8 @@ def pricing_block(p):
     if m.get("statewide_price"):
         stepup = (f'<p class="stepup">Step up: the full {esc(state_name(p["state"]))} tier, every metro in the state, '
                   f'{money(m["statewide_price"])}. Membership is sold by metro; the state is the step up.</p>')
-    live = p["id"] == "dallas-code-cases"
-    card_b_cta = (f'<a class="btn btn-gold" href="{esc(p["buy_url"])}" target="_blank" rel="noopener">Get the membership</a>'
-                  if live else
-                  f'<a class="btn btn-ghost" href="../sample.html?state={esc(state_name(p["state"]))}&trade={esc(p["category"])}">Join the follow up list</a>')
-    card_b_note = "Live now on the feeder shelf." if live else "Opens on the ParcelReady store at launch."
+    card_b_cta = (f'<a class="btn btn-ghost" href="../sample.html?state={esc(state_name(p["state"]))}&trade={esc(p["category"])}">Join the follow up list</a>')
+    card_b_note = "Membership checkout for this pack opens on the store next; the follow up list hears first."
     return f"""
 <section class="pricing-offers">
   <div class="wrap">

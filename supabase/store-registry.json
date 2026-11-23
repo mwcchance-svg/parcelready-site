@@ -4,7 +4,7 @@
    "id": "houston-hvac",
    "title": "Houston HVAC Companies",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "one_time",
     "stripe_price_id": null
    },
@@ -32,7 +32,7 @@
    "id": "austin-sa-roofing",
    "title": "Austin to San Antonio Roofing Companies",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "one_time",
     "stripe_price_id": null
    },
@@ -46,7 +46,7 @@
    "id": "dallas-absentee",
    "title": "Dallas County Absentee Owners, Long Term",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "one_time",
     "stripe_price_id": null
    },
@@ -60,7 +60,7 @@
    "id": "dallas-code-cases",
    "title": "Dallas Open Code Cases, Owner Matched",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "subscription",
     "stripe_price_id": null
    },
@@ -74,7 +74,7 @@
    "id": "dallas-permits",
    "title": "Dallas Building Permits 2026, Full Year",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "one_time",
     "stripe_price_id": null
    },
@@ -88,7 +88,7 @@
    "id": "tarrant-tax-delinquent",
    "title": "Tarrant County Tax Delinquent Properties",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "one_time",
     "stripe_price_id": null
    },
@@ -102,7 +102,7 @@
    "id": "tarrant-absentee",
    "title": "Tarrant County Absentee Owners, Long Term",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "one_time",
     "stripe_price_id": null
    },
@@ -116,7 +116,7 @@
    "id": "dallas-new-construction",
    "title": "Dallas New Construction Permits 2026",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "one_time",
     "stripe_price_id": null
    },
@@ -130,7 +130,7 @@
    "id": "dallas-demolition",
    "title": "Dallas Demolition Permits 2026",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "one_time",
     "stripe_price_id": null
    },
@@ -144,7 +144,7 @@
    "id": "collin-absentee",
    "title": "Collin County Absentee Owners, Long Term",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "billing": "one_time",
     "stripe_price_id": null
    },

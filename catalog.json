@@ -162,7 +162,7 @@
    "data_as_of": "2026-11-16",
    "sample_csv": "lead:houston-hvac",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "lead-packs/houston-hvac/houston-hvac-pack-2026-11-16.csv + .xlsx",
     "billing": "one_time",
     "stripe_product_id": null,
@@ -291,7 +291,7 @@
    "data_as_of": "2026-11-16",
    "sample_csv": "lead:austin-sa-roofing",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "lead-packs/austin-sa-roofing/austin-sa-roofing-pack-2026-11-16.csv + .xlsx",
     "billing": "one_time",
     "stripe_product_id": null,
@@ -355,7 +355,7 @@
    "data_as_of": "2026-10-12",
    "sample_csv": "dallas_absentee_longterm_sample100.csv",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "dallas_absentee_longterm_full.csv",
     "billing": "one_time",
     "stripe_product_id": null,
@@ -420,7 +420,7 @@
    "data_as_of": "2026-11-16",
    "sample_csv": "dallas_open_code_cases_v3_sample100.csv",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "dallas_open_code_cases_v3.csv",
     "billing": "subscription",
     "stripe_product_id": null,
@@ -484,7 +484,7 @@
    "data_as_of": "2026-11-09",
    "sample_csv": "dallas_permits_2026_sample100.csv",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "dallas_permits_2026.csv",
     "billing": "one_time",
     "stripe_product_id": null,
@@ -548,7 +548,7 @@
    "data_as_of": "2026-11-06",
    "sample_csv": "tarrant_tax_delinquent_sample100.csv",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "tarrant_tax_delinquent.csv",
     "billing": "one_time",
     "stripe_product_id": null,
@@ -611,7 +611,7 @@
    "data_as_of": "2026-11-09",
    "sample_csv": "tarrant_absentee_longterm_sample100.csv",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "tarrant_absentee_longterm.csv",
     "billing": "one_time",
     "stripe_product_id": null,
@@ -674,7 +674,7 @@
    "data_as_of": "2026-11-09",
    "sample_csv": "dallas_new_construction_sample100.csv",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "dallas_new_construction_permits_2026.csv",
     "billing": "one_time",
     "stripe_product_id": null,
@@ -736,7 +736,7 @@
    "data_as_of": "2026-11-09",
    "sample_csv": "dallas_demolition_sample100.csv",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "dallas_demolition_permits_2026.csv",
     "billing": "one_time",
     "stripe_product_id": null,
@@ -799,7 +799,7 @@
    "data_as_of": "2026-11-01",
    "sample_csv": "collin_absentee_longterm_sample100.csv",
    "store": {
-    "mode": "gumroad",
+    "mode": "stripe",
     "delivery_file": "collin_absentee_longterm.csv",
     "billing": "one_time",
     "stripe_product_id": null,
