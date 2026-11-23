@@ -214,7 +214,7 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }).then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
-        .then(function () { note(form, "Sent. Check your inbox for the sample file."); form.reset(); })
+        .then(function () { note(form, form.getAttribute("data-success") || "Sent. Check your inbox for the sample file."); form.reset(); })
         .catch(function () { note(form, "Sample delivery opens with the store launch. Email hello@parcelreadydata.com and we will send it today."); });
     });
   });

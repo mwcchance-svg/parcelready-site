@@ -515,6 +515,49 @@ def build_states_index(urls):
     urls.append("states/")
 
 
+def state_capture(name, live):
+    """The up-front sample request capture on every state hub (Matt's
+    state coverage ruling, Nov 23, 2026). On states with no packs yet
+    it leads the page: the state is in the build queue, a request
+    takes a free sample when its first pack lands, and requests move
+    the state up the build order. Submissions ride the existing
+    capture: the function stores the lead with the state recorded as
+    its source, and a request for an unbuilt state succeeds and
+    stores cleanly (no pack is involved)."""
+    if live:
+        head = f"Get a free {esc(name)} sample"
+        line = ("Tell us where to send it. Requests are recorded with the state "
+                "as their source, and the follow up comes from hello@parcelreadydata.com.")
+        success = ("Recorded. Our team follows up from hello@parcelreadydata.com "
+                   "with the right sample for your trade.")
+    else:
+        head = f"Request the {esc(name)} sample"
+        line = (f"{esc(name)} is in the build queue. When its first pack lands, the free "
+                f"sample goes to this list first, and every request moves {esc(name)} "
+                "up the build order.")
+        success = (f"Recorded. Your request moves {esc(name)} up the build order, and "
+                   "the first pack's sample comes to your inbox when it lands.")
+    options = "".join(f'<option value="{esc(c)}">{esc(c)}</option>' for c in CATEGORIES)
+    return f"""
+<section class="state-capture" style="padding-top:0.5rem;padding-bottom:0.5rem">
+  <div class="wrap">
+    <h2>{head}</h2>
+    <p style="max-width:44rem">{line}</p>
+    <form class="capture" data-capture data-success="{success}">
+      <input type="hidden" name="request_kind" value="state">
+      <input type="hidden" name="source" value="state-hub">
+      <input type="hidden" name="state" value="{esc(name)}">
+      <input type="hidden" name="state_has_packs" value="{'1' if live else '0'}">
+      <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
+      <label>Email for the sample<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
+      <label>Trade or data type<select name="trade"><option value="">Any / first available</option>{options}</select></label>
+      <button class="btn btn-gold" type="submit">Request the sample</button>
+      <p class="capture-status" role="status"></p>
+    </form>
+  </div>
+</section>"""
+
+
 def build_state_hub(name, code, urls):
     prefix = "../../"
     sslug = slug(name)
@@ -559,15 +602,15 @@ def build_state_hub(name, code, urls):
     <p class="lede" style="margin-top:1rem">{sub}</p>
   </div>
 </section>
+{state_capture(name, bool(live))}
 <section style="padding-top:1rem">
   <div class="wrap">
-    <div class="card-grid">{cards if cards else '<p class="empty-note">Nothing live here yet. Request a sample below and your state moves up the build order.</p>'}</div>
+    <div class="card-grid">{cards if cards else '<p class="empty-note">Nothing live here yet. Request a sample above and your state moves up the build order.</p>'}</div>
     {metro_tiles}
     <h2 style="margin-top:3rem">Categories in {name}</h2>
     <div class="table-scroll"><table class="matrix"><thead><tr><th>Category</th><th>Status</th></tr></thead><tbody>{cat_rows}</tbody></table></div>
     {('<h2 style="margin-top:3rem">In production</h2><div class="table-scroll"><table class="matrix"><thead><tr><th>Pack</th><th>Coverage</th><th>Status</th></tr></thead><tbody>' + soon_rows + '</tbody></table></div>') if soon_rows else ''}
     <div class="pack-actions" style="margin-top:2.5rem">
-      <a class="btn btn-gold" href="../../sample.html?state={name}">Request a free {name} sample</a>
       <a class="btn btn-ghost" href="../../catalog.html">Browse the full catalog</a>
     </div>
   </div>

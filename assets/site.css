@@ -453,3 +453,7 @@ section:first-of-type:not(.hero2):not(.pack-hero) .wrap { position: relative; z-
   .flap-row { gap: 0.3rem; }
   .flap-board { padding: 0.9rem 0.8rem 0.85rem; }
 }
+
+/* ---------- state hub capture (Nov 23, 2026) ---------- */
+.state-capture .capture { max-width: 560px; margin-top: 1rem; }
+.state-capture h2 { font-size: 1.6rem; }

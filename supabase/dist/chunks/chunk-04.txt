@@ -45,6 +45,8 @@ async function handleSample(req: Request) {
     reply_route: body.reply_route || "",
     pack_id: body.pack_id || "",
     source_page: body.source_page || "",
+    request_kind: body.request_kind || "",
+    source: body.source || "",
   };
   await rest("leads", { method: "POST", body: JSON.stringify({ payload: lead }) });
   await sendEmail(
@@ -56,6 +58,24 @@ async function handleSample(req: Request) {
   if (pack && pack.sample_file_key) {
     await deliver(pack, email, "sample");
     return json({ ok: true, delivered: "sample" }, 200, req);
+  }
+  if (lead.request_kind === "state") {
+    const stateName = lead.state || "your state";
+    const hasPacks = (body.state_has_packs || "") === "1";
+    const stateBody = hasPacks
+      ? `It is recorded with ${stateName} as its source. ${stateName} packs are live now, ` +
+        `and our team follows up from hello@parcelreadydata.com with the sample that fits ` +
+        `your trade. There is nothing further you need to do.`
+      : `${stateName} is in the build queue, and your request is recorded with the state ` +
+        `as its source. Requests are how states move up the build order. When the first ` +
+        `${stateName} pack passes verification, its free sample comes to this address ` +
+        `first, before the pack is listed for anyone else. There is nothing further you need to do.`;
+    const stateText = `Thank you for your request.\n\n` + stateBody;
+    const stateHtml = emailShell(
+      `<p style="margin:0;">Thank you for your request.</p>\n  <p style="margin:14px 0 0;">${stateBody}</p>`
+    );
+    await sendEmail(email, "Your ParcelReady sample request", stateText, stateHtml);
+    return json({ ok: true, delivered: "queued" }, 200, req);
   }
   const queuedText =
     `Thank you for your request.\n\n` +

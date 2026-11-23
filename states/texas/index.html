@@ -31,6 +31,24 @@
     <p class="lede" style="margin-top:1rem">Every pack below carries its verified count, its price, a free sample you can view on the page, and its data as of date.</p>
   </div>
 </section>
+
+<section class="state-capture" style="padding-top:0.5rem;padding-bottom:0.5rem">
+  <div class="wrap">
+    <h2>Get a free Texas sample</h2>
+    <p style="max-width:44rem">Tell us where to send it. Requests are recorded with the state as their source, and the follow up comes from hello@parcelreadydata.com.</p>
+    <form class="capture" data-capture data-success="Recorded. Our team follows up from hello@parcelreadydata.com with the right sample for your trade.">
+      <input type="hidden" name="request_kind" value="state">
+      <input type="hidden" name="source" value="state-hub">
+      <input type="hidden" name="state" value="Texas">
+      <input type="hidden" name="state_has_packs" value="1">
+      <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
+      <label>Email for the sample<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
+      <label>Trade or data type<select name="trade"><option value="">Any / first available</option><option value="Real Estate">Real Estate</option><option value="Construction">Construction</option><option value="Land">Land</option><option value="HVAC">HVAC</option><option value="Plumbing">Plumbing</option><option value="Electrical">Electrical</option><option value="Roofing">Roofing</option><option value="Pools">Pools</option><option value="Lawn Care and Landscaping">Lawn Care and Landscaping</option><option value="Concrete">Concrete</option><option value="Garage Door Repair">Garage Door Repair</option><option value="Masonry">Masonry</option></select></label>
+      <button class="btn btn-gold" type="submit">Request the sample</button>
+      <p class="capture-status" role="status"></p>
+    </form>
+  </div>
+</section>
 <section style="padding-top:1rem">
   <div class="wrap">
     <div class="card-grid"><article class="card">
@@ -181,7 +199,6 @@
 </tbody></table></div>
     <h2 style="margin-top:3rem">In production</h2><div class="table-scroll"><table class="matrix"><thead><tr><th>Pack</th><th>Coverage</th><th>Status</th></tr></thead><tbody><tr><td>Electrical</td><td>Houston first</td><td><span class="status-pill">In production</span></td></tr><tr><td>Roofing</td><td>Houston</td><td><span class="status-pill">In production</span></td></tr><tr><td>Pools</td><td>Houston</td><td><span class="status-pill">Queued</span></td></tr><tr><td>Lawn Care and Landscaping</td><td>Houston</td><td><span class="status-pill">Queued</span></td></tr><tr><td>Concrete</td><td>Houston</td><td><span class="status-pill">Queued</span></td></tr><tr><td>Garage Door Repair</td><td>Houston</td><td><span class="status-pill">Queued</span></td></tr><tr><td>Absentee Owners</td><td>Denton County</td><td><span class="status-pill">Queued</span></td></tr><tr><td>Multi-Property Landlords, 5+</td><td>Dallas County</td><td><span class="status-pill">Queued</span></td></tr><tr><td>Absentee Owners</td><td>Harris County</td><td><span class="status-pill">Source check first</span></td></tr><tr><td>Absentee Land Owners, pilot</td><td>Texas, one county</td><td><span class="status-pill">Pilot</span></td></tr></tbody></table></div>
     <div class="pack-actions" style="margin-top:2.5rem">
-      <a class="btn btn-gold" href="../../sample.html?state=Texas">Request a free Texas sample</a>
       <a class="btn btn-ghost" href="../../catalog.html">Browse the full catalog</a>
     </div>
   </div>

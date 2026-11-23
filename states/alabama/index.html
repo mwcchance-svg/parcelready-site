@@ -31,9 +31,27 @@
     <p class="lede" style="margin-top:1rem">No Alabama pack has passed verification yet. The trades and categories below are where the build is heading, and a sample request for Alabama moves it up the order.</p>
   </div>
 </section>
+
+<section class="state-capture" style="padding-top:0.5rem;padding-bottom:0.5rem">
+  <div class="wrap">
+    <h2>Request the Alabama sample</h2>
+    <p style="max-width:44rem">Alabama is in the build queue. When its first pack lands, the free sample goes to this list first, and every request moves Alabama up the build order.</p>
+    <form class="capture" data-capture data-success="Recorded. Your request moves Alabama up the build order, and the first pack's sample comes to your inbox when it lands.">
+      <input type="hidden" name="request_kind" value="state">
+      <input type="hidden" name="source" value="state-hub">
+      <input type="hidden" name="state" value="Alabama">
+      <input type="hidden" name="state_has_packs" value="0">
+      <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
+      <label>Email for the sample<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
+      <label>Trade or data type<select name="trade"><option value="">Any / first available</option><option value="Real Estate">Real Estate</option><option value="Construction">Construction</option><option value="Land">Land</option><option value="HVAC">HVAC</option><option value="Plumbing">Plumbing</option><option value="Electrical">Electrical</option><option value="Roofing">Roofing</option><option value="Pools">Pools</option><option value="Lawn Care and Landscaping">Lawn Care and Landscaping</option><option value="Concrete">Concrete</option><option value="Garage Door Repair">Garage Door Repair</option><option value="Masonry">Masonry</option></select></label>
+      <button class="btn btn-gold" type="submit">Request the sample</button>
+      <p class="capture-status" role="status"></p>
+    </form>
+  </div>
+</section>
 <section style="padding-top:1rem">
   <div class="wrap">
-    <div class="card-grid"><p class="empty-note">Nothing live here yet. Request a sample below and your state moves up the build order.</p></div>
+    <div class="card-grid"><p class="empty-note">Nothing live here yet. Request a sample above and your state moves up the build order.</p></div>
     
     <h2 style="margin-top:3rem">Categories in Alabama</h2>
     <div class="table-scroll"><table class="matrix"><thead><tr><th>Category</th><th>Status</th></tr></thead><tbody><tr><td><a href="real-estate/index.html">Real Estate</a></td><td><span class="status-pill dim">Not started</span></td></tr>
@@ -51,7 +69,6 @@
 </tbody></table></div>
     
     <div class="pack-actions" style="margin-top:2.5rem">
-      <a class="btn btn-gold" href="../../sample.html?state=Alabama">Request a free Alabama sample</a>
       <a class="btn btn-ghost" href="../../catalog.html">Browse the full catalog</a>
     </div>
   </div>

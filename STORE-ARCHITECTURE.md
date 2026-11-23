@@ -331,3 +331,7 @@ stays on its Gumroad path untouched. The plumbing listing sequences
 live with the test purchase. Membership checkout for trade packs (a
 second, subscription price) is a follow on; the pack page's membership
 card keeps its follow up list framing until that lands.
+
+## State hub capture (Nov 23, 2026, Matt's state coverage ruling)
+
+Every state hub page carries the sample request capture up front; on states with no packs yet it leads the page with the build queue framing (a request takes a free sample when the state's first pack lands and moves the state up the build order). Submissions ride the existing capture with request_kind "state" and source "state-hub"; the lead stores with the state recorded, and the function answers state requests with a state variant of the queued email (build queue copy for unbuilt states, follow up copy for live ones). A request for an unbuilt state involves no pack and cannot error against one. Per state request counts in the leads table are a standing input to the build order. The function side ships in the 34,059 byte build.
