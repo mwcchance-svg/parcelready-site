@@ -13,8 +13,10 @@ registry change).
 - Vars (in wrangler.toml): SITE_BASE, API_BASE (set to the Worker's real
   origin at deploy), ALLOWED_ORIGINS, MAIL_FROM, LEADS_INBOX,
   TAX_MODE = "off"
-- Secrets, dashboard-set, never in files: **STRIPE_SECRET_KEY** (placed
-  screen to screen from the Stripe reveal dialog), **RESEND_API_KEY**
+- Secrets, dashboard-set, never in files: **STRIPE_SECRET_KEY** (the
+  value was never placed on this route; on the governing Supabase route
+  it is rotated at the sitting and placed screen to screen),
+  **RESEND_API_KEY**
   (later step), **ADMIN_TOKEN** (optional; enables /api/admin/sync)
 - The webhook signing secret is NOT set by hand. The Worker registers
   its own endpoint and stores the secret in TOKENS as

@@ -284,9 +284,11 @@ ported from the Worker design the same day:
   (delivery_tokens, leads, store_config, price_map) with RLS on and no
   public policies; the function reaches them with the platform injected
   service role key. Schema: supabase/migrations/0001_store.sql.
-- Secrets live in the function's secrets: STRIPE_SECRET_KEY placed
-  screen to screen from the Stripe reveal dialog into the Supabase
-  dashboard; the key never touches the VM, and the sync runs server
+- Secrets live in the function's secrets: STRIPE_SECRET_KEY is
+  rotated once in the Stripe window at the placement sitting and the
+  fresh value placed screen to screen into the Supabase dashboard
+  (rotate-then-place; no dialog is held open, the earlier value is
+  gone); the key never touches the VM, and the sync runs server
   side exactly as designed for the Worker (ensurePrice idempotent
   create-or-find, no tax codes; the webhook self-registers and keeps
   its signing secret in store_config).
