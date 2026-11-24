@@ -1623,6 +1623,313 @@ window.CATALOG = {
    }
   },
   {
+   "id": "tarrant-high-equity",
+   "title": "Tarrant County High Equity Owners",
+   "tagline": "87,779 residential owners with modeled equity of 65 percent or more (ESTIMATE)",
+   "buyer": "Real estate investors and direct mail marketers who target equity rich, long held homes in Tarrant County",
+   "cover": "assets/covers/tarrant-high-equity.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Tarrant County",
+   "price": 59,
+   "price_note": "one time",
+   "rows": 87779,
+   "rows_label": "87,779 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/tarrant-high-equity.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "87,779"
+    },
+    {
+     "k": "Columns",
+     "v": "12"
+    },
+    {
+     "k": "Median estimated equity",
+     "v": "90%"
+    },
+    {
+     "k": "Basis",
+     "v": "Modeled (ESTIMATE)"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address (this source publishes no property city or ZIP)",
+    "Appraised market value from the tax roll's receivable records",
+    "Deed date and years owned",
+    "Year built and living area square feet",
+    "County tax account on every record, for verification"
+   ],
+   "limits": "Built from the Tarrant County Tax Office's published weekly tax roll, not scraped and not resold from another list vendor. Equity on this pack is a modeled estimate, never a verified figure: the original loan is modeled at 80 percent of current appraised value, 30 year fixed at 6.5 percent, amortized from the deed transfer date to the roll run date (November 6, 2026), and a record qualifies when the estimated equity reaches 65 percent or more of current value. No lender, lien, or mortgage record was checked for any record. Records without a deed transfer date or a value are excluded, and the county's pre-system placeholder deed date (December 31, 1900) is excluded from this line, because an amortization horizon on a placeholder is fabricated precision. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "High Equity Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-06",
+   "build_date": "November 6, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/tarrant/tarrant-high-equity-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Tarrant County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 59,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "tarrant-long-term",
+   "title": "Tarrant County Long-Term Owners",
+   "tagline": "223,442 owners who have held their Tarrant County property for 20 years or more",
+   "buyer": "Investors and marketers who target long held properties across Fort Worth, Arlington, and Tarrant County",
+   "cover": "assets/covers/tarrant-long-term.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Tarrant County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 223442,
+   "rows_label": "223,442 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/tarrant-long-term.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "223,442"
+    },
+    {
+     "k": "Columns",
+     "v": "12"
+    },
+    {
+     "k": "Median market value",
+     "v": "$153,786"
+    },
+    {
+     "k": "Fully exempt",
+     "v": "Excluded"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address (this source publishes no property city or ZIP)",
+    "Appraised market value from the tax roll's receivable records",
+    "Deed date and years owned",
+    "Year built and living area square feet",
+    "County tax account on every record, for verification"
+   ],
+   "limits": "Built from the Tarrant County Tax Office's published weekly tax roll, not scraped and not resold from another list vendor. The set is every owner base record with a deed transfer date on or before December 31, 2005, across all property classes except fully exempt accounts (the X class family and the XV exempt marker), which are excluded and counted. The county records many deed dates at year precision; dates are read as published. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Long-Term Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-06",
+   "build_date": "November 6, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/tarrant/tarrant-long-term-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Tarrant County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "tarrant-tired-landlords",
+   "title": "Tarrant County Tired Landlords",
+   "tagline": "12,906 properties held by 875 owners with five or more homes, half held since 2015 or earlier",
+   "buyer": "Investors who buy portfolios from long term landlords in Tarrant County",
+   "cover": "assets/covers/tarrant-tired-landlords.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Tarrant County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 12906,
+   "rows_label": "12,906 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/tarrant-tired-landlords.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "12,906"
+    },
+    {
+     "k": "Columns",
+     "v": "12"
+    },
+    {
+     "k": "Median market value",
+     "v": "$122,099"
+    },
+    {
+     "k": "Qualifying owners",
+     "v": "875"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address (this source publishes no property city or ZIP)",
+    "Appraised market value from the tax roll's receivable records",
+    "Deed date and years owned",
+    "Year built and living area square feet",
+    "County tax account on every record, for verification",
+    "Owner property count and long-held count on every row"
+   ],
+   "limits": "Built from the Tarrant County Tax Office's published weekly tax roll, not scraped and not resold from another list vendor. Owners are matched across the roll on normalized name and mailing address. An owner qualifies holding five or more residential properties with at least half their deed dates on or before December 31, 2015. The county's pre-system placeholder deed date (December 31, 1900) counts toward the long-held half as a genuinely old transfer and is disclosed here and in the build record. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Tired Landlords",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-06",
+   "build_date": "November 6, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/tarrant/tarrant-tired-landlords-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Tarrant County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "tarrant-multifamily",
+   "title": "Tarrant County Multifamily Owners",
+   "tagline": "11,354 multifamily properties in Tarrant County, by state class",
+   "buyer": "Investors and brokers who target apartment and multifamily owners in Tarrant County",
+   "cover": "assets/covers/tarrant-multifamily.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Tarrant County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 11354,
+   "rows_label": "11,354 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/tarrant-multifamily.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "11,354"
+    },
+    {
+     "k": "Columns",
+     "v": "12"
+    },
+    {
+     "k": "Median market value",
+     "v": "$184,267"
+    },
+    {
+     "k": "Unit counts",
+     "v": "Not published"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address (this source publishes no property city or ZIP)",
+    "Appraised market value from the tax roll's receivable records",
+    "Deed date and years owned",
+    "Year built and living area square feet",
+    "County tax account on every record, for verification"
+   ],
+   "limits": "Built from the Tarrant County Tax Office's published weekly tax roll, not scraped and not resold from another list vendor. The set is every multifamily state class (B division) record on the owner base. This source does not publish unit counts, so no unit bands are printed and none are approximated. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Multifamily Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-06",
+   "build_date": "November 6, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/tarrant/tarrant-multifamily-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Tarrant County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "tarrant-commercial",
+   "title": "Tarrant County Commercial Owners",
+   "tagline": "50,358 commercial property owners in Tarrant County, with mailing addresses",
+   "buyer": "Investors, brokers, and service companies who target commercial owners in Tarrant County",
+   "cover": "assets/covers/tarrant-commercial.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Tarrant County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 50358,
+   "rows_label": "50,358 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/tarrant-commercial.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "50,358"
+    },
+    {
+     "k": "Columns",
+     "v": "12"
+    },
+    {
+     "k": "Median market value",
+     "v": "$330,415"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address (this source publishes no property city or ZIP)",
+    "Appraised market value from the tax roll's receivable records",
+    "Deed date and years owned",
+    "Year built and living area square feet",
+    "County tax account on every record, for verification"
+   ],
+   "limits": "Built from the Tarrant County Tax Office's published weekly tax roll, not scraped and not resold from another list vendor. The set is every commercial state class (F division) record on the owner base. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Commercial Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-06",
+   "build_date": "November 6, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/tarrant/tarrant-commercial-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Tarrant County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
    "build_date": "Current builds",
    "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
    "buyer": "Anyone who wants to inspect the data before spending a dollar",

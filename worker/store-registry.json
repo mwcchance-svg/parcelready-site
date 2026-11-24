@@ -337,6 +337,76 @@
    "sample_file_key": "samples/dallas-commercial-sample.csv"
   },
   {
+   "id": "tarrant-high-equity",
+   "title": "Tarrant County High Equity Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 5900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/tarrant-high-equity-2026-11-23.csv",
+   "sample_file_key": "samples/tarrant-high-equity-sample.csv"
+  },
+  {
+   "id": "tarrant-long-term",
+   "title": "Tarrant County Long-Term Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/tarrant-long-term-2026-11-23.csv",
+   "sample_file_key": "samples/tarrant-long-term-sample.csv"
+  },
+  {
+   "id": "tarrant-tired-landlords",
+   "title": "Tarrant County Tired Landlords",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/tarrant-tired-landlords-2026-11-23.csv",
+   "sample_file_key": "samples/tarrant-tired-landlords-sample.csv"
+  },
+  {
+   "id": "tarrant-multifamily",
+   "title": "Tarrant County Multifamily Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/tarrant-multifamily-2026-11-23.csv",
+   "sample_file_key": "samples/tarrant-multifamily-sample.csv"
+  },
+  {
+   "id": "tarrant-commercial",
+   "title": "Tarrant County Commercial Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/tarrant-commercial-2026-11-23.csv",
+   "sample_file_key": "samples/tarrant-commercial-sample.csv"
+  },
+  {
    "id": "free-sample-pack",
    "title": "ParcelReady Free Sample Pack",
    "store": {
