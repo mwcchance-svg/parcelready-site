@@ -2696,15 +2696,15 @@ window.CATALOG = {
    "price": 49,
    "price_note": "one time",
    "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
-   "rows": 34147,
-   "rows_label": "34,147 records",
+   "rows": 34153,
+   "rows_label": "34,153 records",
    "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelreadydata.com/packs/travis-out-of-area.html",
    "state": "TX",
    "stats": [
     {
      "k": "Records",
-     "v": "34,147"
+     "v": "34,153"
     },
     {
      "k": "Columns",
@@ -2712,7 +2712,7 @@ window.CATALOG = {
     },
     {
      "k": "Segments",
-     "v": "17,748 out of state, 16,399 out of county"
+     "v": "17,731 out of state, 16,422 out of county"
     },
     {
      "k": "Source",
@@ -2726,7 +2726,7 @@ window.CATALOG = {
     "stripe_price_id": null,
     "stripe_product_id": null
    },
-   "tagline": "34,147 Travis County residential owners whose mailing address is out of the area: 17,748 out of state and 16,399 elsewhere in Texas",
+   "tagline": "34,153 Travis County residential owners whose mailing address is out of the area: 17,731 out of state and 16,422 elsewhere in Texas",
    "title": "Travis County Owners Who Live Elsewhere",
    "trade": "Out-of-Area Owners"
   },
