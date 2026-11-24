@@ -404,3 +404,45 @@ failed verdict (situs-blank absentee limb) and awaits his
 re-verification before it lands. Bucket uploads for the Collin set
 (20 objects) and the function redeploy (47,301 bytes, md5
 01ddba90331d700092ccefaf9ae2aa7c) follow the Tarrant paste pattern.
+
+Travis County landing, Nov 23, 2026: five segment cuts live on the
+catalog (high equity 47,338 at $59, long-term 67,591 at $49, tired
+landlords 3,070 at $79, multifamily 13,133 at $79, commercial 17,423
+at $79) off the TCAD Certified Appraisal Export Supp 0 (certified
+2026-07-18), catalog 40 packs, commit f311294, counter then
+2,074,176. Line 10 landed the same night at the ruled set entire:
+34,153 rows (out-of-state 17,731, out-of-county 16,422; median
+$391,985; integrity exception 25; foreign 230), catalog 43 packs,
+commit 2621221, after a patch composition (widened exception, mirror
+limb, ZIP well-formedness guard) that Relay verified set-for-set.
+travis_cuts.py reproduces the delivered set account-for-account.
+Bucket objects for the final line-10 set re-uploaded and confirmed
+{"ok":true}. The spine first pass closed at counter 2,173,610
+(2,173,510 paid + 100 sampler), Relay's closing verification passed.
+
+Function deployment 19, Nov 23, 2026 (54,355 bytes, md5
+99a7b79c58cfaee424e5730d43f6bdd5): the 43-pack registry, the Free
+Sample Pack workbook delivery branch, the spec 13 Code Cases
+one-time SKU, and the lead notes field. Deployment 20, Nov 24, 2026
+(56,443 bytes, md5 86df7c2a029906fb0fcfd4f6e3a5e8f5): the trade
+coverage block in the registry and the coverage sentence in the
+sample delivery email (A2 amendment completion), HQ-verified live.
+
+Miami-Dade flagship landing, Nov 24, 2026: the first anchor flagship
+(outside the Texas count) off the Florida DOR NAL, 2026 Final roll
+(county file dated October 16, 2026). Three lines live: out-of-area
+78,472 at $49 (out-of-state 40,753 incl. 5,915 foreign; out-of-county
+37,719; median just value $369,507), multifamily 39,361 at $79
+(published unit counts govern; bands 2-4 / 5-19 / 20+), commercial
+38,344 at $79 (DOR classes 10-39; industrial 40-49 held out).
+Catalog 46 packs, new "miami" metro and Florida hub, commit cd10581,
+counter verified 2,329,787. All 12 bucket objects confirmed
+{"ok":true}. Lines 1, 8, 9, 12 do not exist at Miami (the posted SDF
+covers only 2025-2026 sales, so tenure tests cannot run); the
+prior-year SDF email-request route was ruled inside the data rules
+but the send was runtime-blocked and then declined by Matt on
+Nov 24, 2026; the draft stays filed and the lines stay source-gated.
+Function deployment 21, Nov 24, 2026 (57,610 bytes, md5
+c6e150bf91974628b3f56a21c2479b4e): the 46-pack registry; HQ verified
+Miami sample delivery and a live Miami checkout URL, plus a Houston
+HVAC regression sample.

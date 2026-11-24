@@ -326,6 +326,8 @@ a.chip { text-decoration: none; display: inline-block; }
 .capture input, .capture select { font: inherit; font-size: 1rem; letter-spacing: 0; text-transform: none; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid var(--line-dark); background: #fff; color: var(--ink); min-width: 240px; }
 .capture select:focus, .capture input:focus { outline: 2px solid var(--gold); border-color: transparent; }
 .capture-status { width: 100%; font-size: 0.92rem; color: var(--ink-soft); min-height: 1.2em; }
+.hero-sample { margin-top: 0.4rem; }
+.capture-hero { margin-top: 0.9rem; }
 
 .legal { max-width: 780px; }
 .legal h2 { font-size: 1.35rem; margin: 2rem 0 0.6rem; }

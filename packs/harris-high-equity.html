@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/site.css?v=9b216821">
+<link rel="stylesheet" href="../assets/site.css?v=387e06e8">
 <link rel="icon" href="../assets/img/logo.webp">
 </head>
 <body>
@@ -43,9 +43,19 @@
       <p class="buyer-line">Coverage: Harris County, in the <a href="../states/texas/metros/houston/index.html" style="color:var(--gold-soft)">Houston metro</a>.</p>
       <div class="pack-actions">
         <button class="btn btn-gold" type="button" data-checkout="harris-high-equity">Buy the full pack, $59 <span class="price-note">one time</span></button>
-        <a class="btn btn-ghost" href="#sample">Free 50 row sample</a>
       </div>
-      <p class="fineprint">Data as of November 22, 2026. Refreshed monthly, plus a full rebuild after each annual certified roll. Sold and delivered on this site.</p>
+      
+      <div class="hero-sample">
+        <form class="capture capture-hero" data-capture>
+          <input type="hidden" name="pack_id" value="harris-high-equity">
+          <label>Email for the sample file<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
+          <button class="btn btn-gold" type="submit">Email me the free sample</button>
+          <p class="capture-status" role="status"></p>
+        </form>
+        <p class="buyer-line">(50, 191999) real rows, owner names and mailing addresses unmasked in the file, so you can spot check the source record before you pay $59.</p>
+        <p class="fineprint">The file arrives by email, in CSV and Excel, the exact format of the full pack, carrying every field unmasked.</p>
+      </div>
+      <p class="fineprint">Refreshed monthly, plus a full rebuild after each annual certified roll. Sold and delivered on this site.</p>
       <p class="fineprint">Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.</p>
       
       <div class="mini-preview">
@@ -119,7 +129,7 @@
       <div class="wrap">
         <p class="kicker">Free sample, viewable right here</p>
         <h2>Inspect the data before you spend a dollar</h2>
-        <p class="explorer-sub">What you see here is the proof surface: real rows drawn evenly from the full file, real counts, and the same fields the pack carries, with contact details masked on screen. The free sample file itself, 10 percent of the full file (15 rows at minimum, 50 at most, the same rule on every pack in the catalog), carries every field exactly as it ships, and it is delivered by email below. Inspect the structure and the counts here; the usable file comes by email.</p>
+        <p class="explorer-sub">What you see here is the proof surface: real rows from the delivered file, the same fields the pack carries, with contact details masked on screen; the file's full count and source are printed on the label above. The free sample file itself, 10 percent of the full file (15 rows at minimum, 50 at most, the same rule on every pack in the catalog), carries every field exactly as it ships, and it is delivered by email below. Inspect the structure and the counts here; the usable file comes by email.</p>
         
         <div class="explorer-frame">
           <p class="explorer-frame-head"><span>LIVE PREVIEW · HARRIS COUNTY HIGH EQUITY OWNERS</span><span>PULLED NOVEMBER 22, 2026</span></p>
@@ -128,11 +138,11 @@
         <p class="fineprint">Preview rows shown with contact details masked: phone and email on trade packs, owner name and mailing street address on county packs. Mailing city, state, and ZIP stay visible so the geography stays checkable. A blank field means it could not be verified. It is never guessed. The delivered sample carries every value.</p>
         <form class="capture" data-capture>
           <input type="hidden" name="pack_id" value="harris-high-equity">
-          <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
           <label>Email for the sample file<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
           <button class="btn btn-gold" type="submit">Email me the free sample</button>
           <p class="capture-status" role="status"></p>
         </form>
+        <p class="fineprint">The file arrives by email, in CSV and Excel, the exact format of the full pack, carrying every field unmasked.</p>
       </div>
     </section>
 <section class="cta-band">

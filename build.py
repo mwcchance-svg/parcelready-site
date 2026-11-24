@@ -559,11 +559,11 @@ def sample_section(p):
         <form class="capture" data-capture>
           <input type="hidden" name="pack_id" value="{p['id']}">
           <input type="hidden" name="request_kind" value="pack_sample">
-          <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
           <label>Email for the sample file<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
           <button class="btn btn-gold" type="submit">Email me the free sample pack</button>
           <p class="capture-status" role="status"></p>
         </form>
+        <p class="fineprint">The workbook arrives by email, one Excel file with a sheet for every paid list, every field unmasked.</p>
       </div>
     </section>"""
     kind = "trade" if p["family"] == "trade" else "county"
@@ -573,7 +573,7 @@ def sample_section(p):
       <div class="wrap">
         <p class="kicker">Free sample, viewable right here</p>
         <h2>Inspect the data before you spend a dollar</h2>
-        <p class="explorer-sub">What you see here is the proof surface: {"the fullest real rows from the delivered file, every field exactly as it ships, with contact details masked on screen. The pack's true coverage rates, for the whole file, are printed on the label above" if kind == "trade" else "real rows drawn evenly from the full file, real counts, and the same fields the pack carries, with contact details masked on screen"}. The free sample file itself, {CATALOG.get("sample_percent", 10)} percent of the full file (15 rows at minimum, 50 at most, the same rule on every pack in the catalog), carries every field exactly as it ships, and it is delivered by email below. Inspect the structure and the counts here; the usable file comes by email.</p>
+        <p class="explorer-sub">What you see here is the proof surface: {"the fullest real rows from the delivered file, every field exactly as it ships, with contact details masked on screen. The pack's true coverage rates, for the whole file, are printed on the label above" if kind == "trade" else "real rows from the delivered file, the same fields the pack carries, with contact details masked on screen; the file's full count and source are printed on the label above"}. The free sample file itself, {CATALOG.get("sample_percent", 10)} percent of the full file (15 rows at minimum, 50 at most, the same rule on every pack in the catalog), carries every field exactly as it ships, and it is delivered by email below. Inspect the structure and the counts here; the usable file comes by email.</p>
         {"<p class=\"explorer-sub\">The Reach column is the point of the pack: it shows how each business actually takes work, phone first, and names the opening where the web channels are missing. These are the rows the scrapers skip, because there is nothing to scrape. The phone is the route in.</p>" if kind == "trade" else ""}
         <div class="explorer-frame">
           <p class="explorer-frame-head"><span>LIVE PREVIEW · {esc(p['title'].upper())}</span><span>PULLED {esc(fmt_date(p['data_as_of']).upper())}{' · CONTACT DETAILS MASKED' if kind == 'trade' else ''}</span></p>
@@ -582,11 +582,11 @@ def sample_section(p):
         <p class="fineprint">Preview rows shown with contact details masked: phone and email on trade packs, owner name and mailing street address on county packs. Mailing city, state, and ZIP stay visible so the geography stays checkable. A blank field means it could not be verified. It is never guessed. The delivered sample carries every value.</p>
         <form class="capture" data-capture>
           <input type="hidden" name="pack_id" value="{p['id']}">
-          <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
           <label>Email for the sample file<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
           <button class="btn btn-gold" type="submit">Email me the free sample</button>
           <p class="capture-status" role="status"></p>
         </form>
+        <p class="fineprint">The file arrives by email, in CSV and Excel, the exact format of the full pack, carrying every field unmasked.</p>
       </div>
     </section>"""
 
@@ -726,6 +726,45 @@ def pricing_block(p):
 </section>"""
 
 
+def hero_proof(p):
+    # C3 (conversion specs, Nov 24, 2026): one proof line in the
+    # buyer's terms beside the hero form, naming what the sample
+    # lets the buyer verify, never the process that built it. The
+    # two ad-landing packs carry Beacon's exact lines; the rest are
+    # generated from the pack's own facts in the same form.
+    n = SAMPLE_COUNTS.get(p["id"], 50 if p["family"] == "county" else 15)
+    if p["id"] == "dallas-absentee":
+        return ("50 real Dallas rows, owner names and mailing addresses unmasked "
+                "in the file, so you can spot check the county roll before you pay $49.")
+    if p["id"] == "dallas-code-cases":
+        return ("50 real open requests with the owner named and the days open "
+                "shown, the way the weekly file ships.")
+    if p["family"] == "trade":
+        return (f"{n} real rows, phone numbers and published emails unmasked in "
+                f"the file, so you can call the first business before you pay {money(p['price'])}.")
+    return (f"{n} real rows, owner names and mailing addresses unmasked in the "
+            f"file, so you can spot check the source record before you pay {money(p['price'])}.")
+
+
+def hero_sample_block(p):
+    # C3: the hero carries the ask itself (the C2 email-only form),
+    # not an anchor promising one below. The sample section keeps
+    # its form as the second ask.
+    if not p.get("price"):
+        return ""
+    return f"""
+      <div class="hero-sample">
+        <form class="capture capture-hero" data-capture>
+          <input type="hidden" name="pack_id" value="{p['id']}">
+          <label>Email for the sample file<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
+          <button class="btn btn-gold" type="submit">Email me the free sample</button>
+          <p class="capture-status" role="status"></p>
+        </form>
+        <p class="buyer-line">{esc(hero_proof(p))}</p>
+        <p class="fineprint">The file arrives by email, in CSV and Excel, the exact format of the full pack, carrying every field unmasked.</p>
+      </div>"""
+
+
 def build_pack(p):
     prefix = "../"
     used_stats = set()
@@ -734,7 +773,13 @@ def build_pack(p):
         for s in p["stats"]
     )
     inside = "".join(f"<li>{esc(i)}</li>" for i in p["inside"])
-    fresh = f"Data as of {fmt_date(p['data_as_of'])}. {esc(p['refresh_schedule'])}."
+    # C8: on pages carrying a source line, the hero leads with the
+    # refresh cadence; the vintage lives in the source line's prose
+    # (generated from the pull date) directly below, so an October
+    # pull date never argues against the freshness claim at the
+    # moment of decision.
+    fresh = (f"{esc(p['refresh_schedule'])}." if p.get("source_line")
+             else f"Data as of {fmt_date(p['data_as_of'])}. {esc(p['refresh_schedule'])}.")
     page = chrome(prefix, f"{p['title']}: ParcelReady",
                   f"{p['tagline']}. {p['rows_label']}. Data as of {fmt_date(p['data_as_of'])}. Free sample viewable on the page.") + f"""
 <nav class="crumbs wrap" aria-label="Breadcrumb">
@@ -755,9 +800,9 @@ def build_pack(p):
       <p class="buyer-line">Coverage: {esc(p['coverage'])}{metro_link(p)}.</p>
       <div class="pack-actions">
         {buy_button(p)}
-        <a class="btn btn-ghost" href="#sample">{esc(p['sample_label'])}</a>
       </div>
-      <p class="fineprint">{fresh} {'Sold and delivered through Gumroad.' if p.get("store", {}).get("mode") == "gumroad" else 'Sold and delivered on this site.'}</p>
+      {hero_sample_block(p)}
+      <p class="fineprint">{fresh} {'Sold and delivered through Gumroad.' if p.get("store", {}).get("mode") == "gumroad" and p['id'] != "free-sample-pack" else 'Sold and delivered on this site.'}</p>
       {('<p class="fineprint">' + esc(p['source_line']) + '</p>') if p.get('source_line') else ''}
       {mini_preview(p)}
     </div>
@@ -901,8 +946,9 @@ def state_capture(name, live):
     stores cleanly (no pack is involved)."""
     if live:
         head = f"Get a free {esc(name)} sample"
-        line = ("Tell us where to send it. Requests are recorded with the state "
-                "as their source, and the follow up comes from hello@parcelreadydata.com.")
+        # C5: the payoff line replaces the process line on live hubs;
+        # the ad buyer classifies nothing before receiving the sample.
+        line = f"Real rows from a live {esc(name)} pack, by email. No checkout."
         success = ("Recorded. Our team follows up from hello@parcelreadydata.com "
                    "with the right sample for your trade.")
     else:
@@ -923,12 +969,13 @@ def state_capture(name, live):
       <input type="hidden" name="source" value="state-hub">
       <input type="hidden" name="state" value="{esc(name)}">
       <input type="hidden" name="state_has_packs" value="{'1' if live else '0'}">
-      <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
+      {'' if live else '<label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>'}
       <label>Email for the sample<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
-      <label>Trade or data type<select name="trade"><option value="">Any / first available</option>{options}</select></label>
+      <label>Trade or data type (optional)<select name="trade"><option value="">Any / first available</option>{options}</select></label>
       <button class="btn btn-gold" type="submit">Request the sample</button>
       <p class="capture-status" role="status"></p>
     </form>
+    {'<p class="fineprint">The file arrives by email, in CSV and Excel, the exact format of the full pack, carrying every field unmasked.</p>' if live else ''}
   </div>
 </section>"""
 
