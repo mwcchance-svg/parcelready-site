@@ -317,6 +317,46 @@ def label_plate(p):
 </div></section>"""
 
 
+def mini_preview(p):
+    """Beauty spec B3: a compact live preview in the first screen,
+    beside the buy block. Five masked rows drawn from the same teaser
+    data as the full preview below; the full table stays lower."""
+    path = os.path.join(ROOT, "assets", "data", f"{p['id']}-sample.json")
+    if not os.path.exists(path):
+        return ""
+    try:
+        d = json.load(open(path))
+    except Exception:
+        return ""
+    cols_all = d["columns"]
+    if p["family"] == "trade":
+        want = ["Business name", "City", "Phone", "Published email"]
+    else:
+        want = ["Owner Name", "Property Address", "Property City"]
+        val = next((c for c in cols_all if "Market Value" in c or "Total Amount Due" in c), None)
+        if val:
+            want.append(val)
+    cols = [c for c in want if c in cols_all] or cols_all[:4]
+
+    def cell(c, v):
+        v = "" if v is None else str(v)
+        if ("Market Value" in c or "Total Amount Due" in c) and v.replace(",", "").isdigit():
+            return "$" + f"{int(v.replace(',', '')):,}"
+        return v
+
+    head = "".join(f"<th>{esc(c)}</th>" for c in cols)
+    body = "".join(
+        "<tr>" + "".join(f"<td>{esc(cell(c, r.get(c, '')))}</td>" for c in cols) + "</tr>"
+        for r in d["rows"][:5])
+    total = d.get("sample_total", len(d["rows"]))
+    return f"""
+      <div class="mini-preview">
+        <p class="mini-head"><span>Live preview · first 5 rows</span><span>{total} preview rows in all</span></p>
+        <table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>
+        <p class="mini-foot">Real rows from this pack, contact details masked on screen. <a href="#sample">See the full preview below</a>; the delivered sample carries every field.</p>
+      </div>"""
+
+
 def sample_section(p):
     if p["id"] not in SAMPLE_COUNTS:
         return f"""
@@ -488,6 +528,7 @@ def build_pack(p):
       </div>
       <p class="fineprint">{fresh} {'Sold and delivered through Gumroad.' if p.get("store", {}).get("mode") == "gumroad" else 'Sold and delivered on this site.'}</p>
       {('<p class="fineprint">' + esc(p['source_line']) + '</p>') if p.get('source_line') else ''}
+      {mini_preview(p)}
     </div>
     <figure class="pack-cover reveal"><img src="../{p['cover']}" alt="{esc(p['title'])} data preview cover"></figure>
   </div>
