@@ -1,3 +1,30 @@
+  const cents = Math.round(oneTime ? (pack.one_time_cents || 0) : (pack.price_cents || 0));
+  const sub = !oneTime && pack.store.billing === "subscription";
+  const prices = await stripeGet("prices", { product: product.id, active: "true", limit: "100" });
+  const match = (prices.data || []).find((pr: any) => {
+    if (pr.unit_amount !== cents || pr.currency !== "usd") return false;
+    if (taxOn() && pr.tax_behavior !== "inclusive") return false;
+    if (!sub) return !pr.recurring;
+    return (
+      pr.recurring &&
+      pr.recurring.interval === (pack.interval || "month") &&
+      pr.recurring.interval_count === (pack.interval_count || 1)
+    );
+  });
+  let price = match;
+  if (!price) {
+    const params: Record<string, string> = {
+      product: product.id,
+      unit_amount: String(cents),
+      currency: "usd",
+      "metadata[pack_id]": pack.id,
+    };
+    if (sub) {
+      params["recurring[interval]"] = pack.interval || "month";
+      if ((pack.interval_count || 1) > 1) params["recurring[interval_count]"] = String(pack.interval_count);
+    }
+    // Under TAX_MODE stripe_tax the price is created tax-inclusive, so
+    // the sticker stays the whole price and the tax carves out of it.
     // With tax off, no tax behavior is assigned (the pre-ruling shape).
     if (taxOn()) params.tax_behavior = "inclusive";
     price = await stripePost("prices", params);
@@ -167,28 +194,3 @@ async function packForPrice(priceId: string) {
 async function handleWebhook(req: Request) {
   const raw = await req.text();
   if (!(await verifyStripe(req, raw))) return new Response("bad signature", { status: 400 });
-  const event = JSON.parse(raw);
-  if (event.type === "checkout.session.completed") {
-    const s = event.data.object;
-    const pack = packById(s.metadata && s.metadata.pack_id);
-    const email = s.customer_details && s.customer_details.email;
-    if (pack && email) {
-      await deliver(pack, email, "purchase");
-      await sendEmail(
-        env("LEADS_INBOX") || "hello@parcelreadydata.com",
-        `ParcelReady sale: ${pack.title}`,
-        ...saleNotice(pack, email, s.amount_total, s.currency, false)
-      );
-    }
-  }
-  if (event.type === "invoice.paid") {
-    const line = event.data.object.lines && event.data.object.lines.data[0];
-    const priceId = line && line.price && line.price.id;
-    const pack = priceId ? await packForPrice(priceId) : null;
-    const email = event.data.object.customer_email;
-    // The first invoice is already covered by checkout.session.completed.
-    if (pack && email && event.data.object.billing_reason !== "subscription_create") {
-      await deliver(pack, email, "refresh");
-      await sendEmail(
-        env("LEADS_INBOX") || "hello@parcelreadydata.com",
-        `ParcelReady renewal: ${pack.title}`,

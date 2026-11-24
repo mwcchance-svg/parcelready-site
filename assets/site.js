@@ -65,7 +65,7 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
         '<p class="explorer-count"></p>';
       var tbody = mount.querySelector("tbody");
       var count = mount.querySelector(".explorer-count");
-      function show(v) { return v === "" ? '<span class="blank-cell">blank</span>' : v; }
+      function show(v) { return v === "" ? '<span class="absent-mark">·</span>' : v; }
       function render() {
         var rows = data.rows.filter(function (r) {
           if (mode === "email" && !r["Published email"]) return false;
@@ -77,13 +77,22 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
           }
           return true;
         });
+        function cellHtml(c, r) {
+          var v = show(r[c]);
+          if (c === "Reach" && r["Reach note"]) v += ' <span class="reach-note">' + r["Reach note"] + "</span>";
+          return "<td>" + v + "</td>";
+        }
         tbody.innerHTML = rows.map(function (r) {
-          return "<tr>" + data.columns.map(function (c) { return "<td>" + show(r[c]) + "</td>"; }).join("") + "</tr>";
+          return "<tr>" + data.columns.map(function (c) { return cellHtml(c, r); }).join("") + "</tr>";
         }).join("") || '<tr><td colspan="' + data.columns.length + '">No rows match. That is the data being honest, not a filter bug.</td></tr>';
-        count.textContent = "Preview: " + rows.length + " of " + Number(data.sample_total || data.rows.length).toLocaleString() + " rows from a " +
-          (data.sample_percent || 10) + "% draw of the full file (" + Number(data.full_total).toLocaleString() + " records)" +
-          (data.masked ? ", contact details masked on screen" : "") +
-          (data.delivered_total ? " · the delivered free sample is " + data.delivered_total + " rows with every field, by email below" : "");
+        count.textContent = data.draw_kind === "fullest"
+          ? "Preview: " + rows.length + " of " + Number(data.sample_total || data.rows.length).toLocaleString() + " rows, the fullest rows of the full file (" + Number(data.full_total).toLocaleString() + " records)" +
+            (data.masked ? ", contact details masked on screen" : "") +
+            (data.delivered_total ? " · the delivered free sample is " + data.delivered_total + " rows with every field, by email below" : "")
+          : "Preview: " + rows.length + " of " + Number(data.sample_total || data.rows.length).toLocaleString() + " rows from a " +
+            (data.sample_percent || 10) + "% draw of the full file (" + Number(data.full_total).toLocaleString() + " records)" +
+            (data.masked ? ", contact details masked on screen" : "") +
+            (data.delivered_total ? " · the delivered free sample is " + data.delivered_total + " rows with every field, by email below" : "");
       }
       mount.querySelector(".explorer-search").addEventListener("input", function (e) {
         query = e.target.value.trim().toLowerCase(); render();

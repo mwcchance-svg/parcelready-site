@@ -252,7 +252,8 @@ section { padding: 5.2rem 0; }
 .explorer-search:focus { outline: 2px solid var(--gold); border-color: transparent; }
 .explorer-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .explorer-count { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; opacity: 0.65; margin-top: 0.8rem; }
-.blank-cell { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; opacity: 0.45; font-style: italic; }
+.absent-mark { font-family: "IBM Plex Mono", monospace; opacity: 0.45; display: block; text-align: center; }
+.reach-note { opacity: 0.55; font-size: 0.85em; }
 .wontdo { background: var(--paper); color: var(--ink); }
 .wontdo .kicker { color: var(--green-700); }
 .wontdo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin-top: 1.5rem; border-top: 1px solid var(--line-dark); }

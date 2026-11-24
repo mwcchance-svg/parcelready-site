@@ -1,3 +1,28 @@
+  const event = JSON.parse(raw);
+  if (event.type === "checkout.session.completed") {
+    const s = event.data.object;
+    const pack = packById(s.metadata && s.metadata.pack_id);
+    const email = s.customer_details && s.customer_details.email;
+    if (pack && email) {
+      await deliver(pack, email, "purchase");
+      await sendEmail(
+        env("LEADS_INBOX") || "hello@parcelreadydata.com",
+        `ParcelReady sale: ${pack.title}`,
+        ...saleNotice(pack, email, s.amount_total, s.currency, false)
+      );
+    }
+  }
+  if (event.type === "invoice.paid") {
+    const line = event.data.object.lines && event.data.object.lines.data[0];
+    const priceId = line && line.price && line.price.id;
+    const pack = priceId ? await packForPrice(priceId) : null;
+    const email = event.data.object.customer_email;
+    // The first invoice is already covered by checkout.session.completed.
+    if (pack && email && event.data.object.billing_reason !== "subscription_create") {
+      await deliver(pack, email, "refresh");
+      await sendEmail(
+        env("LEADS_INBOX") || "hello@parcelreadydata.com",
+        `ParcelReady renewal: ${pack.title}`,
         ...saleNotice(pack, email, event.data.object.amount_paid, event.data.object.currency, true)
       );
     }
@@ -157,23 +182,3 @@ async function handleDownload(req: Request) {
   const token = url.searchParams.get("token");
   if (!token) return new Response("missing token", { status: 400 });
   const rows = await rest(
-    `delivery_tokens?token=eq.${encodeURIComponent(token)}&select=pack_id,kind,expires_at`
-  );
-  const record = rows && rows.length ? rows[0] : null;
-  if (!record || new Date(record.expires_at).getTime() < Date.now()) {
-    return new Response("link expired or invalid", { status: 403 });
-  }
-  const pack = packById(record.pack_id);
-  // Format choice (Atlas's ruling, Nov 23, 2026): the same token
-  // serves both formats; ?format=xlsx swaps the staged CSV key for
-  // its XLSX sibling. No format parameter means CSV, so every link
-  // already in a buyer's inbox keeps working exactly as before.
-  const xlsx = url.searchParams.get("format") === "xlsx";
-  let key = record.kind === "sample" ? pack.sample_file_key : pack.file_key;
-  if (!key) return new Response("file not staged yet", { status: 404 });
-  // B8: a sample key that IS an xlsx (the Free Sample Pack workbook)
-  // serves as XLSX under either format parameter.
-  const workbook = key.endsWith(".xlsx");
-  if (xlsx && !workbook) key = key.replace(/\.csv$/, ".xlsx");
-  const object = await storageObject(key);
-  if (!object) return new Response("file not staged yet", { status: 404 });

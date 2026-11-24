@@ -220,6 +220,23 @@ async function deliver(pack: any, email: string, kind: string) {
   // format), so its sample email carries a single download.
   const isWorkbook = isSample && typeof pack.sample_file_key === "string" &&
     pack.sample_file_key.endsWith(".xlsx");
+  // A2 amendment completion (HQ, Nov 24, 2026): a trade sample's
+  // recipient may never return to the page, so the file's true
+  // coverage rates travel with the delivery. The figures are the
+  // registry's coverage block, computed from the delivered file at
+  // site build time, identical to the Label's printed line. The
+  // copy states what the sample is (the file's fullest rows) and
+  // claims no representativeness.
+  const cov = isSample && !isWorkbook && pack.coverage ? pack.coverage : null;
+  const covText = cov
+    ? `The sample shows the pack's fullest rows. Across the full file, a phone is listed ` +
+      `on ${cov.phone}% of rows, a published email on ${cov.email}%, and a website on ` +
+      `${cov.website}%. Those are the file's true rates, the same ones printed on the ` +
+      `pack's label.\n\n`
+    : "";
+  const covHtml = cov
+    ? `<p style="margin:14px 0 0;">The sample shows the pack's fullest rows. Across the full file, a phone is listed on ${cov.phone}% of rows, a published email on ${cov.email}%, and a website on ${cov.website}%. Those are the file's true rates, the same ones printed on the pack's label.</p>`
+    : "";
   const text = isWorkbook
     ? `Thank you for asking to see the data first. That is exactly what the sample is for.\n\n` +
       `Your free sample of ${pack.title} is ready: one Excel workbook with a sheet for every ` +
@@ -235,6 +252,7 @@ async function deliver(pack: any, email: string, kind: string) {
       `pack ships them, so you can judge the data the way it will actually arrive. It comes in ` +
       `two formats: CSV, which opens straight into Google Sheets, and XLSX, the same data in ` +
       `Excel's own format.\n\n` +
+      covText +
       `Download CSV:\n${link}\n\nDownload XLSX:\n${linkXlsx}\n\n${WARM_WINDOW}\n\n` +
       `If the sample earns its keep, the full pack is listed on parcelreadydata.com with its ` +
       `record count, its exact pull date, and its refresh schedule printed on the label.\n\n` +
@@ -259,6 +277,7 @@ async function deliver(pack: any, email: string, kind: string) {
       (isWorkbook
         ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px;"><tr><td style="background:#E9B949;border-radius:8px;"><a href="${escHtml(link)}" style="display:inline-block;padding:13px 26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#122B1E;text-decoration:none;">Download the workbook</a></td></tr></table>`
         : downloadBlockHtml(link, linkXlsx)) +
+      covHtml +
       WARM_WINDOW_HTML +
       (isSample
         ? `<p style="margin:16px 0 0;">If the sample earns its keep, the full pack is listed on parcelreadydata.com with its record count, its exact pull date, and its refresh schedule printed on the label.</p>`

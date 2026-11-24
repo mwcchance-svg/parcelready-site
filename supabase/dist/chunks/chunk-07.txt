@@ -1,3 +1,23 @@
+    `delivery_tokens?token=eq.${encodeURIComponent(token)}&select=pack_id,kind,expires_at`
+  );
+  const record = rows && rows.length ? rows[0] : null;
+  if (!record || new Date(record.expires_at).getTime() < Date.now()) {
+    return new Response("link expired or invalid", { status: 403 });
+  }
+  const pack = packById(record.pack_id);
+  // Format choice (Atlas's ruling, Nov 23, 2026): the same token
+  // serves both formats; ?format=xlsx swaps the staged CSV key for
+  // its XLSX sibling. No format parameter means CSV, so every link
+  // already in a buyer's inbox keeps working exactly as before.
+  const xlsx = url.searchParams.get("format") === "xlsx";
+  let key = record.kind === "sample" ? pack.sample_file_key : pack.file_key;
+  if (!key) return new Response("file not staged yet", { status: 404 });
+  // B8: a sample key that IS an xlsx (the Free Sample Pack workbook)
+  // serves as XLSX under either format parameter.
+  const workbook = key.endsWith(".xlsx");
+  if (xlsx && !workbook) key = key.replace(/\.csv$/, ".xlsx");
+  const object = await storageObject(key);
+  if (!object) return new Response("file not staged yet", { status: 404 });
   return new Response(object.body, {
     headers: {
       "Content-Type": (xlsx || workbook) ? XLSX_TYPE : "text/csv; charset=utf-8",

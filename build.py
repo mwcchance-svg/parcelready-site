@@ -51,7 +51,7 @@ TRADE_SAMPLE_CSVS = {
     "houston-hvac": os.path.join(LEAD, "houston-hvac", "houston-hvac-sample-2026-11-16.csv"),
     "austin-sa-roofing": os.path.join(LEAD, "austin-sa-roofing", "austin-sa-roofing-sample-2026-11-16.csv"),
 }
-TRADE_COLS = ["Business name", "City", "Published email", "Phone", "Contact form present", "Rating", "Review count", "Gap flags"]
+TRADE_COLS = ["Business name", "City", "Published email", "Phone", "Rating", "Reach"]
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 BASE = "https://parcelreadydata.com"
 
@@ -203,133 +203,71 @@ def _a3_code_cases_figures():
 _a3_code_cases_figures()
 
 
-def _spread(rs, n):
-    if n <= 0 or not rs:
-        return []
-    step = max(1, len(rs) // n)
-    return rs[::step][:n]
+def fullest_draw(rows, target):
+    """A4 amendment (Matt's call via HQ, Nov 24, 2026, superseding
+    the A2 representative draw for previews and delivered samples):
+    the sample takes the delivered file's fullest real rows, ranked
+    by completeness on the lead fields (phone, published email,
+    website, rating), fullest first; ties break on rating presence,
+    then file order. Every row is a real row from the file, verbatim;
+    nothing is fabricated, merged, or completed. No surface claims
+    the sample is representative: the density truth lives on the
+    Label's coverage line, computed from the whole file."""
+    def score(r):
+        return sum(1 for f in ("Phone", "Published email", "Website", "Rating")
+                   if (r.get(f) or "").strip())
+    ranked = sorted(enumerate(rows),
+                    key=lambda t: (-score(t[1]),
+                                   0 if (t[1].get("Rating") or "").strip() else 1,
+                                   t[0]))
+    return [r for _, r in ranked[:target]]
 
 
-def _interleave(a, b):
-    out, ia, ib = [], 0, 0
-    total = len(a) + len(b)
-    for i in range(total):
-        if ia < len(a) and (i + 1) * len(a) // total > i * len(a) // total:
-            out.append(a[ia]); ia += 1
-        elif ib < len(b):
-            out.append(b[ib]); ib += 1
-        elif ia < len(a):
-            out.append(a[ia]); ia += 1
-    return out
+def combined_rating(r):
+    """A4 rule 2: rating and review count are one fact (reputation)
+    in the preview, rendered together; the delivered file keeps
+    both fields separately, unchanged."""
+    rating = (r.get("Rating") or "").strip()
+    count = (r.get("Review count") or "").strip()
+    return " · ".join(x for x in (rating, count) if x)
 
 
-def _stratified_pick(rows, n, fields):
-    """Pick n rows from rows so the share carrying fields[0] matches
-    the share in rows as closely as n allows, spread evenly within
-    each stratum and interleaved. Each stratum's pick recurses on
-    the remaining fields, so correlated fields track too: in the
-    trade files a single-field draw on email dragged rating over 20
-    points high, and a two-field draw caught two of the file's only
-    three website-less rows."""
-    if n <= 0 or not rows:
-        return []
-    if not fields:
-        return _spread(rows, n)
-    field = fields[0]
-    have = [r for r in rows if (r.get(field) or "").strip()]
-    have_not = [r for r in rows if not (r.get(field) or "").strip()]
-    k = round(len(have) / len(rows) * n)
-    k = max(0, min(n, k, len(have)))
-    rest = n - k
-    if rest > len(have_not):
-        k += rest - len(have_not)
-        rest = len(have_not)
-    a = _stratified_pick(have, k, fields[1:])
-    b = _stratified_pick(have_not, rest, fields[1:])
-    return _interleave(a, b)
+REACH_NOTES = (("no published email", "phone is the route"),
+               ("no contact form", "no form, phone or email"),
+               ("no online booking", "books by phone"))
 
 
-LEAD_FIELDS = ["Published email", "Phone", "Rating", "Review count"]
+def reach_channels(r):
+    """A4 rule 3: the row's working channels first, compact text."""
+    ch = []
+    if (r.get("Phone") or "").strip():
+        ch.append("Phone")
+    if (r.get("Website") or "").strip():
+        ch.append("Website")
+    if (r.get("Contact form present") or "").strip() == "Yes":
+        ch.append("Form")
+    return " · ".join(ch)
 
 
-def _window_fix(draw, full):
-    """Relay's A2 window rule (Nov 24, 2026): the first 5 rows of the
-    preview are tested as their own window (tolerance the larger of
-    10 points or one row's weight there, 20 points). If a lead field
-    misses in the window, swap the earliest window row lacking the
-    field with the nearest later draw row carrying it. Swaps change
-    only order, never the draw's own rates. Bounded and checked
-    after every swap; deterministic.
-
-    Relay's composition rule (Nov 24, 2026, for the A4 pass) rides
-    the same pass: (1) the first row is never blank on all three of
-    email, rating, and review count at once; (2) no two consecutive
-    rows inside the first five are all-blank on those fields.
-    All-blank rows are NOT barred from the window (they are 38.7%
-    of the HVAC file; a window with none would oversell the other
-    way). Composition swaps prefer partners inside the window so
-    the window's rates are untouched; a swap that reaches outside
-    re-enters the rate check."""
-    def rate(rs, f):
-        return 100.0 * sum(1 for r in rs if (r.get(f) or "").strip()) / len(rs) if rs else 0.0
-
-    def all_blank(r):
-        return not any((r.get(f) or "").strip()
-                       for f in ("Published email", "Rating", "Review count"))
-
-    tol = max(10.0, 100.0 / 5)
-    for _ in range(20):
-        bad = None
-        for f in LEAD_FIELDS:
-            if abs(rate(draw[:5], f) - rate(full, f)) > tol:
-                bad = f
-                break
-        if bad is not None:
-            swap_in = next((i for i in range(5, len(draw)) if (draw[i].get(bad) or "").strip()), None)
-            swap_out = next((i for i in range(4, -1, -1) if not (draw[i].get(bad) or "").strip()), None)
-            if swap_in is None or swap_out is None:
-                return draw
-            draw[swap_out], draw[swap_in] = draw[swap_in], draw[swap_out]
-            continue
-        # Composition: find the first violation position.
-        pos = None
-        if draw and all_blank(draw[0]):
-            pos = 0
-        else:
-            for i in range(4):
-                if all_blank(draw[i]) and all_blank(draw[i + 1]):
-                    pos = i + 1
-                    break
-        if pos is None:
-            return draw
-        partner = next((i for i in range(pos + 1, 5) if not all_blank(draw[i])), None)
-        if partner is None:
-            partner = next((i for i in range(5, len(draw)) if not all_blank(draw[i])), None)
-        if partner is None:
-            return draw
-        draw[pos], draw[partner] = draw[partner], draw[pos]
-    return draw
-
-
-def representative_draw(rows, target):
-    """A2 (HQ ruling, Nov 24, 2026, on Relay's fill-rate facts): a
-    trade sample whose lead-field fill rates match the full file's
-    true rates as closely as the sample size allows, in the whole
-    draw and in the first-5 window, under Relay's named tolerance
-    (the larger of 10 points or one row's weight). Deterministic,
-    so builds are reproducible and Relay's representativeness check
-    can re-derive the same draw."""
-    draw = _stratified_pick(rows, target,
-                            ["Published email", "Rating", "Review count", "Website"])
-    return _window_fix(draw, rows)
+def reach_note(r):
+    """A4 rule 3: at most one muted note naming the opening in buyer
+    terms, from the fixed vocabulary mapped to the flag set.
+    Priority follows the lead fields: email, then form, then
+    booking. Flags outside the vocabulary carry no note."""
+    flags = (r.get("Gap flags") or "").lower()
+    for needle, note in REACH_NOTES:
+        if needle in flags:
+            return note
+    return ""
 
 
 def write_sample_json():
     """The free sample is a fixed percentage of the full file (Matt's ruling,
     Nov 22, 2026). County samples draw systematically (every Nth row);
-    trade samples draw representatively under A2 (see above). Emits
-    the explorer JSON (first 500 sample rows) and the delivery CSV
-    (the full sample) staged for R2 under delivery/samples/."""
+    trade samples take the file's fullest rows under the A4 amendment
+    (see fullest_draw above). Emits the explorer JSON (first 500
+    sample rows) and the delivery CSV (the full sample) staged for
+    R2 under delivery/samples/."""
     pct = CATALOG.get("sample_percent", 10)
     step = max(1, round(100 / pct))
     os.makedirs(os.path.join(ROOT, "assets", "data"), exist_ok=True)
@@ -345,20 +283,17 @@ def write_sample_json():
             all_rows = list(reader)
         target = max(15, min(50, round(len(all_rows) * pct / 100)))
         if p["family"] == "trade":
-            delivered = representative_draw(all_rows, target)
+            delivered = fullest_draw(all_rows, target)
             def _rate(rs, f):
                 return 100.0 * sum(1 for r in rs if (r.get(f) or "").strip()) / len(rs) if rs else 0.0
-            print(f"A2 DRAW {p['id']}: email file {_rate(all_rows, 'Published email'):.1f}% "
-                  f"sample {_rate(delivered, 'Published email'):.1f}% | "
-                  f"rating file {_rate(all_rows, 'Rating'):.1f}% sample {_rate(delivered, 'Rating'):.1f}% | "
-                  f"reviews file {_rate(all_rows, 'Review count'):.1f}% sample {_rate(delivered, 'Review count'):.1f}% | "
-                  f"first5 email {_rate(delivered[:5], 'Published email'):.1f}% rating {_rate(delivered[:5], 'Rating'):.1f}% "
-                  f"reviews {_rate(delivered[:5], 'Review count'):.1f}%")
+            print(f"A4 FULLEST {p['id']}: sample email {_rate(delivered, 'Published email'):.1f}% "
+                  f"(file {_rate(all_rows, 'Published email'):.1f}%, stated on the Label) | "
+                  f"sample rows are the file's fullest, verbatim")
         else:
             dstep = max(1, len(all_rows) // target)
             delivered = all_rows[::dstep][:target]
         kind = "trade" if p["family"] == "trade" else "county"
-        cols = [c for c in TRADE_COLS if c in headers] if kind == "trade" else headers
+        cols = list(TRADE_COLS) if kind == "trade" else headers
         if len(cols) < 4:
             cols = headers
         # The on-page preview IS the delivered sample (Beacon fix
@@ -377,17 +312,27 @@ def write_sample_json():
             draw.sort(key=_key, reverse=bool(ts.get("desc", True)))
         teaser = []
         for r in draw[:25]:
-            row = {c: (r.get(c) or "") for c in cols}
             if kind == "trade":
                 # Proof surface, not a delivery surface (Matt's ruling,
                 # Nov 23, 2026): contact values never ship in the page
                 # data. Presence is shown; the values travel only in
-                # the delivered sample file.
-                if "Published email" in row:
-                    row["Published email"] = "Published" if row["Published email"] else ""
-                if "Phone" in row:
-                    row["Phone"] = "Listed" if row["Phone"] else ""
+                # the delivered sample file. A4 reshapes the preview:
+                # rating and review count combine (rule 2) and the gap
+                # flags become the Reach column (rule 3). "Contact
+                # form present" rides hidden for the explorer's filter
+                # chips; the delivered file keeps every field as-is.
+                row = {
+                    "Business name": r.get("Business name") or "",
+                    "City": r.get("City") or "",
+                    "Published email": "Published" if (r.get("Published email") or "").strip() else "",
+                    "Phone": "Listed" if (r.get("Phone") or "").strip() else "",
+                    "Rating": combined_rating(r),
+                    "Reach": reach_channels(r),
+                    "Reach note": reach_note(r),
+                    "Contact form present": r.get("Contact form present") or "",
+                }
             else:
+                row = {c: (r.get(c) or "") for c in cols}
                 # County packs mask under the same standard (HQ
                 # ruling, Nov 23, 2026, Beacon fix spec 6): the owner
                 # name and the mailing street address never ship in
@@ -403,6 +348,7 @@ def write_sample_json():
             json.dump({"columns": cols,
                        "rows": teaser,
                        "kind": kind, "masked": True,
+                       "draw_kind": "fullest" if kind == "trade" else "systematic",
                        "sample_total": len(delivered),
                        "delivered_total": len(delivered),
                        "full_total": p["rows"] if isinstance(p["rows"], int) else len(all_rows),
@@ -558,8 +504,16 @@ def mini_preview(p):
         return v
 
     head = "".join(f"<th>{esc(c)}</th>" for c in cols)
+
+    def td(c, r):
+        v = cell(c, r.get(c, ""))
+        if v == "":
+            # A4 rule 1: absence renders as a muted mark, never a word.
+            return '<td><span class="absent-mark">·</span></td>'
+        return f"<td>{esc(v)}</td>"
+
     body = "".join(
-        "<tr>" + "".join(f"<td>{esc(cell(c, r.get(c, '')))}</td>" for c in cols) + "</tr>"
+        "<tr>" + "".join(td(c, r) for c in cols) + "</tr>"
         for r in d["rows"][:5])
     total = d.get("sample_total", len(d["rows"]))
     return f"""
@@ -619,7 +573,8 @@ def sample_section(p):
       <div class="wrap">
         <p class="kicker">Free sample, viewable right here</p>
         <h2>Inspect the data before you spend a dollar</h2>
-        <p class="explorer-sub">What you see here is the proof surface: real rows {"drawn to represent the full file, so the coverage you see matches the coverage the file carries (the true rates are printed on the label)" if kind == "trade" else "drawn evenly from the full file"}, real counts, and the same fields the pack carries, with contact details masked on screen. The free sample file itself, {CATALOG.get("sample_percent", 10)} percent of the full file (15 rows at minimum, 50 at most, the same rule on every pack in the catalog), carries every field exactly as it ships, and it is delivered by email below. Inspect the structure and the counts here; the usable file comes by email.</p>
+        <p class="explorer-sub">What you see here is the proof surface: {"the fullest real rows from the delivered file, every field exactly as it ships, with contact details masked on screen. The pack's true coverage rates, for the whole file, are printed on the label above" if kind == "trade" else "real rows drawn evenly from the full file, real counts, and the same fields the pack carries, with contact details masked on screen"}. The free sample file itself, {CATALOG.get("sample_percent", 10)} percent of the full file (15 rows at minimum, 50 at most, the same rule on every pack in the catalog), carries every field exactly as it ships, and it is delivered by email below. Inspect the structure and the counts here; the usable file comes by email.</p>
+        {"<p class=\"explorer-sub\">The Reach column is the point of the pack: it shows how each business actually takes work, phone first, and names the opening where the web channels are missing. These are the rows the scrapers skip, because there is nothing to scrape. The phone is the route in.</p>" if kind == "trade" else ""}
         <div class="explorer-frame">
           <p class="explorer-frame-head"><span>LIVE PREVIEW · {esc(p['title'].upper())}</span><span>PULLED {esc(fmt_date(p['data_as_of']).upper())}{' · CONTACT DETAILS MASKED' if kind == 'trade' else ''}</span></p>
           <div class="explorer" data-explorer="../assets/data/{p['id']}-sample.json"></div>
@@ -672,6 +627,12 @@ def write_store_registry():
             "interval": interval, "interval_count": count,
             "file_key": file_key, "sample_file_key": sample_key,
             "one_time_cents": int(round(p["one_time_price"] * 100)) if p.get("one_time_price") else None,
+            # A2 amendment completion (HQ, Nov 24, 2026): trade packs
+            # carry their true coverage rates into the registry so
+            # the delivery email can state the file's density beside
+            # the curated sample. Computed from the delivered file,
+            # the same figures the Label prints.
+            "coverage": (lambda cov: {"phone": cov[0], "email": cov[1], "website": cov[2]} if cov else None)(trade_coverage(p)) if p["family"] == "trade" else None,
         })
     out = os.path.join(ROOT, "worker", "store-registry.json")
     with open(out, "w") as f:
