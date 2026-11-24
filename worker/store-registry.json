@@ -407,6 +407,20 @@
    "sample_file_key": "samples/tarrant-commercial-sample.csv"
   },
   {
+   "id": "tarrant-out-of-area",
+   "title": "Tarrant County Owners Who Live Elsewhere",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/tarrant-out-of-area-2026-11-23.csv",
+   "sample_file_key": "samples/tarrant-out-of-area-sample.csv"
+  },
+  {
    "id": "collin-high-equity",
    "title": "Collin County High Equity Homeowners",
    "store": {

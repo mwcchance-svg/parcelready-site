@@ -1930,6 +1930,68 @@ window.CATALOG = {
    }
   },
   {
+   "build_date": "November 6, 2026 tax roll",
+   "buyer": "Investors who target out-of-state owners of Tarrant County property",
+   "category": "Real Estate",
+   "cover": "assets/covers/tarrant-out-of-area.png",
+   "coverage": "Tarrant County",
+   "data_as_of": "2026-11-06",
+   "family": "county",
+   "featured": false,
+   "id": "tarrant-out-of-area",
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address",
+    "Appraised market value from the tax roll",
+    "Year built and living area where the roll publishes them",
+    "Deed date and years owned",
+    "Segment and Tax Account on every record, for verification"
+   ],
+   "limits": "Built from the Tarrant County Tax Office's published tax roll (run date November 6, 2026), downloaded from the county, not scraped and not resold from another list vendor. This pack is the out-of-state segment only: segmentation reads a normalized, identified mailing state (state codes and full names, territories, and military codes), and an identified out-of-state value segments on its own. Records whose geography cannot be identified (747 in the test population) are counted and not shipped. The out-of-county limb is not determinable from this source, because the roll publishes no situs city or ZIP, and this label does not pretend otherwise. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 49
+   },
+   "metro": "Tarrant County",
+   "metro_id": "dfw",
+   "price": 49,
+   "price_note": "one time",
+   "refresh_schedule": "Refreshed monthly from the county's weekly roll releases",
+   "rows": 29843,
+   "rows_label": "29,843 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/tarrant-out-of-area.html",
+   "state": "TX",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "29,843"
+    },
+    {
+     "k": "Columns",
+     "v": "13"
+    },
+    {
+     "k": "Segment",
+     "v": "Out of state only"
+    },
+    {
+     "k": "Source",
+     "v": "County tax roll, Nov 6, 2026"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/tarrant/tarrant-out-of-area-2026-11-23.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "29,843 Tarrant County residential owners who live out of state",
+   "title": "Tarrant County Owners Who Live Elsewhere",
+   "trade": "Out-of-Area Owners"
+  },
+  {
    "id": "collin-high-equity",
    "title": "Collin County High Equity Homeowners",
    "tagline": "35,586 residential owners with modeled equity of 65 percent or more (ESTIMATE)",
