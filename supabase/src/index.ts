@@ -312,7 +312,7 @@ async function findProduct(pack: any) {
   return null;
 }
 
-async function ensurePrice(pack: any) {
+async function ensurePrice(pack: any, oneTime = false) {
   let product = await findProduct(pack);
   if (!product || !product.id) {
     const created: Record<string, string> = {
@@ -327,8 +327,11 @@ async function ensurePrice(pack: any) {
   } else if (taxOn() && product.tax_code !== TAX_CODE) {
     await stripePost(`products/${product.id}`, { tax_code: TAX_CODE });
   }
-  const cents = Math.round(pack.price_cents || 0);
-  const sub = pack.store.billing === "subscription";
+  // Spec 13 (HQ, Nov 23, 2026): a pack may carry a true one-time
+  // offer beside its subscription (Dallas Code Cases, $79 one time).
+  // oneTime ensures the non-recurring price at one_time_cents.
+  const cents = Math.round(oneTime ? (pack.one_time_cents || 0) : (pack.price_cents || 0));
+  const sub = !oneTime && pack.store.billing === "subscription";
   const prices = await stripeGet("prices", { product: product.id, active: "true", limit: "100" });
   const match = (prices.data || []).find((pr: any) => {
     if (pr.unit_amount !== cents || pr.currency !== "usd") return false;
@@ -364,10 +367,24 @@ async function ensurePrice(pack: any) {
     // Deliberate handling of pre-ruling prices: a price created before
     // the ruling carries no inclusive behavior and must never be picked
     // up silently once tax is on. Stripe prices cannot be deleted, so
-    // every other active price on this product is archived; exactly one
-    // live price per pack remains, the inclusive one above.
+    // every other active price on this product is archived, EXCEPT a
+    // price that legitimately belongs to one of the pack's own offers
+    // (its primary price, or its spec 13 one-time price): archiving
+    // those would make the two offers destroy each other at checkout.
+    const legit = (pr: any) => {
+      if (pr.currency !== "usd" || pr.tax_behavior !== "inclusive") return false;
+      const primarySub = pack.store.billing === "subscription";
+      if (pr.unit_amount === Math.round(pack.price_cents || 0)) {
+        if (!primarySub && !pr.recurring) return true;
+        if (primarySub && pr.recurring &&
+            pr.recurring.interval === (pack.interval || "month") &&
+            pr.recurring.interval_count === (pack.interval_count || 1)) return true;
+      }
+      if (pack.one_time_cents && pr.unit_amount === Math.round(pack.one_time_cents) && !pr.recurring) return true;
+      return false;
+    };
     for (const pr of prices.data || []) {
-      if (pr.id !== price.id && pr.active) {
+      if (pr.id !== price.id && pr.active && !legit(pr)) {
         await stripePost(`prices/${pr.id}`, { active: "false" }).catch(() => {});
       }
     }
@@ -449,17 +466,18 @@ async function handleAdminUpload(req: Request, url: URL) {
 }
 
 async function handleCheckout(req: Request) {
-  const { pack_id } = await req.json();
+  const { pack_id, variant } = await req.json();
   const pack = packById(pack_id);
   if (!pack || pack.store.mode !== "stripe") return json({ error: "pack_not purchasable_here" }, 400, req);
+  const oneTime = variant === "one_time" && !!pack.one_time_cents;
   let priceId;
   try {
-    priceId = await ensurePrice(pack);
+    priceId = await ensurePrice(pack, oneTime);
     await ensureWebhook().catch(() => {});
   } catch (err) {
     return json({ error: "sync_failed" }, 502, req);
   }
-  const sub = pack.store.billing === "subscription";
+  const sub = !oneTime && pack.store.billing === "subscription";
   const params: Record<string, string> = {
     mode: sub ? "subscription" : "payment",
     "line_items[0][price]": priceId,
@@ -467,6 +485,7 @@ async function handleCheckout(req: Request) {
     success_url: `${env("SITE_BASE")}/thanks.html?pack=${pack.id}`,
     cancel_url: `${env("SITE_BASE")}/packs/${pack.id}.html`,
     "metadata[pack_id]": pack.id,
+    "metadata[variant]": oneTime ? "one_time" : "standard",
   };
   if (sub) params["subscription_data[metadata][pack_id]"] = pack.id;
   else params["payment_intent_data[metadata][pack_id]"] = pack.id;
@@ -560,6 +579,8 @@ function leadNotice(lead: any, pack: any): [string, string] {
     ["Source page", lead.source_page || "Not given"],
     ["Received", when],
   ];
+  if (lead.metro) lines.splice(4, 0, ["Metro", lead.metro]);
+  if (lead.notes) lines.push(["Notes", lead.notes]);
   const text =
     `A new sample request came in through the site.\n\n` +
     lines.map(([k, v]) => `${k}: ${v}`).join("\n") +
@@ -635,6 +656,7 @@ async function handleSample(req: Request) {
     state: body.state || "",
     metro: body.metro || "",
     reply_route: body.reply_route || "",
+    notes: body.notes || "",
     pack_id: body.pack_id || "",
     source_page: body.source_page || "",
     request_kind: body.request_kind || "",

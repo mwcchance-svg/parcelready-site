@@ -1,3 +1,36 @@
+        ...saleNotice(pack, email, event.data.object.amount_paid, event.data.object.currency, true)
+      );
+    }
+  }
+  return json({ received: true });
+}
+
+/* Internal lead notification (Atlas's order, Nov 23, 2026, on Matt's
+   screenshot): the notice to the leads inbox wears the same clean
+   shell as the client emails and reads as plain lines, never a JSON
+   dump. Returns [text, html] for sendEmail. */
+function leadNotice(lead: any, pack: any): [string, string] {
+  const kind = lead.request_kind === "state"
+    ? "State hub request"
+    : pack
+      ? "Pack sample request"
+      : "Sample request";
+  const when = String(lead.at || "").replace("T", " ").replace(/\.\d+Z$/, " UTC");
+  const lines: Array<[string, string]> = [
+    ["Who asked", lead.business_name || "Not given"],
+    ["Email", lead.email || "Not given"],
+    ["State", lead.state || "Not given"],
+    ["Trade", lead.trade || (pack ? pack.category : "") || "Not given"],
+    ["Pack", pack ? pack.title : "None (no pack requested)"],
+    ["Request", kind],
+    ["Source page", lead.source_page || "Not given"],
+    ["Received", when],
+  ];
+  if (lead.metro) lines.splice(4, 0, ["Metro", lead.metro]);
+  if (lead.notes) lines.push(["Notes", lead.notes]);
+  const text =
+    `A new sample request came in through the site.\n\n` +
+    lines.map(([k, v]) => `${k}: ${v}`).join("\n") +
     `\n\nThe lead is recorded in the leads table, and the requester has been answered by the usual route.`;
   const rows = lines
     .map(([k, v]) =>
@@ -70,6 +103,7 @@ async function handleSample(req: Request) {
     state: body.state || "",
     metro: body.metro || "",
     reply_route: body.reply_route || "",
+    notes: body.notes || "",
     pack_id: body.pack_id || "",
     source_page: body.source_page || "",
     request_kind: body.request_kind || "",
@@ -143,34 +177,3 @@ async function handleDownload(req: Request) {
   if (xlsx && !workbook) key = key.replace(/\.csv$/, ".xlsx");
   const object = await storageObject(key);
   if (!object) return new Response("file not staged yet", { status: 404 });
-  return new Response(object.body, {
-    headers: {
-      "Content-Type": (xlsx || workbook) ? XLSX_TYPE : "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="${key.split("/").pop()}"`,
-    },
-  });
-}
-
-/* ---------------- router ---------------- */
-
-Deno.serve(async (req: Request) => {
-  const url = new URL(req.url);
-  const idx = url.pathname.indexOf("/api/");
-  const path = idx >= 0 ? url.pathname.slice(idx) : url.pathname;
-  try {
-    if (req.method === "OPTIONS" && path.startsWith("/api/")) {
-      const origin = req.headers.get("Origin") || "";
-      const allowed = (env("ALLOWED_ORIGINS") || env("SITE_BASE")).split(",").map((s) => s.trim());
-      return new Response(null, {
-        status: 204,
-        headers: {
-          "Access-Control-Allow-Origin": allowed.includes(origin) ? origin : env("SITE_BASE"),
-          "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type",
-        },
-      });
-    }
-    if (req.method === "POST" && path === "/api/checkout") return handleCheckout(req);
-    if (req.method === "POST" && path === "/api/webhook") return handleWebhook(req);
-    if (req.method === "POST" && path === "/api/sample") return handleSample(req);
-    if (req.method === "POST" && path === "/api/admin/sync") return handleAdminSync(req);

@@ -458,6 +458,7 @@ def write_store_registry():
             "price_cents": int(round(amt * 100)),
             "interval": interval, "interval_count": count,
             "file_key": file_key, "sample_file_key": sample_key,
+            "one_time_cents": int(round(p["one_time_price"] * 100)) if p.get("one_time_price") else None,
         })
     out = os.path.join(ROOT, "worker", "store-registry.json")
     with open(out, "w") as f:
@@ -485,6 +486,24 @@ def pricing_block(p):
     if (p.get("store") or {}).get("billing") == "subscription":
         frame = (f"A fresh snapshot costs {money(p['price'])} each time you pull it. Members hold the current "
                  f"file automatically, delivered on every refresh.")
+        # Spec 13 (HQ, Nov 23, 2026): a true one-time SKU beside the
+        # subscription, labeled as the current pull only; the weekly
+        # refreshes ride the subscription, stated plainly on the card.
+        onetime = ""
+        # The card renders only once the function build carrying the
+        # one-time checkout is deployed (catalog flag one_time_live);
+        # before that, a click would land on the subscription price,
+        # which is exactly the mislabeling spec 13 forbids.
+        if p.get("one_time_price") and p.get("one_time_live"):
+            onetime = f"""
+      <article class="offer-card">
+        <p class="meta">The current pull only</p>
+        <p class="offer-price">{money(p['one_time_price'])} <small>one time</small></p>
+        <p>This pull of the file, exactly as it stands today. Data as of {fmt_date(p['data_as_of'])}.</p>
+        <p class="stepup">The weekly refreshes ride the subscription. This one-time file does not refresh.</p>
+        <button class="btn btn-dark" data-checkout="{p['id']}" data-variant="one_time">Buy the current pull: {money(p['one_time_price'])}</button>
+        <p class="fineprint">Sold and delivered on this site.</p>
+      </article>"""
         return f"""
 <section class="pricing-offers">
   <div class="wrap">
@@ -497,7 +516,7 @@ def pricing_block(p):
         <p class="stepup">{esc(p['refresh_schedule'])}.</p>
         {buy_button(p)}
         <p class="fineprint">Sold and delivered on this site.</p>
-      </article>
+      </article>{onetime}
     </div>
   </div>
 </section>"""

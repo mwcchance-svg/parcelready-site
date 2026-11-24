@@ -12,7 +12,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/houston-hvac-pack-2026-11-16.csv",
-   "sample_file_key": "samples/houston-hvac-sample.csv"
+   "sample_file_key": "samples/houston-hvac-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "houston-plumbing",
@@ -26,7 +27,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/houston-plumbing-pack-2026-11-22.csv",
-   "sample_file_key": "samples/houston-plumbing-sample.csv"
+   "sample_file_key": "samples/houston-plumbing-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "austin-sa-roofing",
@@ -40,7 +42,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/austin-sa-roofing-pack-2026-11-16.csv",
-   "sample_file_key": "samples/austin-sa-roofing-sample.csv"
+   "sample_file_key": "samples/austin-sa-roofing-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-absentee",
@@ -54,7 +57,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas_absentee_longterm_full.csv",
-   "sample_file_key": "samples/dallas-absentee-sample.csv"
+   "sample_file_key": "samples/dallas-absentee-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-code-cases",
@@ -68,7 +72,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas_open_code_cases_v3.csv",
-   "sample_file_key": "samples/dallas-code-cases-sample.csv"
+   "sample_file_key": "samples/dallas-code-cases-sample.csv",
+   "one_time_cents": 7900
   },
   {
    "id": "dallas-permits",
@@ -82,7 +87,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas_permits_2026.csv",
-   "sample_file_key": "samples/dallas-permits-sample.csv"
+   "sample_file_key": "samples/dallas-permits-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "tarrant-tax-delinquent",
@@ -96,7 +102,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/tarrant-tax-delinquent-residential-2026-11-23.csv",
-   "sample_file_key": "samples/tarrant-tax-delinquent-sample.csv"
+   "sample_file_key": "samples/tarrant-tax-delinquent-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "tarrant-absentee",
@@ -110,7 +117,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/tarrant_absentee_longterm.csv",
-   "sample_file_key": "samples/tarrant-absentee-sample.csv"
+   "sample_file_key": "samples/tarrant-absentee-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-new-construction",
@@ -124,7 +132,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas_new_construction_permits_2026.csv",
-   "sample_file_key": "samples/dallas-new-construction-sample.csv"
+   "sample_file_key": "samples/dallas-new-construction-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-demolition",
@@ -138,7 +147,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas_demolition_permits_2026.csv",
-   "sample_file_key": "samples/dallas-demolition-sample.csv"
+   "sample_file_key": "samples/dallas-demolition-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "collin-absentee",
@@ -152,7 +162,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/collin_absentee_longterm.csv",
-   "sample_file_key": "samples/collin-absentee-sample.csv"
+   "sample_file_key": "samples/collin-absentee-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "harris-absentee",
@@ -166,7 +177,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/harris-absentee-2026-11-23.csv",
-   "sample_file_key": "samples/harris-absentee-sample.csv"
+   "sample_file_key": "samples/harris-absentee-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "harris-commercial",
@@ -180,7 +192,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/harris-commercial-2026-11-23.csv",
-   "sample_file_key": "samples/harris-commercial-sample.csv"
+   "sample_file_key": "samples/harris-commercial-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "harris-high-equity",
@@ -194,7 +207,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/harris-high-equity-2026-11-23.csv",
-   "sample_file_key": "samples/harris-high-equity-sample.csv"
+   "sample_file_key": "samples/harris-high-equity-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "harris-long-term",
@@ -208,7 +222,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/harris-long-term-2026-11-23.csv",
-   "sample_file_key": "samples/harris-long-term-sample.csv"
+   "sample_file_key": "samples/harris-long-term-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "harris-out-of-area",
@@ -222,7 +237,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/harris-out-of-area-2026-11-23.csv",
-   "sample_file_key": "samples/harris-out-of-area-sample.csv"
+   "sample_file_key": "samples/harris-out-of-area-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "harris-tired-landlords",
@@ -236,7 +252,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/harris-tired-landlords-2026-11-23.csv",
-   "sample_file_key": "samples/harris-tired-landlords-sample.csv"
+   "sample_file_key": "samples/harris-tired-landlords-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "harris-multifamily",
@@ -250,7 +267,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/harris-multifamily-2026-11-23.csv",
-   "sample_file_key": "samples/harris-multifamily-sample.csv"
+   "sample_file_key": "samples/harris-multifamily-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-high-equity",
@@ -264,7 +282,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas-high-equity-2026-11-23.csv",
-   "sample_file_key": "samples/dallas-high-equity-sample.csv"
+   "sample_file_key": "samples/dallas-high-equity-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-long-term",
@@ -278,7 +297,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas-long-term-2026-11-23.csv",
-   "sample_file_key": "samples/dallas-long-term-sample.csv"
+   "sample_file_key": "samples/dallas-long-term-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-out-of-area",
@@ -292,7 +312,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas-out-of-area-2026-11-23.csv",
-   "sample_file_key": "samples/dallas-out-of-area-sample.csv"
+   "sample_file_key": "samples/dallas-out-of-area-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-tired-landlords",
@@ -306,7 +327,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas-tired-landlords-2026-11-23.csv",
-   "sample_file_key": "samples/dallas-tired-landlords-sample.csv"
+   "sample_file_key": "samples/dallas-tired-landlords-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-multifamily",
@@ -320,7 +342,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas-multifamily-2026-11-23.csv",
-   "sample_file_key": "samples/dallas-multifamily-sample.csv"
+   "sample_file_key": "samples/dallas-multifamily-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "dallas-commercial",
@@ -334,7 +357,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/dallas-commercial-2026-11-23.csv",
-   "sample_file_key": "samples/dallas-commercial-sample.csv"
+   "sample_file_key": "samples/dallas-commercial-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "tarrant-high-equity",
@@ -348,7 +372,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/tarrant-high-equity-2026-11-23.csv",
-   "sample_file_key": "samples/tarrant-high-equity-sample.csv"
+   "sample_file_key": "samples/tarrant-high-equity-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "tarrant-long-term",
@@ -362,7 +387,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/tarrant-long-term-2026-11-23.csv",
-   "sample_file_key": "samples/tarrant-long-term-sample.csv"
+   "sample_file_key": "samples/tarrant-long-term-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "tarrant-tired-landlords",
@@ -376,7 +402,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/tarrant-tired-landlords-2026-11-23.csv",
-   "sample_file_key": "samples/tarrant-tired-landlords-sample.csv"
+   "sample_file_key": "samples/tarrant-tired-landlords-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "tarrant-multifamily",
@@ -390,7 +417,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/tarrant-multifamily-2026-11-23.csv",
-   "sample_file_key": "samples/tarrant-multifamily-sample.csv"
+   "sample_file_key": "samples/tarrant-multifamily-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "tarrant-commercial",
@@ -404,7 +432,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/tarrant-commercial-2026-11-23.csv",
-   "sample_file_key": "samples/tarrant-commercial-sample.csv"
+   "sample_file_key": "samples/tarrant-commercial-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "tarrant-out-of-area",
@@ -418,7 +447,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/tarrant-out-of-area-2026-11-23.csv",
-   "sample_file_key": "samples/tarrant-out-of-area-sample.csv"
+   "sample_file_key": "samples/tarrant-out-of-area-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "collin-high-equity",
@@ -432,7 +462,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/collin-high-equity-2026-11-23.csv",
-   "sample_file_key": "samples/collin-high-equity-sample.csv"
+   "sample_file_key": "samples/collin-high-equity-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "collin-long-term",
@@ -446,7 +477,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/collin-long-term-2026-11-23.csv",
-   "sample_file_key": "samples/collin-long-term-sample.csv"
+   "sample_file_key": "samples/collin-long-term-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "collin-tired-landlords",
@@ -460,7 +492,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/collin-tired-landlords-2026-11-23.csv",
-   "sample_file_key": "samples/collin-tired-landlords-sample.csv"
+   "sample_file_key": "samples/collin-tired-landlords-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "collin-multifamily",
@@ -474,7 +507,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/collin-multifamily-2026-11-23.csv",
-   "sample_file_key": "samples/collin-multifamily-sample.csv"
+   "sample_file_key": "samples/collin-multifamily-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "collin-commercial",
@@ -488,7 +522,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/collin-commercial-2026-11-23.csv",
-   "sample_file_key": "samples/collin-commercial-sample.csv"
+   "sample_file_key": "samples/collin-commercial-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "collin-out-of-area",
@@ -502,7 +537,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/collin-out-of-area-2026-11-23.csv",
-   "sample_file_key": "samples/collin-out-of-area-sample.csv"
+   "sample_file_key": "samples/collin-out-of-area-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "travis-high-equity",
@@ -516,7 +552,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/travis-high-equity-2026-11-23.csv",
-   "sample_file_key": "samples/travis-high-equity-sample.csv"
+   "sample_file_key": "samples/travis-high-equity-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "travis-long-term",
@@ -530,7 +567,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/travis-long-term-2026-11-23.csv",
-   "sample_file_key": "samples/travis-long-term-sample.csv"
+   "sample_file_key": "samples/travis-long-term-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "travis-tired-landlords",
@@ -544,7 +582,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/travis-tired-landlords-2026-11-23.csv",
-   "sample_file_key": "samples/travis-tired-landlords-sample.csv"
+   "sample_file_key": "samples/travis-tired-landlords-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "travis-multifamily",
@@ -558,7 +597,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/travis-multifamily-2026-11-23.csv",
-   "sample_file_key": "samples/travis-multifamily-sample.csv"
+   "sample_file_key": "samples/travis-multifamily-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "travis-commercial",
@@ -572,7 +612,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/travis-commercial-2026-11-23.csv",
-   "sample_file_key": "samples/travis-commercial-sample.csv"
+   "sample_file_key": "samples/travis-commercial-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "travis-out-of-area",
@@ -586,7 +627,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": "packs/travis-out-of-area-2026-11-23.csv",
-   "sample_file_key": "samples/travis-out-of-area-sample.csv"
+   "sample_file_key": "samples/travis-out-of-area-sample.csv",
+   "one_time_cents": null
   },
   {
    "id": "free-sample-pack",
@@ -600,7 +642,8 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": null,
-   "sample_file_key": "samples/free-sample-pack-sample.xlsx"
+   "sample_file_key": "samples/free-sample-pack-sample.xlsx",
+   "one_time_cents": null
   }
  ]
 }

@@ -394,6 +394,7 @@ window.CATALOG = {
    "rows": 7260,
    "rows_label": "7,260 open cases",
    "sample_label": "Free 50 row sample",
+   "one_time_price": 79,
    "source_line": "Source: City of Dallas 311 case data, with the property owner matched from Dallas Central Appraisal District records. Re-pulled weekly.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [

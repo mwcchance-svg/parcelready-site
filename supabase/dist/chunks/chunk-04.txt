@@ -106,7 +106,7 @@ async function findProduct(pack: any) {
   return null;
 }
 
-async function ensurePrice(pack: any) {
+async function ensurePrice(pack: any, oneTime = false) {
   let product = await findProduct(pack);
   if (!product || !product.id) {
     const created: Record<string, string> = {
@@ -121,8 +121,11 @@ async function ensurePrice(pack: any) {
   } else if (taxOn() && product.tax_code !== TAX_CODE) {
     await stripePost(`products/${product.id}`, { tax_code: TAX_CODE });
   }
-  const cents = Math.round(pack.price_cents || 0);
-  const sub = pack.store.billing === "subscription";
+  // Spec 13 (HQ, Nov 23, 2026): a pack may carry a true one-time
+  // offer beside its subscription (Dallas Code Cases, $79 one time).
+  // oneTime ensures the non-recurring price at one_time_cents.
+  const cents = Math.round(oneTime ? (pack.one_time_cents || 0) : (pack.price_cents || 0));
+  const sub = !oneTime && pack.store.billing === "subscription";
   const prices = await stripeGet("prices", { product: product.id, active: "true", limit: "100" });
   const match = (prices.data || []).find((pr: any) => {
     if (pr.unit_amount !== cents || pr.currency !== "usd") return false;
@@ -148,8 +151,3 @@ async function ensurePrice(pack: any) {
     }
     // Under TAX_MODE stripe_tax the price is created tax-inclusive, so
     // the sticker stays the whole price and the tax carves out of it.
-    // With tax off, no tax behavior is assigned (the pre-ruling shape).
-    if (taxOn()) params.tax_behavior = "inclusive";
-    price = await stripePost("prices", params);
-    if (!price.id) throw new Error(`price_create_failed:${pack.id}`);
-  }

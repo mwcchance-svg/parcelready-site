@@ -232,7 +232,7 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
       btn.disabled = true;
       fetch(PR_API + "/api/checkout", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pack_id: btn.dataset.checkout }),
+        body: JSON.stringify({ pack_id: btn.dataset.checkout, variant: btn.dataset.variant || "standard" }),
       }).then(function (r) { if (!r.ok) throw new Error("bad"); return r.json(); })
         .then(function (d) { window.location = d.url; })
         .catch(function () { btn.disabled = false; alert("Checkout opens with the store launch. Email hello@parcelreadydata.com and we will take care of you today."); });

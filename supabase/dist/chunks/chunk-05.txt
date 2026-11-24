@@ -1,12 +1,31 @@
+    // With tax off, no tax behavior is assigned (the pre-ruling shape).
+    if (taxOn()) params.tax_behavior = "inclusive";
+    price = await stripePost("prices", params);
+    if (!price.id) throw new Error(`price_create_failed:${pack.id}`);
+  }
   await priceMapSet(price.id, pack.id);
   if (taxOn()) {
     // Deliberate handling of pre-ruling prices: a price created before
     // the ruling carries no inclusive behavior and must never be picked
     // up silently once tax is on. Stripe prices cannot be deleted, so
-    // every other active price on this product is archived; exactly one
-    // live price per pack remains, the inclusive one above.
+    // every other active price on this product is archived, EXCEPT a
+    // price that legitimately belongs to one of the pack's own offers
+    // (its primary price, or its spec 13 one-time price): archiving
+    // those would make the two offers destroy each other at checkout.
+    const legit = (pr: any) => {
+      if (pr.currency !== "usd" || pr.tax_behavior !== "inclusive") return false;
+      const primarySub = pack.store.billing === "subscription";
+      if (pr.unit_amount === Math.round(pack.price_cents || 0)) {
+        if (!primarySub && !pr.recurring) return true;
+        if (primarySub && pr.recurring &&
+            pr.recurring.interval === (pack.interval || "month") &&
+            pr.recurring.interval_count === (pack.interval_count || 1)) return true;
+      }
+      if (pack.one_time_cents && pr.unit_amount === Math.round(pack.one_time_cents) && !pr.recurring) return true;
+      return false;
+    };
     for (const pr of prices.data || []) {
-      if (pr.id !== price.id && pr.active) {
+      if (pr.id !== price.id && pr.active && !legit(pr)) {
         await stripePost(`prices/${pr.id}`, { active: "false" }).catch(() => {});
       }
     }
@@ -88,17 +107,18 @@ async function handleAdminUpload(req: Request, url: URL) {
 }
 
 async function handleCheckout(req: Request) {
-  const { pack_id } = await req.json();
+  const { pack_id, variant } = await req.json();
   const pack = packById(pack_id);
   if (!pack || pack.store.mode !== "stripe") return json({ error: "pack_not purchasable_here" }, 400, req);
+  const oneTime = variant === "one_time" && !!pack.one_time_cents;
   let priceId;
   try {
-    priceId = await ensurePrice(pack);
+    priceId = await ensurePrice(pack, oneTime);
     await ensureWebhook().catch(() => {});
   } catch (err) {
     return json({ error: "sync_failed" }, 502, req);
   }
-  const sub = pack.store.billing === "subscription";
+  const sub = !oneTime && pack.store.billing === "subscription";
   const params: Record<string, string> = {
     mode: sub ? "subscription" : "payment",
     "line_items[0][price]": priceId,
@@ -106,6 +126,7 @@ async function handleCheckout(req: Request) {
     success_url: `${env("SITE_BASE")}/thanks.html?pack=${pack.id}`,
     cancel_url: `${env("SITE_BASE")}/packs/${pack.id}.html`,
     "metadata[pack_id]": pack.id,
+    "metadata[variant]": oneTime ? "one_time" : "standard",
   };
   if (sub) params["subscription_data[metadata][pack_id]"] = pack.id;
   else params["payment_intent_data[metadata][pack_id]"] = pack.id;
@@ -171,34 +192,3 @@ async function handleWebhook(req: Request) {
       await sendEmail(
         env("LEADS_INBOX") || "hello@parcelreadydata.com",
         `ParcelReady renewal: ${pack.title}`,
-        ...saleNotice(pack, email, event.data.object.amount_paid, event.data.object.currency, true)
-      );
-    }
-  }
-  return json({ received: true });
-}
-
-/* Internal lead notification (Atlas's order, Nov 23, 2026, on Matt's
-   screenshot): the notice to the leads inbox wears the same clean
-   shell as the client emails and reads as plain lines, never a JSON
-   dump. Returns [text, html] for sendEmail. */
-function leadNotice(lead: any, pack: any): [string, string] {
-  const kind = lead.request_kind === "state"
-    ? "State hub request"
-    : pack
-      ? "Pack sample request"
-      : "Sample request";
-  const when = String(lead.at || "").replace("T", " ").replace(/\.\d+Z$/, " UTC");
-  const lines: Array<[string, string]> = [
-    ["Who asked", lead.business_name || "Not given"],
-    ["Email", lead.email || "Not given"],
-    ["State", lead.state || "Not given"],
-    ["Trade", lead.trade || (pack ? pack.category : "") || "Not given"],
-    ["Pack", pack ? pack.title : "None (no pack requested)"],
-    ["Request", kind],
-    ["Source page", lead.source_page || "Not given"],
-    ["Received", when],
-  ];
-  const text =
-    `A new sample request came in through the site.\n\n` +
-    lines.map(([k, v]) => `${k}: ${v}`).join("\n") +
