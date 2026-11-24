@@ -328,7 +328,7 @@ a.chip { text-decoration: none; display: inline-block; }
 .hero2-coord { position: absolute; font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
   letter-spacing: 0.22em; color: rgba(242,206,123,0.55); z-index: 2; }
 .coord-a { top: 1.6rem; right: 4vw; }
-.coord-b { bottom: 6.2rem; left: 4vw; writing-mode: vertical-rl; transform: rotate(180deg); }
+.coord-b { bottom: 10rem; left: 4vw; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 0.18em; }
 .hero2-inner { position: relative; z-index: 3; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3.5rem; align-items: center; padding-bottom: 5.5rem; }
 .hero2 h1 { font-size: clamp(3rem, 7.2vw, 5.6rem); line-height: 0.98; }
 .hero2 h1 .accent { color: var(--gold); display: block; }
@@ -338,8 +338,8 @@ a.chip { text-decoration: none; display: inline-block; }
 .h2-sheet { position: absolute; width: 88%; right: 6%; top: 6%; border-radius: 14px;
   border: 1px solid rgba(242,206,123,0.35); transform: rotate(3.5deg);
   box-shadow: 0 40px 90px rgba(0,0,0,0.55); }
-.specimen { position: absolute; left: 0; bottom: 12%; width: min(430px, 92%);
-  background: var(--paper); color: var(--ink); border-radius: 12px; padding: 1.1rem 1.2rem 0.9rem;
+.specimen { position: absolute; left: 0; bottom: 15%; width: min(430px, 92%); z-index: 2;
+  background: var(--paper); color: var(--ink); border-radius: 12px; padding: 1.1rem 1.2rem 1.3rem;
   box-shadow: 0 34px 70px rgba(0,0,0,0.5); transform: rotate(-2deg); }
 .spec-head, .spec-foot { font-family: "IBM Plex Mono", monospace; font-size: 0.66rem;
   letter-spacing: 0.14em; color: var(--green-700); font-weight: 600; }
@@ -350,7 +350,7 @@ a.chip { text-decoration: none; display: inline-block; }
 .spec-row span { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; color: var(--ink-soft); }
 .spec-row em { font-family: "IBM Plex Mono", monospace; font-style: normal; font-size: 0.7rem;
   border: 1px solid rgba(18,43,30,0.3); border-radius: 999px; padding: 0.12rem 0.55rem; color: var(--green-800); }
-.h2-logo { position: absolute; width: 104px; right: 2%; bottom: 2%; border-radius: 22px;
+.h2-logo { position: absolute; width: 104px; right: 2%; bottom: 2%; border-radius: 22px; z-index: 1;
   box-shadow: 0 24px 50px rgba(0,0,0,0.5); }
 .hero2-art 
 .home .claims-list li { grid-template-columns: 4.6rem 1fr; padding: 1.5rem 0; font-size: 1.06rem; }
