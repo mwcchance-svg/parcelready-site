@@ -275,7 +275,8 @@ a.chip { text-decoration: none; display: inline-block; }
 /* ---------- sample capture form ---------- */
 .capture { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: end; margin-top: 1.6rem; }
 .capture label { display: flex; flex-direction: column; gap: 0.35rem; font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
-.capture input { font: inherit; font-size: 1rem; letter-spacing: 0; text-transform: none; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid var(--line-dark); background: #fff; color: var(--ink); min-width: 240px; }
+.capture input, .capture select { font: inherit; font-size: 1rem; letter-spacing: 0; text-transform: none; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid var(--line-dark); background: #fff; color: var(--ink); min-width: 240px; }
+.capture select:focus, .capture input:focus { outline: 2px solid var(--gold); border-color: transparent; }
 .capture-status { width: 100%; font-size: 0.92rem; color: var(--ink-soft); min-height: 1.2em; }
 
 .legal { max-width: 780px; }
@@ -305,6 +306,8 @@ a.chip { text-decoration: none; display: inline-block; }
 .scope-panel { border: 1px solid var(--gold); border-radius: 18px; padding: 1.8rem; margin-top: 2.5rem; background: rgba(233,185,73,0.06); }
 .scope-row { display: flex; flex-wrap: wrap; gap: 1rem; }
 .scope-row label { display: flex; flex-direction: column; gap: 0.35rem; font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.scope-row select { font: inherit; font-size: 1rem; letter-spacing: 0; text-transform: none; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid var(--line-dark); background: #fff; color: var(--ink); min-width: 220px; }
+.scope-row select:focus { outline: 2px solid var(--gold); border-color: transparent; }
 .scope-row select { font: inherit; font-size: 1rem; letter-spacing: 0; text-transform: none; padding: 0.65rem 0.8rem; border-radius: 10px; border: 1px solid var(--line); background: var(--green-900); color: var(--cream); min-width: 220px; }
 .scope-result { margin-top: 1.1rem; font-size: 1.02rem; min-height: 1.4em; }
 .scope-result a { color: var(--gold-soft); }
