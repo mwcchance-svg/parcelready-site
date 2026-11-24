@@ -327,7 +327,7 @@ window.CATALOG = {
    "price_note": "one time",
    "rows": 53887,
    "rows_label": "53,887 records",
-   "sample_label": "Free sample pack",
+   "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -392,7 +392,7 @@ window.CATALOG = {
    "price_note": "per month, refreshed weekly",
    "rows": 7260,
    "rows_label": "7,260 open cases",
-   "sample_label": "Free sample pack",
+   "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -456,7 +456,7 @@ window.CATALOG = {
    "price_note": "one time",
    "rows": 55920,
    "rows_label": "55,920 permits",
-   "sample_label": "Free sample pack",
+   "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -520,7 +520,11 @@ window.CATALOG = {
    "price_note": "one time",
    "rows": 6023,
    "rows_label": "6,023 accounts",
-   "sample_label": "Free sample pack",
+   "sample_label": "Free 50 row sample",
+   "teaser_sort": {
+    "column": "Total Amount Due",
+    "desc": true
+   },
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -536,8 +540,8 @@ window.CATALOG = {
      "v": "County tax roll"
     },
     {
-     "k": "Sort",
-     "v": "Largest owed first"
+     "k": "Largest amount due",
+     "v": "$400,062"
     }
    ],
    "tagline": "6,023 residential accounts owing two or more years of back taxes",
@@ -583,7 +587,7 @@ window.CATALOG = {
    "price_note": "one time",
    "rows": 31156,
    "rows_label": "31,156 records",
-   "sample_label": "Free sample pack",
+   "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -646,7 +650,7 @@ window.CATALOG = {
    "price_note": "one time",
    "rows": 3808,
    "rows_label": "3,808 permits",
-   "sample_label": "Free sample pack",
+   "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -708,7 +712,7 @@ window.CATALOG = {
    "price_note": "one time",
    "rows": 1249,
    "rows_label": "1,249 permits",
-   "sample_label": "Free sample pack",
+   "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -771,7 +775,7 @@ window.CATALOG = {
    "price_note": "one time",
    "rows": 14227,
    "rows_label": "14,227 records",
-   "sample_label": "Free sample pack",
+   "sample_label": "Free 50 row sample",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {

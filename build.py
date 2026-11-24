@@ -169,7 +169,6 @@ def write_sample_json():
             reader = csv.DictReader(f)
             headers = reader.fieldnames
             all_rows = list(reader)
-        sample = all_rows[::step]
         target = max(15, min(50, round(len(all_rows) * pct / 100)))
         dstep = max(1, len(all_rows) // target)
         delivered = all_rows[::dstep][:target]
@@ -177,8 +176,22 @@ def write_sample_json():
         cols = [c for c in TRADE_COLS if c in headers] if kind == "trade" else headers
         if len(cols) < 4:
             cols = headers
+        # The on-page preview IS the delivered sample (Beacon fix
+        # spec 11): one draw, one count, so the preview can never
+        # disagree with the file the buyer receives. The page shows
+        # the first 25 of those rows.
+        draw = list(delivered)
+        ts = p.get("teaser_sort")
+        if ts:
+            col = ts["column"]
+            def _key(r, col=col):
+                try:
+                    return float(str(r.get(col) or "").replace(",", "").replace("$", ""))
+                except ValueError:
+                    return 0.0
+            draw.sort(key=_key, reverse=bool(ts.get("desc", True)))
         teaser = []
-        for r in sample[:25]:
+        for r in draw[:25]:
             row = {c: (r.get(c) or "") for c in cols}
             if kind == "trade":
                 # Proof surface, not a delivery surface (Matt's ruling,
@@ -195,7 +208,7 @@ def write_sample_json():
             json.dump({"columns": cols,
                        "rows": teaser,
                        "kind": kind, "masked": kind == "trade",
-                       "sample_total": len(sample),
+                       "sample_total": len(delivered),
                        "delivered_total": len(delivered),
                        "full_total": p["rows"] if isinstance(p["rows"], int) else len(all_rows),
                        "sample_percent": pct}, f)
@@ -380,6 +393,7 @@ def build_pack(p):
         {buy_button(p)}
         <a class="btn btn-ghost" href="#sample">{esc(p['sample_label'])}</a>
       </div>
+      <p class="fineprint">The <a href="../terms.html#label-promise">label promise</a>: if this pack does not match what this page promises, tell us within 30 days and we will fix it or refund the pack.</p>
       <p class="fineprint">{fresh} {'Sold and delivered through Gumroad.' if p.get("store", {}).get("mode") == "gumroad" else 'Sold and delivered on this site.'}</p>
     </div>
     <figure class="pack-cover reveal"><img src="../{p['cover']}" alt="{esc(p['title'])} data preview cover"></figure>
@@ -390,7 +404,7 @@ def build_pack(p):
   <div class="wrap inside-grid">
     <div class="reveal">
       <p class="kicker">What is inside</p>
-      <h2>Every row, checked by hand</h2>
+      <h2>{'Every row, checked by hand' if p['family'] == 'trade' else 'Every row, built from the official source'}</h2>
       <ul class="inside-list">{inside}</ul>
     </div>
     <aside class="limits reveal">
@@ -577,6 +591,9 @@ def build_state_hub(name, code, urls):
             f'<span class="status-pill status-live">{len([p for p in CATALOG["packs"] if p.get("metro_id") == mid])} packs live</span></a>'
             for mid, m in metros_here)
         metro_tiles = f'<h2 style="margin-top:3rem">Metros in {name}</h2><div class="state-grid">{tiles}</div>'
+        if any(p.get("state") == code and not p.get("metro_id") for p in CATALOG["packs"]):
+            metro_tiles += ('<p class="fineprint" style="margin-top:1rem">The Free Sample Pack is drawn from every list in the state '
+                            'and carries no single metro, so it is counted in the state total above but not in a metro tile.</p>')
     soon_rows = "".join(
         f'<tr><td>{esc(cs["trade"])}</td><td>{esc(cs["metro"])}</td><td><span class="status-pill">{esc(cs["status"])}</span></td></tr>'
         for cs, _ in soon)
@@ -675,17 +692,18 @@ def build_combo(name, code, cat, urls):
 def records_total(sample_counts=None):
     """Sum the data rows of every live pack's delivery file.
 
-    The Free Sample Pack is excluded on purpose: its 100 records are
-    drawn from the other packs, so counting it would count them twice.
-    Counts come from write_sample_json's read of the same files (one
-    read per build, not two); the direct read is the fallback for any
-    pack the sample draw did not touch. Falls back to the catalog
-    figure only if a file is missing.
+    HQ ruling (Nov 23, 2026, Beacon fix spec 4): the counter counts
+    EVERY live pack, including the Free Sample Pack, so the headline
+    equals the sum a buyer can add up from the pack cards. The
+    sampler's 100 records are drawn from the paid packs; that overlap
+    is disclosed on the verify page. Counts come from
+    write_sample_json's read of the same files (one read per build,
+    not two); the direct read is the fallback for any pack the sample
+    draw did not touch. Falls back to the catalog figure only if a
+    file is missing.
     """
     per = {}
     for p in CATALOG["packs"]:
-        if p["id"] == "free-sample-pack":
-            continue
         n = None
         if sample_counts and p["id"] in sample_counts:
             n = sample_counts[p["id"]][1]
@@ -728,6 +746,15 @@ def patch_index_records(total):
     page = re.sub(
         r'(<span class="flap-tag" data-records-tag>)[^<]*',
         lambda m: f"{m.group(1)}{total:,} RECORDS COMPILED", page)
+    # Home figures generate from the live catalog at build time
+    # (Beacon fix specs 1-3), so they cannot go stale again.
+    n_packs = len(CATALOG["packs"])
+    n_tx = len([p for p in CATALOG["packs"] if p.get("state") == "TX"])
+    page = re.sub(r'Texas: [\d,]+ packs live', f'Texas: {n_tx} packs live', page)
+    page = re.sub(r'Browse all [\d,]+ (?:products|packs)', f'Browse all {n_packs} packs', page)
+    tax = next(p for p in CATALOG["packs"] if p["id"] == "tarrant-tax-delinquent")
+    page = re.sub(r'<b>[\d,]+</b> Tarrant tax delinquent accounts',
+                  f'<b>{tax["rows"]:,}</b> Tarrant tax delinquent accounts', page)
     with open(path, "w") as f:
         f.write(page)
 
@@ -804,8 +831,25 @@ def main():
     if tiles != str(total):
         raise SystemExit(f"COUNTER MISMATCH: flap board tiles read "
                          f"{tiles or 'nothing'}, recount is {total}")
+    # The counter must equal what a buyer can sum from the pack
+    # cards (Beacon fix spec 4): the catalog rows total.
+    card_sum = sum(p["rows"] for p in CATALOG["packs"]
+                   if isinstance(p.get("rows"), int))
+    if total != card_sum:
+        raise SystemExit(f"COUNTER MISMATCH: recount is {total}, "
+                         f"printed card sum is {card_sum}")
+    for pat, want in [(r'Texas: ([\d,]+) packs live',
+                       f"{len([p for p in CATALOG['packs'] if p.get('state') == 'TX']):,}"),
+                      (r'Browse all ([\d,]+) packs', f"{len(CATALOG['packs']):,}"),
+                      (r'<b>([\d,]+)</b> Tarrant tax delinquent accounts',
+                       f"{next(p for p in CATALOG['packs'] if p['id'] == 'tarrant-tax-delinquent')['rows']:,}")]:
+        m2 = re.search(pat, written)
+        if not m2 or m2.group(1) != want:
+            raise SystemExit(f"HOME FIGURE MISMATCH: {pat} reads "
+                             f"{m2.group(1) if m2 else 'nothing'}, catalog says {want}")
     print(f"COUNTER VERIFIED: rendered home page reads {total:,}; "
           f"delivered set recounts {total:,}; match.")
+    print(f"HOME FIGURES VERIFIED: pack counts and marquee match the catalog.")
 
 
 if __name__ == "__main__":
