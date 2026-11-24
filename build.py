@@ -165,10 +165,66 @@ def full_file_path(p):
     return os.path.join(DP, first)
 
 
+def _spread(rs, n):
+    if n <= 0 or not rs:
+        return []
+    step = max(1, len(rs) // n)
+    return rs[::step][:n]
+
+
+def _interleave(a, b):
+    out, ia, ib = [], 0, 0
+    total = len(a) + len(b)
+    for i in range(total):
+        if ia < len(a) and (i + 1) * len(a) // total > i * len(a) // total:
+            out.append(a[ia]); ia += 1
+        elif ib < len(b):
+            out.append(b[ib]); ib += 1
+        elif ia < len(a):
+            out.append(a[ia]); ia += 1
+    return out
+
+
+def _stratified_pick(rows, n, fields):
+    """Pick n rows from rows so the share carrying fields[0] matches
+    the share in rows as closely as n allows, spread evenly within
+    each stratum and interleaved. Each stratum's pick recurses on
+    the remaining fields, so correlated fields track too: in the
+    trade files a single-field draw on email dragged rating over 20
+    points high, and a two-field draw caught two of the file's only
+    three website-less rows."""
+    if n <= 0 or not rows:
+        return []
+    if not fields:
+        return _spread(rows, n)
+    field = fields[0]
+    have = [r for r in rows if (r.get(field) or "").strip()]
+    have_not = [r for r in rows if not (r.get(field) or "").strip()]
+    k = round(len(have) / len(rows) * n)
+    k = max(0, min(n, k, len(have)))
+    rest = n - k
+    if rest > len(have_not):
+        k += rest - len(have_not)
+        rest = len(have_not)
+    a = _stratified_pick(have, k, fields[1:])
+    b = _stratified_pick(have_not, rest, fields[1:])
+    return _interleave(a, b)
+
+
+def representative_draw(rows, target):
+    """A2 (HQ ruling, Nov 24, 2026, on Relay's fill-rate facts): a
+    trade sample whose lead-field fill rates match the full file's
+    true rates as closely as the sample size allows. Deterministic,
+    so builds are reproducible and Relay's representativeness check
+    can re-derive the same draw."""
+    return _stratified_pick(rows, target, ["Published email", "Rating", "Website"])
+
+
 def write_sample_json():
     """The free sample is a fixed percentage of the full file (Matt's ruling,
-    Nov 22, 2026), drawn systematically (every Nth row) from the full file.
-    Emits the explorer JSON (first 500 sample rows) and the delivery CSV
+    Nov 22, 2026). County samples draw systematically (every Nth row);
+    trade samples draw representatively under A2 (see above). Emits
+    the explorer JSON (first 500 sample rows) and the delivery CSV
     (the full sample) staged for R2 under delivery/samples/."""
     pct = CATALOG.get("sample_percent", 10)
     step = max(1, round(100 / pct))
@@ -184,8 +240,17 @@ def write_sample_json():
             headers = reader.fieldnames
             all_rows = list(reader)
         target = max(15, min(50, round(len(all_rows) * pct / 100)))
-        dstep = max(1, len(all_rows) // target)
-        delivered = all_rows[::dstep][:target]
+        if p["family"] == "trade":
+            delivered = representative_draw(all_rows, target)
+            def _rate(rs, f):
+                return 100.0 * sum(1 for r in rs if (r.get(f) or "").strip()) / len(rs) if rs else 0.0
+            print(f"A2 DRAW {p['id']}: email file {_rate(all_rows, 'Published email'):.1f}% "
+                  f"sample {_rate(delivered, 'Published email'):.1f}% | "
+                  f"rating file {_rate(all_rows, 'Rating'):.1f}% sample {_rate(delivered, 'Rating'):.1f}% | "
+                  f"website file {_rate(all_rows, 'Website'):.1f}% sample {_rate(delivered, 'Website'):.1f}%")
+        else:
+            dstep = max(1, len(all_rows) // target)
+            delivered = all_rows[::dstep][:target]
         kind = "trade" if p["family"] == "trade" else "county"
         cols = [c for c in TRADE_COLS if c in headers] if kind == "trade" else headers
         if len(cols) < 4:
@@ -298,6 +363,27 @@ def label_source(p):
     return "Each business's own website and listings, checked by hand"
 
 
+_COVERAGE = {}
+
+
+def trade_coverage(p):
+    """(phone, published email, website) fill rates in whole percent,
+    computed from the pack's delivered full file. Cached per build."""
+    if p["id"] in _COVERAGE:
+        return _COVERAGE[p["id"]]
+    rates = None
+    path = full_file_path(p)
+    if path and os.path.exists(path):
+        with open(path, newline="", encoding="utf-8-sig") as f:
+            rows = list(csv.DictReader(f))
+        if rows:
+            def rate(field):
+                return round(100 * sum(1 for r in rows if (r.get(field) or "").strip()) / len(rows))
+            rates = (rate("Phone"), rate("Published email"), rate("Website"))
+    _COVERAGE[p["id"]] = rates
+    return rates
+
+
 def label_plate(p):
     """Beauty spec B2: the Label, a designed specimen tag that
     replaces the loose stat strip as the pack page's anchor."""
@@ -307,6 +393,14 @@ def label_plate(p):
         ("Pull date", fmt_date(p["data_as_of"])),
         ("Rows", p["rows_label"]),
     ]
+    if p["family"] == "trade":
+        # A2 (HQ ruling, Nov 24, 2026): the Label carries the pack's
+        # true lead-field coverage, computed from the delivered file
+        # at build time so the printed rates can never drift.
+        cov = trade_coverage(p)
+        if cov:
+            fields.append(("Coverage",
+                           f"Phone on {cov[0]}% · Published email on {cov[1]}% · Website on {cov[2]}%"))
     for s in p["stats"]:
         if "match" in s["k"].lower():
             fields.append(("Match rate", s["v"]))
@@ -419,7 +513,7 @@ def sample_section(p):
       <div class="wrap">
         <p class="kicker">Free sample, viewable right here</p>
         <h2>Inspect the data before you spend a dollar</h2>
-        <p class="explorer-sub">What you see here is the proof surface: real rows drawn evenly from the full file, real counts, and the same fields the pack carries, with contact details masked on screen. The free sample file itself, {CATALOG.get("sample_percent", 10)} percent of the full file (15 rows at minimum, 50 at most, the same rule on every pack in the catalog), carries every field exactly as it ships, and it is delivered by email below. Inspect the structure and the counts here; the usable file comes by email.</p>
+        <p class="explorer-sub">What you see here is the proof surface: real rows {"drawn to represent the full file, so the coverage you see matches the coverage the file carries (the true rates are printed on the label)" if kind == "trade" else "drawn evenly from the full file"}, real counts, and the same fields the pack carries, with contact details masked on screen. The free sample file itself, {CATALOG.get("sample_percent", 10)} percent of the full file (15 rows at minimum, 50 at most, the same rule on every pack in the catalog), carries every field exactly as it ships, and it is delivered by email below. Inspect the structure and the counts here; the usable file comes by email.</p>
         <div class="explorer-frame">
           <p class="explorer-frame-head"><span>LIVE PREVIEW · {esc(p['title'].upper())}</span><span>PULLED {esc(fmt_date(p['data_as_of']).upper())}{' · CONTACT DETAILS MASKED' if kind == 'trade' else ''}</span></p>
           <div class="explorer" data-explorer="../assets/data/{p['id']}-sample.json"></div>
