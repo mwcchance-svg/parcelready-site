@@ -685,6 +685,54 @@
    "coverage": null
   },
   {
+   "id": "miami-dade-out-of-area",
+   "title": "Miami-Dade County Owners Who Live Elsewhere",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/miami-dade-out-of-area-2026-11-24.csv",
+   "sample_file_key": "samples/miami-dade-out-of-area-sample.csv",
+   "one_time_cents": null,
+   "coverage": null
+  },
+  {
+   "id": "miami-dade-multifamily",
+   "title": "Miami-Dade County Multifamily Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/miami-dade-multifamily-2026-11-24.csv",
+   "sample_file_key": "samples/miami-dade-multifamily-sample.csv",
+   "one_time_cents": null,
+   "coverage": null
+  },
+  {
+   "id": "miami-dade-commercial",
+   "title": "Miami-Dade County Commercial Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/miami-dade-commercial-2026-11-24.csv",
+   "sample_file_key": "samples/miami-dade-commercial-sample.csv",
+   "one_time_cents": null,
+   "coverage": null
+  },
+  {
    "id": "free-sample-pack",
    "title": "ParcelReady Free Sample Pack",
    "store": {

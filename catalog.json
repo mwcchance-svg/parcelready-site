@@ -2775,6 +2775,193 @@
   "title": "Travis County Owners Who Live Elsewhere",
   "trade": "Out-of-Area Owners"
 },
+{
+ "build_date": "October 16, 2026 county file (2026 Final roll)",
+ "buyer": "Investors who target absentee owners of Miami-Dade County property",
+ "category": "Real Estate",
+ "cover": "assets/covers/miami-dade-out-of-area.webp",
+ "coverage": "Miami-Dade County",
+ "data_as_of": "2026-10-16",
+ "family": "county",
+ "featured": false,
+ "id": "miami-dade-out-of-area",
+ "inside": [
+  "Owner name and owner mailing address, city, state, and ZIP",
+  "Property street address, city, and ZIP",
+  "Market value (the roll's just value), median $369,507 across the file",
+  "Year built, deed date, and years owned",
+  "Segment on every record (Out of state or Out of county (FL)), and the county folio on every record, for verification"
+ ],
+ "limits": "Built from the Florida Department of Revenue's published NAL tax roll (2026 Final roll, county file dated October 16, 2026), downloaded from the state's file directory, not scraped and not resold from another list vendor. Segmentation follows the standing rules: mailing geography decides first, an identified out-of-state value segments on its own, foreign owners (5,915 records) ship inside the out-of-state segment, and the out-of-county segment is Florida mailing ZIPs outside the county's own ZIP set. Records whose geography cannot be identified (13 in the test population) are counted and not shipped. Values are the roll's just values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+ "membership": {
+  "per": "quarter",
+  "price": 49
+ },
+ "metro": "Miami-Dade County",
+ "metro_id": "miami",
+ "price": 49,
+ "price_note": "one time",
+ "refresh_schedule": "Refreshed monthly, re-verified on the spine cycle",
+ "rows": 78472,
+ "rows_label": "78,472 records",
+ "sample_label": "Free 50 row sample",
+ "source_line": "Source: Florida Department of Revenue NAL, 2026 Final roll (initial final), county file dated October 16, 2026. Re-pulled and re-verified monthly on the spine cycle.",
+ "sample_url": "https://parcelreadydata.com/packs/miami-dade-out-of-area.html",
+ "state": "FL",
+ "stats": [
+  {
+   "k": "Records",
+   "v": "78,472"
+  },
+  {
+   "k": "Columns",
+   "v": "17"
+  },
+  {
+   "k": "Median value",
+   "v": "$369,507"
+  },
+  {
+   "k": "Source",
+   "v": "Florida DOR NAL, 2026 Final roll"
+  }
+ ],
+ "store": {
+  "mode": "stripe",
+  "billing": "one_time",
+  "delivery_file": "county-packs/miami-dade/miami-dade-out-of-area-2026-11-24.csv",
+  "stripe_product_id": null,
+  "stripe_price_id": null
+ },
+ "tagline": "78,472 residential owners who live elsewhere: 40,753 out of state, 37,719 elsewhere in Florida",
+ "title": "Miami-Dade County Owners Who Live Elsewhere",
+ "trade": "Out-of-Area Owners"
+},
+{
+ "build_date": "October 16, 2026 county file (2026 Final roll)",
+ "buyer": "Apartment investors and brokers who target multifamily owners in Miami-Dade County",
+ "category": "Real Estate",
+ "cover": "assets/covers/miami-dade-multifamily.webp",
+ "coverage": "Miami-Dade County",
+ "data_as_of": "2026-10-16",
+ "family": "county",
+ "featured": false,
+ "id": "miami-dade-multifamily",
+ "inside": [
+  "Owner name and owner mailing address, city, state, and ZIP",
+  "Property street address, city, and ZIP",
+  "Published unit count and unit band on every record (2-4, 5-19, 20+)",
+  "Market value (the roll's just value), median $645,307 across the file",
+  "Year built, deed date, and years owned",
+  "County folio on every record, for verification"
+ ],
+ "limits": "Built from the Florida Department of Revenue's published NAL tax roll (2026 Final roll, county file dated October 16, 2026), downloaded from the state's file directory, not scraped and not resold from another list vendor. The set is every base record with a published residential unit count of 2 or more: the published count governs, and a blank or zero count fails the test, so no unit count in this file is estimated. Values are the roll's just values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+ "membership": {
+  "per": "quarter",
+  "price": 79
+ },
+ "metro": "Miami-Dade County",
+ "metro_id": "miami",
+ "price": 79,
+ "price_note": "one time",
+ "refresh_schedule": "Refreshed monthly, re-verified on the spine cycle",
+ "rows": 39361,
+ "rows_label": "39,361 records",
+ "sample_label": "Free 50 row sample",
+ "source_line": "Source: Florida Department of Revenue NAL, 2026 Final roll (initial final), county file dated October 16, 2026. Re-pulled and re-verified monthly on the spine cycle.",
+ "sample_url": "https://parcelreadydata.com/packs/miami-dade-multifamily.html",
+ "state": "FL",
+ "stats": [
+  {
+   "k": "Records",
+   "v": "39,361"
+  },
+  {
+   "k": "Columns",
+   "v": "18"
+  },
+  {
+   "k": "Median value",
+   "v": "$645,307"
+  },
+  {
+   "k": "Units",
+   "v": "2+ published"
+  }
+ ],
+ "store": {
+  "mode": "stripe",
+  "billing": "one_time",
+  "delivery_file": "county-packs/miami-dade/miami-dade-multifamily-2026-11-24.csv",
+  "stripe_product_id": null,
+  "stripe_price_id": null
+ },
+ "tagline": "39,361 multifamily properties with published unit counts: 31,558 at 2 to 4 units, 5,024 at 5 to 19, 2,779 at 20 or more",
+ "title": "Miami-Dade County Multifamily Owners",
+ "trade": "Multifamily Owners"
+},
+{
+ "build_date": "October 16, 2026 county file (2026 Final roll)",
+ "buyer": "Commercial real estate investors, brokers, lenders, and service firms working Miami-Dade County",
+ "category": "Real Estate",
+ "cover": "assets/covers/miami-dade-commercial.webp",
+ "coverage": "Miami-Dade County",
+ "data_as_of": "2026-10-16",
+ "family": "county",
+ "featured": false,
+ "id": "miami-dade-commercial",
+ "inside": [
+  "Owner name and owner mailing address, city, state, and ZIP",
+  "Property street address, city, and ZIP",
+  "Market value (the roll's just value), median $610,202 across the file",
+  "Year built, deed date, and years owned",
+  "County folio on every record, for verification"
+ ],
+ "limits": "Built from the Florida Department of Revenue's published NAL tax roll (2026 Final roll, county file dated October 16, 2026), downloaded from the state's file directory, not scraped and not resold from another list vendor. The list is the roll's commercial classes, DOR use codes 10-39: every owner record in them, with no absentee test and no value filter applied. Industrial classes 40-49 are a separate family and are not folded into this line. Values are the roll's just values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+ "membership": {
+  "per": "quarter",
+  "price": 79
+ },
+ "metro": "Miami-Dade County",
+ "metro_id": "miami",
+ "price": 79,
+ "price_note": "one time",
+ "refresh_schedule": "Refreshed monthly, re-verified on the spine cycle",
+ "rows": 38344,
+ "rows_label": "38,344 records",
+ "sample_label": "Free 50 row sample",
+ "source_line": "Source: Florida Department of Revenue NAL, 2026 Final roll (initial final), county file dated October 16, 2026. Re-pulled and re-verified monthly on the spine cycle.",
+ "sample_url": "https://parcelreadydata.com/packs/miami-dade-commercial.html",
+ "state": "FL",
+ "stats": [
+  {
+   "k": "Records",
+   "v": "38,344"
+  },
+  {
+   "k": "Columns",
+   "v": "16"
+  },
+  {
+   "k": "Median value",
+   "v": "$610,202"
+  },
+  {
+   "k": "Classes",
+   "v": "DOR 10-39"
+  }
+ ],
+ "store": {
+  "mode": "stripe",
+  "billing": "one_time",
+  "delivery_file": "county-packs/miami-dade/miami-dade-commercial-2026-11-24.csv",
+  "stripe_product_id": null,
+  "stripe_price_id": null
+ },
+ "tagline": "38,344 commercial properties with the owner's mailing address, DOR classes 10-39",
+ "title": "Miami-Dade County Commercial Owners",
+ "trade": "Commercial Owners"
+},
  {
    "build_date": "Current builds",
    "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
@@ -2853,6 +3040,12 @@
    "slug": "austin-to-san-antonio",
    "state": "TX",
    "coverage": "The I-35 corridor: Travis, Williamson, Hays, Comal, Guadalupe, and Bexar counties"
+  },
+  "miami": {
+   "name": "Miami-Dade",
+   "slug": "miami-dade",
+   "state": "FL",
+   "coverage": "Miami-Dade County"
   }
  }
 }
