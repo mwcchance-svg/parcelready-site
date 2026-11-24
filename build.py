@@ -370,6 +370,27 @@ def mini_preview(p):
       </div>"""
 
 
+def fact_band(p, used):
+    """Beauty spec B7: a quiet band where one fact sits large. Picks
+    the pack's most display-worthy unused stat (a money figure first,
+    then a percentage) and sets it at display size in mono."""
+    stats = p["stats"]
+    def pick(pred):
+        for s in stats:
+            if id(s) not in used and pred(s):
+                used.add(id(s))
+                return s
+        return None
+    s = pick(lambda s: "$" in s["v"]) or pick(lambda s: "%" in s["v"]) or pick(lambda s: True)
+    if not s:
+        return ""
+    return f"""
+<section class="fact-band"><div class="wrap">
+  <p class="fact-v">{esc(s['v'])}</p>
+  <p class="fact-k">{esc(s['k'])} · {esc(p['title'])}</p>
+</div></section>"""
+
+
 def sample_section(p):
     if p["id"] not in SAMPLE_COUNTS:
         return f"""
@@ -463,7 +484,6 @@ def pricing_block(p):
         return f"""
 <section class="pricing-offers">
   <div class="wrap">
-    <p class="kicker">Membership</p>
     <h2>The current file, delivered on every refresh</h2>
     <div class="offer-grid">
       <article class="offer-card offer-member">
@@ -511,6 +531,7 @@ def pricing_block(p):
 
 def build_pack(p):
     prefix = "../"
+    used_stats = set()
     stats = "".join(
         f'<div class="stat"><span class="stat-v">{esc(s["v"])}</span><span class="stat-k">{esc(s["k"])}</span></div>'
         for s in p["stats"]
@@ -550,7 +571,6 @@ def build_pack(p):
 <section class="inside">
   <div class="wrap inside-grid">
     <div class="reveal">
-      <p class="kicker">What is inside</p>
       <h2>{'Every row, checked by hand' if p['family'] == 'trade' else 'Every row, built from the official source'}</h2>
       <ul class="inside-list">{inside}</ul>
     </div>
@@ -561,8 +581,10 @@ def build_pack(p):
     </aside>
   </div>
 </section>
+{fact_band(p, used_stats)}
 {pricing_block(p)}
 {compare_strip(p)}
+{fact_band(p, used_stats)}
 {sample_section(p)}
 <section class="cta-band">
   <div class="wrap">
