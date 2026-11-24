@@ -1930,6 +1930,312 @@ window.CATALOG = {
    }
   },
   {
+   "id": "collin-high-equity",
+   "title": "Collin County High Equity Homeowners",
+   "tagline": "35,586 residential owners with modeled equity of 65 percent or more (ESTIMATE)",
+   "buyer": "Real estate investors and direct mail marketers who target equity rich, long held homes in Collin County",
+   "cover": "assets/covers/collin-high-equity.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Collin County",
+   "price": 59,
+   "price_note": "one time",
+   "rows": 35586,
+   "rows_label": "35,586 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/collin-high-equity.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "35,586"
+    },
+    {
+     "k": "Columns",
+     "v": "13"
+    },
+    {
+     "k": "Median estimated equity",
+     "v": "86%"
+    },
+    {
+     "k": "Source",
+     "v": "Collin CAD via Texas Open Data Portal"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value (the district's prior-year appraised value)",
+    "Year built, deed date, and years owned",
+    "Collin CAD Property ID on every record, for verification"
+   ],
+   "limits": "Built from the Collin Central Appraisal District's official dataset as published on the Texas Open Data Portal, not scraped and not resold from another list vendor. Equity on this pack is a modeled estimate, never a verified figure: the original loan is modeled at 80 percent of value, 30 year fixed at 6.5 percent, amortized from the deed date to the pull date (November 23, 2026), and a record qualifies when the estimated equity reaches 65 percent or more of value. No lender, lien, or mortgage record was checked for any record. Records without a deed date or a value are excluded. Values are the district's prior-year appraised market values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "High Equity Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-23",
+   "build_date": "November 23, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/collin/collin-high-equity-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Collin County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 59,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "collin-long-term",
+   "title": "Collin County Long-Term Owners (10+ Years)",
+   "tagline": "49,177 Collin County residential owners who have held their property 10 years or more",
+   "buyer": "Investors and marketers who target settled, long-tenure homeowners in Collin County",
+   "cover": "assets/covers/collin-long-term.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Collin County",
+   "price": 49,
+   "price_note": "one time",
+   "rows": 49177,
+   "rows_label": "49,177 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/collin-long-term.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "49,177"
+    },
+    {
+     "k": "Columns",
+     "v": "13"
+    },
+    {
+     "k": "Median value",
+     "v": "$464,175"
+    },
+    {
+     "k": "Source",
+     "v": "Collin CAD via Texas Open Data Portal"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value (the district's prior-year appraised value)",
+    "Year built, deed date, and years owned",
+    "Collin CAD Property ID on every record, for verification"
+   ],
+   "limits": "Built from the Collin Central Appraisal District's official dataset as published on the Texas Open Data Portal, not scraped and not resold from another list vendor. Every record's deed date falls on or before November 23, 2016, ten years before the pull date. Fully exempt accounts (the district's EX-XV marker) are excluded. Values are the district's prior-year appraised market values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Long-Term Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-23",
+   "build_date": "November 23, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/collin/collin-long-term-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Collin County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 49,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "collin-tired-landlords",
+   "title": "Collin County Tired Landlords: Owners With 3+ Properties Held 7+ Years",
+   "tagline": "4,009 properties held by 391 Collin County owners with 3 or more properties, each held 7 years or more",
+   "buyer": "Buyers who look for portfolio owners in Collin County whose holdings have been in place a long time",
+   "cover": "assets/covers/collin-tired-landlords.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Collin County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 4009,
+   "rows_label": "4,009 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/collin-tired-landlords.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "4,009"
+    },
+    {
+     "k": "Columns",
+     "v": "15"
+    },
+    {
+     "k": "Qualifying owners",
+     "v": "391"
+    },
+    {
+     "k": "Source",
+     "v": "Collin CAD via Texas Open Data Portal"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value (the district's prior-year appraised value)",
+    "Year built, deed date, and years owned",
+    "Collin CAD Property ID on every record, for verification",
+    "Owner property count and long-held count on every row"
+   ],
+   "limits": "Built from the Collin Central Appraisal District's official dataset as published on the Texas Open Data Portal, not scraped and not resold from another list vendor. An owner qualifies with three or more residential properties on the roll, and a property counts toward this pack when its own deed date falls on or before November 23, 2019. Stated plainly: Collin is a growth county, and most of this set is long-held residential lots rather than houses. 2,300 of the 4,009 rows sit at the district's nominal $1,000 value for unimproved land, and the median value across the set is $1,000; among the 1,491 rows with a year built, the median value is $327,000. Values are the district's prior-year appraised market values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Tired Landlords",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-23",
+   "build_date": "November 23, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/collin/collin-tired-landlords-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Collin County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "collin-multifamily",
+   "title": "Collin County Multifamily Properties",
+   "tagline": "5,428 multifamily properties in Collin County, with owner mailing addresses",
+   "buyer": "Apartment investors and brokers who target multifamily owners in Collin County",
+   "cover": "assets/covers/collin-multifamily.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Collin County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 5428,
+   "rows_label": "5,428 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/collin-multifamily.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "5,428"
+    },
+    {
+     "k": "Columns",
+     "v": "13"
+    },
+    {
+     "k": "Median value",
+     "v": "$340,514"
+    },
+    {
+     "k": "Source",
+     "v": "Collin CAD via Texas Open Data Portal"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value (the district's prior-year appraised value)",
+    "Year built, deed date, and years owned",
+    "Collin CAD Property ID on every record, for verification"
+   ],
+   "limits": "Built from the Collin Central Appraisal District's official dataset as published on the Texas Open Data Portal, not scraped and not resold from another list vendor. The set is the district's apartment property category. Unit counts are printed where the district publishes them (738 of the 5,428 records) and are never approximated. Values are the district's prior-year appraised market values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Multifamily Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-23",
+   "build_date": "November 23, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/collin/collin-multifamily-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Collin County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
+   "id": "collin-commercial",
+   "title": "Collin County Commercial Properties",
+   "tagline": "28,885 commercial properties in Collin County, with owner mailing addresses",
+   "buyer": "Investors, brokers, and service companies who target commercial owners in Collin County",
+   "cover": "assets/covers/collin-commercial.png",
+   "family": "county",
+   "featured": false,
+   "metro": "Collin County",
+   "price": 79,
+   "price_note": "one time",
+   "rows": 28885,
+   "rows_label": "28,885 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/collin-commercial.html",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "28,885"
+    },
+    {
+     "k": "Columns",
+     "v": "13"
+    },
+    {
+     "k": "Median value",
+     "v": "$258,038"
+    },
+    {
+     "k": "Source",
+     "v": "Collin CAD via Texas Open Data Portal"
+    }
+   ],
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value (the district's prior-year appraised value)",
+    "Year built, deed date, and years owned",
+    "Collin CAD Property ID on every record, for verification"
+   ],
+   "limits": "Built from the Collin Central Appraisal District's official dataset as published on the Texas Open Data Portal, not scraped and not resold from another list vendor. The set is every record in the district's commercial property categories. Values are the district's prior-year appraised market values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "trade": "Commercial Owners",
+   "state": "TX",
+   "category": "Real Estate",
+   "data_as_of": "2026-11-23",
+   "build_date": "November 23, 2026 data",
+   "store": {
+    "mode": "stripe",
+    "delivery_file": "county-packs/collin/collin-commercial-2026-11-23.csv",
+    "billing": "one_time",
+    "stripe_product_id": null,
+    "stripe_price_id": null
+   },
+   "metro_id": "dfw",
+   "coverage": "Collin County",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "membership": {
+    "price": 79,
+    "per": "quarter"
+   }
+  },
+  {
    "build_date": "Current builds",
    "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
    "buyer": "Anyone who wants to inspect the data before spending a dollar",

@@ -375,3 +375,22 @@ county-packs/tarrant/GUMROAD-TARRANT-BATCH-SPEC.md, sequenced behind
 the Nov 24 Dallas remainder under the daily creation cap. Line 10
 (out-of-area) is re-cut and restaged for Relay, not landed; line 11's
 residential swap subset (6,023) waits on HQ's decision.
+
+Tarrant tax delinquent swap, Nov 23, 2026 (HQ ruling): the live pack
+restated from the shipped 12,393 to the 6,023-row residential (A+B)
+subset of the verified re-cut, under the governing basis (years owed
+at least 2, value at least $25,000). Delivery file is now
+county-packs/tarrant/tarrant-tax-delinquent-residential-2026-11-23.csv;
+median total due restated to $5,737; cover rebuilt from subset rows;
+counter 1,808,906 to 1,802,536, verified in the same motion (commit
+df11ad9). Function rebuilt at 45,589 bytes, md5
+813b3773e97a0bbd186f5a300022c7c2, superseding the earlier 30-pack
+build for the pending paste window.
+
+Tarrant bucket uploads completed Nov 23, 2026 on HQ's token pass:
+all 24 objects confirmed {"ok":true} (five packs' CSV+XLSX + sample
+pairs, the swap set's pack pair, and the swap's restated sample pair
+overwriting the old keys); bucket holds 117 objects. The 24.8 MB
+long-term CSV cleared on a curl pass after three proxy drops.
+Function chunks (45,589 bytes, md5 813b3773e97a0bbd186f5a300022c7c2)
+sent to HQ the same night for the paste.

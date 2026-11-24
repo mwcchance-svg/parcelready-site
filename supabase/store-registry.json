@@ -407,6 +407,76 @@
    "sample_file_key": "samples/tarrant-commercial-sample.csv"
   },
   {
+   "id": "collin-high-equity",
+   "title": "Collin County High Equity Homeowners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 5900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/collin-high-equity-2026-11-23.csv",
+   "sample_file_key": "samples/collin-high-equity-sample.csv"
+  },
+  {
+   "id": "collin-long-term",
+   "title": "Collin County Long-Term Owners (10+ Years)",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/collin-long-term-2026-11-23.csv",
+   "sample_file_key": "samples/collin-long-term-sample.csv"
+  },
+  {
+   "id": "collin-tired-landlords",
+   "title": "Collin County Tired Landlords: Owners With 3+ Properties Held 7+ Years",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/collin-tired-landlords-2026-11-23.csv",
+   "sample_file_key": "samples/collin-tired-landlords-sample.csv"
+  },
+  {
+   "id": "collin-multifamily",
+   "title": "Collin County Multifamily Properties",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/collin-multifamily-2026-11-23.csv",
+   "sample_file_key": "samples/collin-multifamily-sample.csv"
+  },
+  {
+   "id": "collin-commercial",
+   "title": "Collin County Commercial Properties",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/collin-commercial-2026-11-23.csv",
+   "sample_file_key": "samples/collin-commercial-sample.csv"
+  },
+  {
    "id": "free-sample-pack",
    "title": "ParcelReady Free Sample Pack",
    "store": {
