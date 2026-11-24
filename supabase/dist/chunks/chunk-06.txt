@@ -1,3 +1,22 @@
+    ["What", renewal ? "Subscription renewal" : "New sale"],
+    ["Pack", pack.title],
+    ["Amount paid", amount],
+    ["Buyer", email],
+    ["Received", when],
+  ];
+  const intro = renewal
+    ? "A subscription renewed on the store."
+    : "A sale landed on the store.";
+  const outro = renewal
+    ? "The subscriber has been sent a fresh delivery email with the download links."
+    : "The buyer has been sent the delivery email with the download links.";
+  const text =
+    `${intro}\n\n` +
+    lines.map(([k, v]) => `${k}: ${v}`).join("\n") +
+    `\n\n${outro}`;
+  const rows = lines
+    .map(([k, v]) =>
+      `<tr><td style="padding:5px 18px 5px 0;font-size:13px;color:#3D5546;white-space:nowrap;">${escHtml(k)}</td>` +
       `<td style="padding:5px 0;font-size:14px;color:#122B1E;">${escHtml(v)}</td></tr>`)
     .join("\n");
   const html = emailShell(

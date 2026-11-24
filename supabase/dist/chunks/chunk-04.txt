@@ -1,3 +1,17 @@
+async function deliver(pack: any, email: string, kind: string) {
+  const token = randomToken();
+  const expires = new Date(Date.now() + 72 * 3600 * 1000).toISOString();
+  await rest("delivery_tokens", {
+    method: "POST",
+    body: JSON.stringify({ token, pack_id: pack.id, email, kind, expires_at: expires }),
+  });
+  const base = env("API_BASE") || env("SITE_BASE");
+  const link = `${base}/api/download?token=${token}`;
+  const linkXlsx = `${link}&format=xlsx`;
+  const isSample = kind === "sample";
+  const text = isSample
+    ? `Thank you for asking to see the data first. That is exactly what the sample is for.\n\n` +
+      `Your free sample of ${pack.title} is ready. It carries every field, exactly as the full ` +
       `pack ships them, so you can judge the data the way it will actually arrive. It comes in ` +
       `two formats: CSV, which opens straight into Google Sheets, and XLSX, the same data in ` +
       `Excel's own format.\n\n` +
@@ -156,25 +170,5 @@ async function ensureWebhook() {
   if (!created.id || !created.secret) throw new Error("webhook_create_failed");
   await configSet("webhook_secret", created.secret);
   return { status: "registered", id: created.id };
-}
-
-async function handleAdminSync(req: Request) {
-  if (!env("ADMIN_TOKEN")) return new Response("not found", { status: 404 });
-  if (req.headers.get("x-admin-token") !== env("ADMIN_TOKEN")) return json({ error: "unauthorized" }, 401);
-  const report: any = { synced: [], webhook: null, errors: [] };
-  for (const pack of (registry as any).packs) {
-    if (pack.store.mode !== "stripe") continue;
-    try {
-      report.synced.push({ pack: pack.id, price: await ensurePrice(pack) });
-    } catch (err) {
-      report.errors.push({ pack: pack.id, error: String(err) });
-    }
-  }
-  try {
-    report.webhook = await ensureWebhook();
-  } catch (err) {
-    report.errors.push({ webhook: String(err) });
-  }
-  return json(report, report.errors.length ? 207 : 200);
 }
 
