@@ -211,13 +211,47 @@ def _stratified_pick(rows, n, fields):
     return _interleave(a, b)
 
 
+LEAD_FIELDS = ["Published email", "Phone", "Rating", "Review count"]
+
+
+def _window_fix(draw, full):
+    """Relay's A2 window rule (Nov 24, 2026): the first 5 rows of the
+    preview are tested as their own window (tolerance the larger of
+    10 points or one row's weight there, 20 points). If a lead field
+    misses in the window, swap the earliest window row lacking the
+    field with the nearest later draw row carrying it. Swaps change
+    only order, never the draw's own rates. Bounded and checked
+    after every swap; deterministic."""
+    def rate(rs, f):
+        return 100.0 * sum(1 for r in rs if (r.get(f) or "").strip()) / len(rs) if rs else 0.0
+    tol = max(10.0, 100.0 / 5)
+    for _ in range(10):
+        bad = None
+        for f in LEAD_FIELDS:
+            if abs(rate(draw[:5], f) - rate(full, f)) > tol:
+                bad = f
+                break
+        if bad is None:
+            return draw
+        swap_in = next((i for i in range(5, len(draw)) if (draw[i].get(bad) or "").strip()), None)
+        swap_out = next((i for i in range(4, -1, -1) if not (draw[i].get(bad) or "").strip()), None)
+        if swap_in is None or swap_out is None:
+            return draw
+        draw[swap_out], draw[swap_in] = draw[swap_in], draw[swap_out]
+    return draw
+
+
 def representative_draw(rows, target):
     """A2 (HQ ruling, Nov 24, 2026, on Relay's fill-rate facts): a
     trade sample whose lead-field fill rates match the full file's
-    true rates as closely as the sample size allows. Deterministic,
+    true rates as closely as the sample size allows, in the whole
+    draw and in the first-5 window, under Relay's named tolerance
+    (the larger of 10 points or one row's weight). Deterministic,
     so builds are reproducible and Relay's representativeness check
     can re-derive the same draw."""
-    return _stratified_pick(rows, target, ["Published email", "Rating", "Website"])
+    draw = _stratified_pick(rows, target,
+                            ["Published email", "Rating", "Review count", "Website"])
+    return _window_fix(draw, rows)
 
 
 def write_sample_json():
@@ -247,7 +281,9 @@ def write_sample_json():
             print(f"A2 DRAW {p['id']}: email file {_rate(all_rows, 'Published email'):.1f}% "
                   f"sample {_rate(delivered, 'Published email'):.1f}% | "
                   f"rating file {_rate(all_rows, 'Rating'):.1f}% sample {_rate(delivered, 'Rating'):.1f}% | "
-                  f"website file {_rate(all_rows, 'Website'):.1f}% sample {_rate(delivered, 'Website'):.1f}%")
+                  f"reviews file {_rate(all_rows, 'Review count'):.1f}% sample {_rate(delivered, 'Review count'):.1f}% | "
+                  f"first5 email {_rate(delivered[:5], 'Published email'):.1f}% rating {_rate(delivered[:5], 'Rating'):.1f}% "
+                  f"reviews {_rate(delivered[:5], 'Review count'):.1f}%")
         else:
             dstep = max(1, len(all_rows) // target)
             delivered = all_rows[::dstep][:target]
