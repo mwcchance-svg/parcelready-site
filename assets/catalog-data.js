@@ -840,7 +840,7 @@ window.CATALOG = {
    "rows_label": "78,514 records",
    "sample_label": "Free 50 row sample",
    "source_line": "Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.",
-   "diff_line": "Absentee owners with tenure and value filters on: tax mail goes elsewhere, holding 11+ years, property worth $150,000 or more.",
+   "diff_line": "Absentee owners with the tenure and value filters on: the tax mail goes somewhere else, they have held 11+ years, and the property is worth $150,000 or more.",
    "sample_url": "https://parcelreadydata.com/packs/harris-absentee.html",
    "stats": [
     {
@@ -1095,7 +1095,7 @@ window.CATALOG = {
    "rows_label": "73,323 records",
    "sample_label": "Free 50 row sample",
    "source_line": "Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.",
-   "diff_line": "Absentee owners by mailing geography only: every owner whose tax mail goes outside Harris County, split out-of-state and out-of-county. No tenure filter, no value filter.",
+   "diff_line": "Absentee owners by mailing geography only: every owner whose tax mail goes outside Harris County, split out-of-state and out-of-county in one file. No tenure filter, no value filter.",
    "sample_url": "https://parcelreadydata.com/packs/harris-out-of-area.html",
    "stats": [
     {
