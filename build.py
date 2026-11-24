@@ -202,12 +202,22 @@ def write_sample_json():
                     row["Published email"] = "Published" if row["Published email"] else ""
                 if "Phone" in row:
                     row["Phone"] = "Listed" if row["Phone"] else ""
+            else:
+                # County packs mask under the same standard (HQ
+                # ruling, Nov 23, 2026, Beacon fix spec 6): the owner
+                # name and the mailing street address never ship in
+                # the page data. Mailing city, state, and ZIP stay
+                # visible so the geography stays checkable, and the
+                # property side stays in full.
+                for c in ("Owner Name", "Owner Mailing Address"):
+                    if c in row and row[c]:
+                        row[c] = "Masked"
             teaser.append(row)
         out = os.path.join(ROOT, "assets", "data", p["id"] + "-sample.json")
         with open(out, "w") as f:
             json.dump({"columns": cols,
                        "rows": teaser,
-                       "kind": kind, "masked": kind == "trade",
+                       "kind": kind, "masked": True,
                        "sample_total": len(delivered),
                        "delivered_total": len(delivered),
                        "full_total": p["rows"] if isinstance(p["rows"], int) else len(all_rows),
@@ -248,7 +258,7 @@ def sample_section(p):
           <p class="explorer-frame-head"><span>LIVE PREVIEW · {esc(p['title'].upper())}</span><span>PULLED {esc(fmt_date(p['data_as_of']).upper())}{' · CONTACT DETAILS MASKED' if kind == 'trade' else ''}</span></p>
           <div class="explorer" data-explorer="../assets/data/{p['id']}-sample.json"></div>
         </div>
-        <p class="fineprint">Preview rows shown with contact details masked. A blank field means it could not be verified. It is never guessed. The delivered sample carries every value.</p>
+        <p class="fineprint">Preview rows shown with contact details masked: phone and email on trade packs, owner name and mailing street address on county packs. Mailing city, state, and ZIP stay visible so the geography stays checkable. A blank field means it could not be verified. It is never guessed. The delivered sample carries every value.</p>
         <form class="capture" data-capture>
           <input type="hidden" name="pack_id" value="{p['id']}">
           <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
