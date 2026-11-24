@@ -259,23 +259,55 @@ def _window_fix(draw, full):
     misses in the window, swap the earliest window row lacking the
     field with the nearest later draw row carrying it. Swaps change
     only order, never the draw's own rates. Bounded and checked
-    after every swap; deterministic."""
+    after every swap; deterministic.
+
+    Relay's composition rule (Nov 24, 2026, for the A4 pass) rides
+    the same pass: (1) the first row is never blank on all three of
+    email, rating, and review count at once; (2) no two consecutive
+    rows inside the first five are all-blank on those fields.
+    All-blank rows are NOT barred from the window (they are 38.7%
+    of the HVAC file; a window with none would oversell the other
+    way). Composition swaps prefer partners inside the window so
+    the window's rates are untouched; a swap that reaches outside
+    re-enters the rate check."""
     def rate(rs, f):
         return 100.0 * sum(1 for r in rs if (r.get(f) or "").strip()) / len(rs) if rs else 0.0
+
+    def all_blank(r):
+        return not any((r.get(f) or "").strip()
+                       for f in ("Published email", "Rating", "Review count"))
+
     tol = max(10.0, 100.0 / 5)
-    for _ in range(10):
+    for _ in range(20):
         bad = None
         for f in LEAD_FIELDS:
             if abs(rate(draw[:5], f) - rate(full, f)) > tol:
                 bad = f
                 break
-        if bad is None:
+        if bad is not None:
+            swap_in = next((i for i in range(5, len(draw)) if (draw[i].get(bad) or "").strip()), None)
+            swap_out = next((i for i in range(4, -1, -1) if not (draw[i].get(bad) or "").strip()), None)
+            if swap_in is None or swap_out is None:
+                return draw
+            draw[swap_out], draw[swap_in] = draw[swap_in], draw[swap_out]
+            continue
+        # Composition: find the first violation position.
+        pos = None
+        if draw and all_blank(draw[0]):
+            pos = 0
+        else:
+            for i in range(4):
+                if all_blank(draw[i]) and all_blank(draw[i + 1]):
+                    pos = i + 1
+                    break
+        if pos is None:
             return draw
-        swap_in = next((i for i in range(5, len(draw)) if (draw[i].get(bad) or "").strip()), None)
-        swap_out = next((i for i in range(4, -1, -1) if not (draw[i].get(bad) or "").strip()), None)
-        if swap_in is None or swap_out is None:
+        partner = next((i for i in range(pos + 1, 5) if not all_blank(draw[i])), None)
+        if partner is None:
+            partner = next((i for i in range(5, len(draw)) if not all_blank(draw[i])), None)
+        if partner is None:
             return draw
-        draw[swap_out], draw[swap_in] = draw[swap_in], draw[swap_out]
+        draw[pos], draw[partner] = draw[partner], draw[pos]
     return draw
 
 
