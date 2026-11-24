@@ -511,25 +511,25 @@
     "Property address",
     "Appraised market value",
     "Current year amount due and prior year amount due",
-    "Total amount due, median $3,328, sorted largest first",
+    "Total amount due, median $5,737, sorted largest first",
     "County tax account number on every record"
    ],
-   "limits": "Pulled from the county tax office's own weekly tax roll, the same records the collector bills from, not a resold scrape. Delinquent means a prior year balance is still open on the roll as of the run date. Balances change daily as owners pay. Amounts are base tax figures and do not include every penalty or fee a collector may add later.",
+   "limits": "Pulled from the county tax office's own weekly tax roll, the same records the collector bills from, not a resold scrape. Delinquent on this pack means a residential account owing at least two years of taxes with an appraised value of at least $25,000, as of the roll run date (November 6, 2026). Balances change daily as owners pay. Amounts are base tax figures and do not include every penalty or fee a collector may add later.",
    "metro": "Tarrant County",
    "price": 49,
    "price_note": "one time",
-   "rows": 12393,
-   "rows_label": "12,393 accounts",
+   "rows": 6023,
+   "rows_label": "6,023 accounts",
    "sample_label": "Free sample pack",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
      "k": "Accounts",
-     "v": "12,393"
+     "v": "6,023"
     },
     {
      "k": "Median total due",
-     "v": "$3,328"
+     "v": "$5,737"
     },
     {
      "k": "Source",
@@ -540,7 +540,7 @@
      "v": "Largest owed first"
     }
    ],
-   "tagline": "12,393 residential accounts that still owe prior year taxes",
+   "tagline": "6,023 residential accounts owing two or more years of back taxes",
    "title": "Tarrant County Tax Delinquent Properties",
    "trade": "Tax Delinquent",
    "state": "TX",
@@ -549,7 +549,7 @@
    "sample_csv": "tarrant_tax_delinquent_sample100.csv",
    "store": {
     "mode": "stripe",
-    "delivery_file": "tarrant_tax_delinquent.csv",
+    "delivery_file": "county-packs/tarrant/tarrant-tax-delinquent-residential-2026-11-23.csv",
     "billing": "one_time",
     "stripe_product_id": null,
     "stripe_price_id": null

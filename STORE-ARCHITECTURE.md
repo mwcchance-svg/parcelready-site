@@ -359,3 +359,19 @@ chunks (registry at 25 packs), redeploy required to arm checkout and
 sample delivery for the six. Label medians were recomputed from the
 delivered files before the build; an early desk pass carried wrong
 medians and was corrected pre-ship (delivered-copy rule).
+
+Tarrant five-pack landing, Nov 23, 2026 (store side): the five cuts
+that passed Relay's cuts verification (VERIFICATION-CUTS-2026-11-23)
+landed as catalog entries at commits a4c22d2 (site) and 4001222
+(function): high equity 87,779 ($59), long-term 223,442 ($49), tired
+landlords 12,906 ($79), multifamily 11,354 ($79), commercial 50,358
+($79); catalog 30 packs; counter 1,808,906, verified at build.
+Function build 45,566 bytes in 6 chunks (registry at 30 packs, md5
+de976ef476d9acd7217f01414c741570), redeploy required to arm checkout
+and sample delivery for the five; this build also carries the staged
+sale-notice code. Bucket uploads (20 objects) wait on the admin token
+pass. Gumroad feeders run Nov 25, 2026 from
+county-packs/tarrant/GUMROAD-TARRANT-BATCH-SPEC.md, sequenced behind
+the Nov 24 Dallas remainder under the daily creation cap. Line 10
+(out-of-area) is re-cut and restaged for Relay, not landed; line 11's
+residential swap subset (6,023) waits on HQ's decision.
