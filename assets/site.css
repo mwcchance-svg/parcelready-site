@@ -44,9 +44,15 @@ h2 { font-size: clamp(1.8rem, 3.6vw, 2.8rem); margin-bottom: 0.5em; }
   font-size: 0.78rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--green-800);
+  color: var(--gold);
   margin-bottom: 1rem;
 }
+/* Hostile audit, Nov 24, 2026: the site's default field is the dark
+   green body; every kicker outside a light container sits on it.
+   The base color is therefore the dark-field color (gold, 7.4:1+ on
+   green-950). Light containers (.inside, .wontdo, .limits) carry
+   their own green overrides below. A green-800 base here rendered
+   hub and index kickers illegible on the dark field. */
 /* Beauty spec B6: gold is reserved for the seal, the price, and the
    primary action. Small gold text survives only on dark fields,
    where its contrast holds; on cream it retires to green. */
@@ -311,7 +317,8 @@ a.chip { text-decoration: none; display: inline-block; }
 @media (max-width: 760px) { .card-wide { grid-template-columns: 1fr; } }
 .mini-preview { margin-top: 1.3rem; background: var(--cream); color: var(--green-950); border-radius: 10px; padding: 0.9rem 1rem 0.7rem; max-width: 36rem; box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
 .mini-head { display: flex; justify-content: space-between; gap: 1rem; font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.5rem; }
-.mini-preview table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.mini-preview table { width: 100%; border-collapse: collapse; font-size: 0.78rem; table-layout: fixed; }
+.pack-hero-grid > * { min-width: 0; }
 .mini-preview th { text-align: left; font-family: "IBM Plex Mono", monospace; font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); padding: 0.25rem 0.4rem 0.25rem 0; border-bottom: 1px solid var(--line); }
 .mini-preview td { padding: 0.3rem 0.4rem 0.3rem 0; border-bottom: 1px solid rgba(18,43,30,0.08); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 11rem; }
 .mini-foot { font-size: 0.74rem; color: var(--ink-soft); margin-top: 0.55rem; }
