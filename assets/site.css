@@ -273,6 +273,7 @@ a.chip { text-decoration: none; display: inline-block; }
 .state-grid { grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); }
 
 /* ---------- sample capture form ---------- */
+.card-diff { font-size: 0.88rem; color: var(--ink-soft); margin-top: 0.4rem; }
 .capture { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: end; margin-top: 1.6rem; }
 .capture label { display: flex; flex-direction: column; gap: 0.35rem; font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
 .capture input, .capture select { font: inherit; font-size: 1rem; letter-spacing: 0; text-transform: none; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid var(--line-dark); background: #fff; color: var(--ink); min-width: 240px; }

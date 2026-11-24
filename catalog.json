@@ -328,6 +328,7 @@
    "rows": 53887,
    "rows_label": "53,887 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Dallas Central Appraisal District's current published roll (district files dated October 12, 2026). Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -393,6 +394,7 @@
    "rows": 7260,
    "rows_label": "7,260 open cases",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: City of Dallas 311 case data, with the property owner matched from Dallas Central Appraisal District records. Re-pulled weekly.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -457,6 +459,7 @@
    "rows": 55920,
    "rows_label": "55,920 permits",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: City of Dallas published permit records. Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -521,6 +524,7 @@
    "rows": 6023,
    "rows_label": "6,023 accounts",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Tarrant County Tax Office tax roll, published weekly; this build uses the November 6, 2026 roll.",
    "teaser_sort": {"column": "Total Amount Due", "desc": true},
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
@@ -585,6 +589,7 @@
    "rows": 31156,
    "rows_label": "31,156 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Tarrant County Tax Office tax roll, published weekly; this build uses the November 6, 2026 roll.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -648,6 +653,7 @@
    "rows": 3808,
    "rows_label": "3,808 permits",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: City of Dallas published permit records. Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -710,6 +716,7 @@
    "rows": 1249,
    "rows_label": "1,249 permits",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: City of Dallas published permit records. Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -773,6 +780,7 @@
    "rows": 14227,
    "rows_label": "14,227 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Collin County Appraisal District owner file, as published November 2026. Re-pulled monthly.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
@@ -828,6 +836,8 @@
    "rows": 78514,
    "rows_label": "78,514 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.",
+   "diff_line": "Absentee owners with tenure and value filters on: tax mail goes elsewhere, holding 11+ years, property worth $150,000 or more.",
    "sample_url": "https://parcelreadydata.com/packs/harris-absentee.html",
    "stats": [
     {
@@ -891,6 +901,7 @@
    "rows": 71185,
    "rows_label": "71,185 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.",
    "sample_url": "https://parcelreadydata.com/packs/harris-commercial.html",
    "stats": [
     {
@@ -953,6 +964,7 @@
    "rows": 191999,
    "rows_label": "191,999 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.",
    "sample_url": "https://parcelreadydata.com/packs/harris-high-equity.html",
    "stats": [
     {
@@ -1015,6 +1027,8 @@
    "rows": 342211,
    "rows_label": "342,211 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.",
+   "diff_line": "Every owner who has held the same property 20 years or more, whether they live there or not. No absentee test, no value floor.",
    "sample_url": "https://parcelreadydata.com/packs/harris-long-term.html",
    "stats": [
     {
@@ -1077,6 +1091,8 @@
    "rows": 73323,
    "rows_label": "73,323 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.",
+   "diff_line": "Absentee owners by mailing geography only: every owner whose tax mail goes outside Harris County, split out-of-state and out-of-county. No tenure filter, no value filter.",
    "sample_url": "https://parcelreadydata.com/packs/harris-out-of-area.html",
    "stats": [
     {
@@ -1139,6 +1155,7 @@
    "rows": 11087,
    "rows_label": "11,087 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.",
    "sample_url": "https://parcelreadydata.com/packs/harris-tired-landlords.html",
    "stats": [
     {
@@ -1201,6 +1218,7 @@
    "rows": 16428,
    "rows_label": "16,428 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Harris County Appraisal District owner file, published weekly. Pulled November 2026; refreshed weekly.",
    "sample_url": "https://parcelreadydata.com/packs/harris-multifamily.html",
    "stats": [
     {
@@ -1264,6 +1282,7 @@
    "rows": 124232,
    "rows_label": "124,232 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Dallas Central Appraisal District's current published roll (district files dated October 12, 2026). Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelreadydata.com/packs/dallas-high-equity.html",
    "stats": [
       {
@@ -1326,6 +1345,7 @@
    "rows": 161029,
    "rows_label": "161,029 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Dallas Central Appraisal District's current published roll (district files dated October 12, 2026). Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelreadydata.com/packs/dallas-long-term.html",
    "stats": [
       {
@@ -1388,6 +1408,7 @@
    "rows": 65064,
    "rows_label": "65,064 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Dallas Central Appraisal District's current published roll (district files dated October 12, 2026). Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelreadydata.com/packs/dallas-out-of-area.html",
    "stats": [
       {
@@ -1450,6 +1471,7 @@
    "rows": 17294,
    "rows_label": "17,294 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Dallas Central Appraisal District's current published roll (district files dated October 12, 2026). Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelreadydata.com/packs/dallas-tired-landlords.html",
    "stats": [
       {
@@ -1512,6 +1534,7 @@
    "rows": 13025,
    "rows_label": "13,025 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Dallas Central Appraisal District's current published roll (district files dated October 12, 2026). Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelreadydata.com/packs/dallas-multifamily.html",
    "stats": [
       {
@@ -1575,6 +1598,7 @@
    "rows": 77374,
    "rows_label": "77,374 records",
    "sample_label": "Free 50 row sample",
+   "source_line": "Source: Dallas Central Appraisal District's current published roll (district files dated October 12, 2026). Re-pulled monthly; next refresh December 9, 2026.",
    "sample_url": "https://parcelreadydata.com/packs/dallas-commercial.html",
    "stats": [
       {
@@ -1637,6 +1661,7 @@
   "rows": 87779,
   "rows_label": "87,779 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Tarrant County Tax Office tax roll, published weekly; this build uses the November 6, 2026 roll.",
   "sample_url": "https://parcelreadydata.com/packs/tarrant-high-equity.html",
   "stats": [
    {
@@ -1699,6 +1724,7 @@
   "rows": 223442,
   "rows_label": "223,442 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Tarrant County Tax Office tax roll, published weekly; this build uses the November 6, 2026 roll.",
   "sample_url": "https://parcelreadydata.com/packs/tarrant-long-term.html",
   "stats": [
    {
@@ -1761,6 +1787,7 @@
   "rows": 12906,
   "rows_label": "12,906 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Tarrant County Tax Office tax roll, published weekly; this build uses the November 6, 2026 roll.",
   "sample_url": "https://parcelreadydata.com/packs/tarrant-tired-landlords.html",
   "stats": [
    {
@@ -1824,6 +1851,7 @@
   "rows": 11354,
   "rows_label": "11,354 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Tarrant County Tax Office tax roll, published weekly; this build uses the November 6, 2026 roll.",
   "sample_url": "https://parcelreadydata.com/packs/tarrant-multifamily.html",
   "stats": [
    {
@@ -1886,6 +1914,7 @@
   "rows": 50358,
   "rows_label": "50,358 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Tarrant County Tax Office tax roll, published weekly; this build uses the November 6, 2026 roll.",
   "sample_url": "https://parcelreadydata.com/packs/tarrant-commercial.html",
   "stats": [
    {
@@ -1961,6 +1990,7 @@
   "rows": 29843,
   "rows_label": "29,843 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Tarrant County Tax Office tax roll, published weekly; this build uses the November 6, 2026 roll.",
   "sample_url": "https://parcelreadydata.com/packs/tarrant-out-of-area.html",
   "state": "TX",
   "stats": [
@@ -2006,6 +2036,7 @@
   "rows": 35586,
   "rows_label": "35,586 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Collin County Appraisal District preliminary 2027 roll, as published November 23, 2026. Re-pulled monthly; the certified roll replaces it when published.",
   "sample_url": "https://parcelreadydata.com/packs/collin-high-equity.html",
   "stats": [
     {
@@ -2067,6 +2098,7 @@
   "rows": 49177,
   "rows_label": "49,177 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Collin County Appraisal District preliminary 2027 roll, as published November 23, 2026. Re-pulled monthly; the certified roll replaces it when published.",
   "sample_url": "https://parcelreadydata.com/packs/collin-long-term.html",
   "stats": [
     {
@@ -2128,6 +2160,7 @@
   "rows": 4009,
   "rows_label": "4,009 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Collin County Appraisal District preliminary 2027 roll, as published November 23, 2026. Re-pulled monthly; the certified roll replaces it when published.",
   "sample_url": "https://parcelreadydata.com/packs/collin-tired-landlords.html",
   "stats": [
     {
@@ -2190,6 +2223,7 @@
   "rows": 5428,
   "rows_label": "5,428 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Collin County Appraisal District preliminary 2027 roll, as published November 23, 2026. Re-pulled monthly; the certified roll replaces it when published.",
   "sample_url": "https://parcelreadydata.com/packs/collin-multifamily.html",
   "stats": [
     {
@@ -2251,6 +2285,7 @@
   "rows": 28885,
   "rows_label": "28,885 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Collin County Appraisal District preliminary 2027 roll, as published November 23, 2026. Re-pulled monthly; the certified roll replaces it when published.",
   "sample_url": "https://parcelreadydata.com/packs/collin-commercial.html",
   "stats": [
     {
@@ -2328,6 +2363,7 @@
   "rows": 35338,
   "rows_label": "35,338 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Collin County Appraisal District preliminary 2027 roll, as published November 23, 2026. Re-pulled monthly; the certified roll replaces it when published.",
   "sample_url": "https://parcelreadydata.com/packs/collin-out-of-area.html",
   "state": "TX",
   "stats": [
@@ -2390,6 +2426,7 @@
   "rows": 47338,
   "rows_label": "47,338 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Travis Central Appraisal District certified 2026 roll, certified July 18, 2026, the district's current official roll. Built November 23, 2026; re-verified monthly and rebuilt when the next certified roll publishes.",
   "sample_url": "https://parcelreadydata.com/packs/travis-high-equity.html",
   "state": "TX",
   "stats": [
@@ -2452,6 +2489,7 @@
   "rows": 67591,
   "rows_label": "67,591 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Travis Central Appraisal District certified 2026 roll, certified July 18, 2026, the district's current official roll. Built November 23, 2026; re-verified monthly and rebuilt when the next certified roll publishes.",
   "sample_url": "https://parcelreadydata.com/packs/travis-long-term.html",
   "state": "TX",
   "stats": [
@@ -2514,6 +2552,7 @@
   "rows": 3070,
   "rows_label": "3,070 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Travis Central Appraisal District certified 2026 roll, certified July 18, 2026, the district's current official roll. Built November 23, 2026; re-verified monthly and rebuilt when the next certified roll publishes.",
   "sample_url": "https://parcelreadydata.com/packs/travis-tired-landlords.html",
   "state": "TX",
   "stats": [
@@ -2576,6 +2615,7 @@
   "rows": 13133,
   "rows_label": "13,133 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Travis Central Appraisal District certified 2026 roll, certified July 18, 2026, the district's current official roll. Built November 23, 2026; re-verified monthly and rebuilt when the next certified roll publishes.",
   "sample_url": "https://parcelreadydata.com/packs/travis-multifamily.html",
   "state": "TX",
   "stats": [
@@ -2638,6 +2678,7 @@
   "rows": 17423,
   "rows_label": "17,423 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Travis Central Appraisal District certified 2026 roll, certified July 18, 2026, the district's current official roll. Built November 23, 2026; re-verified monthly and rebuilt when the next certified roll publishes.",
   "sample_url": "https://parcelreadydata.com/packs/travis-commercial.html",
   "state": "TX",
   "stats": [
@@ -2700,6 +2741,7 @@
   "rows": 34153,
   "rows_label": "34,153 records",
   "sample_label": "Free 50 row sample",
+   "source_line": "Source: Travis Central Appraisal District certified 2026 roll, certified July 18, 2026, the district's current official roll. Built November 23, 2026; re-verified monthly and rebuilt when the next certified roll publishes.",
   "sample_url": "https://parcelreadydata.com/packs/travis-out-of-area.html",
   "state": "TX",
   "stats": [

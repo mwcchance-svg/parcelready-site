@@ -134,6 +134,7 @@ def card(p, prefix):
         <p class="meta">{esc(state_name(p['state']))} · {esc(p['category'])}</p>
         <h3>{esc(p['title'])}</h3>
         <p class="tagline">{esc(p['tagline'])}</p>
+        {('<p class="card-diff">' + esc(p['diff_line']) + '</p>') if p.get('diff_line') else ''}
         <p class="asof">Data as of {asof}<br>{esc(p['refresh_schedule'])}</p>
         <div class="rowline"><span class="rows">{esc(p['rows_label'])}</span><span class="price">{money(p['price'])} <small>{esc(p['price_note'])}</small></span></div>
         <div class="card-links"><a href="{prefix}packs/{p['id']}.html">See what is inside</a><a href="{prefix}packs/{p['id']}.html#sample">Free sample</a></div>
@@ -396,6 +397,7 @@ def build_pack(p):
       <p class="kicker">{'Trade lead pack' if p['family'] == 'trade' else 'County records pack'} · {esc(p['metro'])} · {esc(p['trade'])}</p>
       <h1>{esc(p['title'])}</h1>
       <p class="lede">{esc(p['tagline'])}.</p>
+      {('<p class="buyer-line">' + esc(p['diff_line']) + '</p>') if p.get('diff_line') else ''}
       <p class="the-line">We do the work. You get the leads.</p>
       <p class="buyer-line">Built for: {esc(p['buyer'])}.</p>
       <p class="buyer-line">Coverage: {esc(p['coverage'])}{metro_link(p)}.</p>
@@ -405,6 +407,7 @@ def build_pack(p):
       </div>
       <p class="fineprint">The <a href="../terms.html#label-promise">label promise</a>: if this pack does not match what this page promises, tell us within 30 days and we will fix it or refund the pack.</p>
       <p class="fineprint">{fresh} {'Sold and delivered through Gumroad.' if p.get("store", {}).get("mode") == "gumroad" else 'Sold and delivered on this site.'}</p>
+      {('<p class="fineprint">' + esc(p['source_line']) + '</p>') if p.get('source_line') else ''}
     </div>
     <figure class="pack-cover reveal"><img src="../{p['cover']}" alt="{esc(p['title'])} data preview cover"></figure>
   </div>
