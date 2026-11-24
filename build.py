@@ -126,9 +126,22 @@ def footer(prefix):
 """
 
 
-def card(p, prefix):
+def card_grid(packs, prefix):
+    """Beauty spec B5: two card sizes. The flagship pack of each hub
+    (largest count, newest pull on a tie) renders as a wide card;
+    the rest keep the standard card."""
+    if not packs:
+        return ""
+    flagship = max(packs, key=lambda p: (p.get("rows") or 0, p["data_as_of"]))
+    out = []
+    for p in packs:
+        out.append(card(p, prefix, wide=(p is flagship)))
+    return "".join(out)
+
+
+def card(p, prefix, wide=False):
     asof = fmt_date(p["data_as_of"])
-    return f"""<article class="card">
+    return f"""<article class="card{' card-wide' if wide else ''}">
       <a href="{prefix}packs/{p['id']}.html"><img src="{prefix}{p['cover']}" alt="{esc(p['title'])} data preview cover" loading="lazy"></a>
       <div class="card-body">
         <p class="meta">{esc(state_name(p['state']))} · {esc(p['category'])}</p>
@@ -591,7 +604,7 @@ def build_metro_hubs(urls):
         prefix = "../../../../"
         sslug = slug(state_name(m["state"]))
         packs = [p for p in CATALOG["packs"] if p.get("metro_id") == mid]
-        cards = "".join(card(p, prefix) for p in packs)
+        cards = card_grid(packs, prefix)
         cats = sorted({p["category"] for p in packs})
         cat_links = "".join(
             f'<a class="chip" href="../../{slug(c)}/index.html">{c}</a>' for c in cats)
@@ -706,7 +719,7 @@ def build_state_hub(name, code, urls):
     sslug = slug(name)
     live = packs_in(code)
     soon = soon_in(code)
-    cards = "".join(card(p, prefix) for p in live)
+    cards = card_grid(live, prefix)
     cat_rows = ""
     for cat in CATEGORIES:
         n = len(packs_in(code, cat))
@@ -774,7 +787,7 @@ def build_combo(name, code, cat, urls):
     sslug, cslug = slug(name), slug(cat)
     live = packs_in(code, cat)
     soon = soon_in(code, cat)
-    cards = "".join(card(p, prefix) for p in live)
+    cards = card_grid(live, prefix)
     if live:
         head = f"{name} {cat} data"
         sub = f"{len(live)} pack{'s' if len(live) != 1 else ''} live, each with a free sample viewable on its page and a data as of date printed on the label."

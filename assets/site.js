@@ -115,13 +115,13 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
 
   function money(p) { return p === 0 ? "Free" : "$" + p; }
 
-  function card(p) {
+  function card(p, wide) {
     var page = "packs/" + p.id + ".html";
     if (window.location.pathname.indexOf("catalog") === -1 && document.body.dataset.root === "packs") {
       page = p.id + ".html";
     }
     var cover = (document.body.dataset.root === "packs" ? "../" : "") + p.cover;
-    return '<article class="card">' +
+    return '<article class="card' + (wide ? " card-wide" : "") + '">' +
       '<a href="' + page + '"><img src="' + cover + '" alt="' + p.title + ' data preview cover" loading="lazy"></a>' +
       '<div class="card-body">' +
       '<p class="meta">' + stateName(p.state) + " · " + p.category + "</p>" +
@@ -140,7 +140,16 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
       return (state.state === "all" || p.state === state.state) &&
              (state.category === "all" || p.category === state.category);
     });
-    grid.innerHTML = shown.length ? shown.map(card).join("") :
+    // Beauty spec B5: the flagship of the shown set (largest count,
+    // newest pull on a tie) renders as a wide card.
+    var flagship = null;
+    shown.forEach(function (p) {
+      if (!flagship || (p.rows || 0) > (flagship.rows || 0) ||
+          ((p.rows || 0) === (flagship.rows || 0) && p.data_as_of > flagship.data_as_of)) {
+        flagship = p;
+      }
+    });
+    grid.innerHTML = shown.length ? shown.map(function (p) { return card(p, p === flagship); }).join("") :
       '<p class="empty-note">No live pack in that combination yet. It is on the build list below, and sample requests move it up.</p>';
   }
 
@@ -275,34 +284,8 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
   stSel.value = "TX"; catSel.value = "HVAC"; run();
 })();
 
-// Split-flap records board: the tiles flip up to the build-computed
-// total and settle on it. No ticking after the settle; the static
-// page already carries the true digits, so this only animates.
-(function () {
-  var board = document.querySelector(".flap-board");
-  if (!board) return;
-  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  board.querySelectorAll(".flap").forEach(function (flap, i) {
-    var face = flap.querySelector(".flap-face");
-    if (!face) return;
-    var target = parseInt(flap.getAttribute("data-digit") || "0", 10);
-    var steps = 6 + i * 3;
-    var cur = (target + 4) % 10;
-    var n = 0;
-    face.textContent = cur;
-    var iv = setInterval(function () {
-      n += 1;
-      if (n >= steps) {
-        face.textContent = target;
-        flap.classList.remove("flipping");
-        clearInterval(iv);
-        return;
-      }
-      cur = (cur + 1) % 10;
-      face.textContent = cur;
-      flap.classList.remove("flipping");
-      void flap.offsetWidth;
-      flap.classList.add("flipping");
-    }, 70);
-  });
-})();
+// Split-flap records board: STATIC by design (beauty spec B4). The
+// board renders the true, build-verified count server-side and never
+// animates through intermediate digits: on a site whose promise is
+// exact numbers, a counter flashing false figures is off message.
+// The count lands exactly or it does not move; it does not move.
