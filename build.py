@@ -100,6 +100,8 @@ def chrome(prefix, title, description):
     <a href="{prefix}catalog.html">Catalog</a>
     <a href="{prefix}states/index.html">States</a>
     <a href="{prefix}verify.html">How we verify</a>
+    <a href="{prefix}terms.html">Terms</a>
+    <a href="{prefix}privacy.html">Privacy</a>
     <a href="{prefix}sample.html" class="nav-cta">Get a free sample</a>
   </nav>
 </header>
@@ -111,7 +113,7 @@ def footer(prefix):
 <footer>
   <div class="wrap foot-grid">
     <div><strong>ParcelReady</strong><br>Clean, ready to use datasets from public records. Every product lists its source, its build date, and its limits on the label.</div>
-    <div><a href="{prefix}catalog.html">Catalog</a><br><a href="{prefix}states/index.html">Browse by state</a><br><a href="{prefix}verify.html">How we verify</a><br><a href="{prefix}sample.html">Free samples</a></div>
+    <div><a href="{prefix}catalog.html">Catalog</a><br><a href="{prefix}states/index.html">Browse by state</a><br><a href="{prefix}verify.html">How we verify</a><br><a href="{prefix}sample.html">Free samples</a><br><a href="{prefix}terms.html">Terms</a><br><a href="{prefix}privacy.html">Privacy</a></div>
     <div>Questions: <a href="mailto:hello@parcelreadydata.com">hello@parcelreadydata.com</a><br>Store: <a href="https://parcelready.gumroad.com" target="_blank" rel="noopener">parcelready.gumroad.com</a></div>
   </div>
 </footer>
@@ -318,25 +320,18 @@ def pricing_block(p):
   </div>
 </section>"""
     price = p["price"]
-    mp, per = m["price"], m["per"]
-    if per == "quarter":
-        frame = (f"About ${round(mp / 3)} a month, billed quarterly. Re-buying the set at the next refresh "
-                 f"costs {money(price)} a pull; membership delivers every refresh to your inbox automatically, "
-                 f"for the price of one pull a quarter.")
-    else:
-        frame = (f"A fresh snapshot costs {money(price)} each time you pull it. Members hold the current "
-                 f"file automatically, delivered on every refresh.")
-    stepup = ""
-    if m.get("statewide_price"):
-        stepup = (f'<p class="stepup">Step up: the full {esc(state_name(p["state"]))} tier, every metro in the state, '
-                  f'{money(m["statewide_price"])}. Membership is sold by metro; the state is the step up.</p>')
+    # HQ ruling (Nov 23, 2026, from Beacon's site assessment):
+    # membership is not purchasable yet, so the block carries no
+    # membership price and no "Two ways to buy" heading; it reads
+    # join-the-list only until membership checkout actually opens.
+    frame = ("Membership will deliver every refresh to your inbox automatically, so the file "
+             "you work from is never the stale one. It is not on sale yet.")
     card_b_cta = (f'<a class="btn btn-ghost" href="../sample.html?state={esc(state_name(p["state"]))}&trade={esc(p["category"])}">Join the follow up list</a>')
     card_b_note = "Membership checkout for this pack opens on the store next; the follow up list hears first."
     return f"""
 <section class="pricing-offers">
   <div class="wrap">
-    <p class="kicker">Two ways to buy</p>
-    <h2>The full dataset, or stay current</h2>
+    <h2>The full dataset</h2>
     <div class="offer-grid">
       <article class="offer-card">
         <p class="meta">The full dataset</p>
@@ -347,9 +342,7 @@ def pricing_block(p):
       </article>
       <article class="offer-card offer-member">
         <p class="meta">Stay current: membership</p>
-        <p class="offer-price">{money(mp)} <small>per {per}</small></p>
         <p>{frame}</p>
-        {stepup}
         {card_b_cta}
         <p class="fineprint">{card_b_note}</p>
       </article>
