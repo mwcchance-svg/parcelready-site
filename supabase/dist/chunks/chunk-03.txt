@@ -16,6 +16,33 @@ function packById(id: string) {
   return (registry as any).packs.find((p: any) => p.id === id) || null;
 }
 
+// Request matching (HQ, Nov 24, 2026): a sample request naming a
+// trade and state that are already live must be answered as live,
+// never with the in-production copy. Matches on the registry's
+// category and state name, prefers a metro text overlap, then the
+// largest pack, and returns null when nothing live fits.
+function matchLivePack(lead: any) {
+  const trade = (lead.trade || "").trim().toLowerCase();
+  const state = (lead.state || "").trim().toLowerCase();
+  if (!trade || !state) return null;
+  const metro = (lead.metro || "").replace(/\(.*?\)/g, "").trim().toLowerCase();
+  const cands = (registry as any).packs.filter((p: any) =>
+    p.category && p.category.toLowerCase() === trade &&
+    p.state_name && p.state_name.toLowerCase() === state &&
+    p.price_cents > 0);
+  if (!cands.length) return null;
+  const scored = cands.map((p: any) => {
+    const m = (p.metro || "").toLowerCase();
+    let s = 0;
+    if (metro && m) {
+      if (m.includes(metro) || metro.includes(m)) s = 2;
+      else if (m.includes(metro.split(" ")[0]) || metro.includes(m.split(" ")[0])) s = 1;
+    }
+    return { p, s };
+  }).sort((a: any, b: any) => b.s - a.s || (b.p.rows || 0) - (a.p.rows || 0));
+  return scored[0].p;
+}
+
 async function hmacHex(secret: string, data: string) {
   const key = await crypto.subtle.importKey(
     "raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]
@@ -161,24 +188,3 @@ function downloadBlockHtml(csvLink: string, xlsxLink: string) {
       </td>
     </tr>
   </table>
-  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">If the buttons do not work in your mail program, copy a link into your browser:<br>
-  CSV: <a href="${escHtml(csvLink)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(csvLink)}</a><br>
-  XLSX: <a href="${escHtml(xlsxLink)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(xlsxLink)}</a></p>
-  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">The CSV opens straight into Google Sheets. The XLSX is the same data in Excel's own format.</p>`;
-}
-
-function promiseBlockHtml() {
-  return `
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0 4px;">
-    <tr><td style="background:#FBF5E2;border:1px solid #E4D6AC;border-radius:8px;padding:16px 18px;">
-      <div style="font-family:'IBM Plex Mono','Courier New',monospace;font-size:10.5px;letter-spacing:0.2em;color:#0A4A2A;padding-bottom:8px;">THE LABEL PROMISE</div>
-      <p style="margin:0;font-size:13.5px;line-height:1.6;color:#3D5546;">${escHtml(LABEL_PROMISE)}</p>
-    </td></tr>
-  </table>`;
-}
-
-const WARM_WINDOW =
-  "Your link stays open for 72 hours, so there is no rush. If it closes before you have had a " +
-  "chance to download, write to us and we will send a fresh one.";
-const WARM_WINDOW_HTML = `<p style="margin:16px 0 0;">${WARM_WINDOW}</p>`;
-

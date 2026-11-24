@@ -18,7 +18,12 @@
     "phone": 100,
     "email": 31,
     "website": 98
-   }
+   },
+   "disclosure": null,
+   "category": "HVAC",
+   "state_name": "Texas",
+   "metro": "Houston",
+   "rows": 137
   },
   {
    "id": "houston-plumbing",
@@ -38,7 +43,12 @@
     "phone": 100,
     "email": 31,
     "website": 100
-   }
+   },
+   "disclosure": null,
+   "category": "Plumbing",
+   "state_name": "Texas",
+   "metro": "Houston",
+   "rows": 135
   },
   {
    "id": "austin-sa-roofing",
@@ -58,7 +68,12 @@
     "phone": 100,
     "email": 52,
     "website": 100
-   }
+   },
+   "disclosure": null,
+   "category": "Roofing",
+   "state_name": "Texas",
+   "metro": "Austin to San Antonio",
+   "rows": 130
   },
   {
    "id": "dallas-absentee",
@@ -74,7 +89,12 @@
    "file_key": "packs/dallas_absentee_longterm_full.csv",
    "sample_file_key": "samples/dallas-absentee-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 53,887 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Dallas County",
+   "rows": 53887
   },
   {
    "id": "dallas-code-cases",
@@ -90,7 +110,12 @@
    "file_key": "packs/dallas_open_code_cases_v3.csv",
    "sample_file_key": "samples/dallas-code-cases-sample.csv",
    "one_time_cents": 7900,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. Across the full file, the owner match rate printed on the label is 86 percent (6,260 of 7,260 records). Those are the file's true figures, the same ones printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Dallas",
+   "rows": 7260
   },
   {
    "id": "dallas-permits",
@@ -106,7 +131,12 @@
    "file_key": "packs/dallas_permits_2026.csv",
    "sample_file_key": "samples/dallas-permits-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 55,920 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Construction",
+   "state_name": "Texas",
+   "metro": "Dallas",
+   "rows": 55920
   },
   {
    "id": "tarrant-tax-delinquent",
@@ -122,7 +152,12 @@
    "file_key": "packs/tarrant-tax-delinquent-residential-2026-11-23.csv",
    "sample_file_key": "samples/tarrant-tax-delinquent-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 6,023 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Tarrant County",
+   "rows": 6023
   },
   {
    "id": "tarrant-absentee",
@@ -138,7 +173,12 @@
    "file_key": "packs/tarrant_absentee_longterm.csv",
    "sample_file_key": "samples/tarrant-absentee-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 31,156 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Tarrant County",
+   "rows": 31156
   },
   {
    "id": "dallas-new-construction",
@@ -154,7 +194,12 @@
    "file_key": "packs/dallas_new_construction_permits_2026.csv",
    "sample_file_key": "samples/dallas-new-construction-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 3,808 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Construction",
+   "state_name": "Texas",
+   "metro": "Dallas",
+   "rows": 3808
   },
   {
    "id": "dallas-demolition",
@@ -170,7 +215,12 @@
    "file_key": "packs/dallas_demolition_permits_2026.csv",
    "sample_file_key": "samples/dallas-demolition-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 1,249 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Construction",
+   "state_name": "Texas",
+   "metro": "Dallas",
+   "rows": 1249
   },
   {
    "id": "collin-absentee",
@@ -186,7 +236,12 @@
    "file_key": "packs/collin_absentee_longterm.csv",
    "sample_file_key": "samples/collin-absentee-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 14,227 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Collin County",
+   "rows": 14227
   },
   {
    "id": "harris-absentee",
@@ -202,7 +257,12 @@
    "file_key": "packs/harris-absentee-2026-11-23.csv",
    "sample_file_key": "samples/harris-absentee-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 78,514 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Harris County",
+   "rows": 78514
   },
   {
    "id": "harris-commercial",
@@ -218,7 +278,12 @@
    "file_key": "packs/harris-commercial-2026-11-23.csv",
    "sample_file_key": "samples/harris-commercial-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 71,185 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Harris County",
+   "rows": 71185
   },
   {
    "id": "harris-high-equity",
@@ -234,7 +299,12 @@
    "file_key": "packs/harris-high-equity-2026-11-23.csv",
    "sample_file_key": "samples/harris-high-equity-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 191,999 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Harris County",
+   "rows": 191999
   },
   {
    "id": "harris-long-term",
@@ -250,7 +320,12 @@
    "file_key": "packs/harris-long-term-2026-11-23.csv",
    "sample_file_key": "samples/harris-long-term-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 342,211 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Harris County",
+   "rows": 342211
   },
   {
    "id": "harris-out-of-area",
@@ -266,7 +341,12 @@
    "file_key": "packs/harris-out-of-area-2026-11-23.csv",
    "sample_file_key": "samples/harris-out-of-area-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 73,323 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Harris County",
+   "rows": 73323
   },
   {
    "id": "harris-tired-landlords",
@@ -282,7 +362,12 @@
    "file_key": "packs/harris-tired-landlords-2026-11-23.csv",
    "sample_file_key": "samples/harris-tired-landlords-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 11,087 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Harris County",
+   "rows": 11087
   },
   {
    "id": "harris-multifamily",
@@ -298,7 +383,12 @@
    "file_key": "packs/harris-multifamily-2026-11-23.csv",
    "sample_file_key": "samples/harris-multifamily-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 16,428 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Harris County",
+   "rows": 16428
   },
   {
    "id": "dallas-high-equity",
@@ -314,7 +404,12 @@
    "file_key": "packs/dallas-high-equity-2026-11-23.csv",
    "sample_file_key": "samples/dallas-high-equity-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 124,232 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Dallas County",
+   "rows": 124232
   },
   {
    "id": "dallas-long-term",
@@ -330,7 +425,12 @@
    "file_key": "packs/dallas-long-term-2026-11-23.csv",
    "sample_file_key": "samples/dallas-long-term-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 161,029 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Dallas County",
+   "rows": 161029
   },
   {
    "id": "dallas-out-of-area",
@@ -346,7 +446,12 @@
    "file_key": "packs/dallas-out-of-area-2026-11-23.csv",
    "sample_file_key": "samples/dallas-out-of-area-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 65,064 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Dallas County",
+   "rows": 65064
   },
   {
    "id": "dallas-tired-landlords",
@@ -362,7 +467,12 @@
    "file_key": "packs/dallas-tired-landlords-2026-11-23.csv",
    "sample_file_key": "samples/dallas-tired-landlords-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 17,294 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Dallas County",
+   "rows": 17294
   },
   {
    "id": "dallas-multifamily",
@@ -378,7 +488,12 @@
    "file_key": "packs/dallas-multifamily-2026-11-23.csv",
    "sample_file_key": "samples/dallas-multifamily-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 13,025 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Dallas County",
+   "rows": 13025
   },
   {
    "id": "dallas-commercial",
@@ -394,7 +509,12 @@
    "file_key": "packs/dallas-commercial-2026-11-23.csv",
    "sample_file_key": "samples/dallas-commercial-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 77,374 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Dallas County",
+   "rows": 77374
   },
   {
    "id": "tarrant-high-equity",
@@ -410,7 +530,12 @@
    "file_key": "packs/tarrant-high-equity-2026-11-23.csv",
    "sample_file_key": "samples/tarrant-high-equity-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 87,779 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Tarrant County",
+   "rows": 87779
   },
   {
    "id": "tarrant-long-term",
@@ -426,7 +551,12 @@
    "file_key": "packs/tarrant-long-term-2026-11-23.csv",
    "sample_file_key": "samples/tarrant-long-term-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 223,442 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Tarrant County",
+   "rows": 223442
   },
   {
    "id": "tarrant-tired-landlords",
@@ -442,7 +572,12 @@
    "file_key": "packs/tarrant-tired-landlords-2026-11-23.csv",
    "sample_file_key": "samples/tarrant-tired-landlords-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 12,906 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Tarrant County",
+   "rows": 12906
   },
   {
    "id": "tarrant-multifamily",
@@ -458,7 +593,12 @@
    "file_key": "packs/tarrant-multifamily-2026-11-23.csv",
    "sample_file_key": "samples/tarrant-multifamily-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 11,354 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Tarrant County",
+   "rows": 11354
   },
   {
    "id": "tarrant-commercial",
@@ -474,7 +614,12 @@
    "file_key": "packs/tarrant-commercial-2026-11-23.csv",
    "sample_file_key": "samples/tarrant-commercial-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 50,358 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Tarrant County",
+   "rows": 50358
   },
   {
    "id": "tarrant-out-of-area",
@@ -490,7 +635,12 @@
    "file_key": "packs/tarrant-out-of-area-2026-11-23.csv",
    "sample_file_key": "samples/tarrant-out-of-area-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 29,843 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Tarrant County",
+   "rows": 29843
   },
   {
    "id": "collin-high-equity",
@@ -506,7 +656,12 @@
    "file_key": "packs/collin-high-equity-2026-11-23.csv",
    "sample_file_key": "samples/collin-high-equity-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 35,586 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Collin County",
+   "rows": 35586
   },
   {
    "id": "collin-long-term",
@@ -522,7 +677,12 @@
    "file_key": "packs/collin-long-term-2026-11-23.csv",
    "sample_file_key": "samples/collin-long-term-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 49,177 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Collin County",
+   "rows": 49177
   },
   {
    "id": "collin-tired-landlords",
@@ -538,7 +698,12 @@
    "file_key": "packs/collin-tired-landlords-2026-11-23.csv",
    "sample_file_key": "samples/collin-tired-landlords-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 4,009 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Collin County",
+   "rows": 4009
   },
   {
    "id": "collin-multifamily",
@@ -554,7 +719,12 @@
    "file_key": "packs/collin-multifamily-2026-11-23.csv",
    "sample_file_key": "samples/collin-multifamily-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 5,428 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Collin County",
+   "rows": 5428
   },
   {
    "id": "collin-commercial",
@@ -570,7 +740,12 @@
    "file_key": "packs/collin-commercial-2026-11-23.csv",
    "sample_file_key": "samples/collin-commercial-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 28,885 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Collin County",
+   "rows": 28885
   },
   {
    "id": "collin-out-of-area",
@@ -586,7 +761,12 @@
    "file_key": "packs/collin-out-of-area-2026-11-23.csv",
    "sample_file_key": "samples/collin-out-of-area-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 35,338 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Collin County",
+   "rows": 35338
   },
   {
    "id": "travis-high-equity",
@@ -602,7 +782,12 @@
    "file_key": "packs/travis-high-equity-2026-11-23.csv",
    "sample_file_key": "samples/travis-high-equity-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 47,338 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Travis County",
+   "rows": 47338
   },
   {
    "id": "travis-long-term",
@@ -618,7 +803,12 @@
    "file_key": "packs/travis-long-term-2026-11-23.csv",
    "sample_file_key": "samples/travis-long-term-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 67,591 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Travis County",
+   "rows": 67591
   },
   {
    "id": "travis-tired-landlords",
@@ -634,7 +824,12 @@
    "file_key": "packs/travis-tired-landlords-2026-11-23.csv",
    "sample_file_key": "samples/travis-tired-landlords-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 3,070 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Travis County",
+   "rows": 3070
   },
   {
    "id": "travis-multifamily",
@@ -650,7 +845,12 @@
    "file_key": "packs/travis-multifamily-2026-11-23.csv",
    "sample_file_key": "samples/travis-multifamily-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 13,133 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Travis County",
+   "rows": 13133
   },
   {
    "id": "travis-commercial",
@@ -666,7 +866,12 @@
    "file_key": "packs/travis-commercial-2026-11-23.csv",
    "sample_file_key": "samples/travis-commercial-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 17,423 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Travis County",
+   "rows": 17423
   },
   {
    "id": "travis-out-of-area",
@@ -682,7 +887,12 @@
    "file_key": "packs/travis-out-of-area-2026-11-23.csv",
    "sample_file_key": "samples/travis-out-of-area-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 34,153 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "Travis County",
+   "rows": 34153
   },
   {
    "id": "miami-dade-out-of-area",
@@ -698,7 +908,12 @@
    "file_key": "packs/miami-dade-out-of-area-2026-11-24.csv",
    "sample_file_key": "samples/miami-dade-out-of-area-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 78,472 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Florida",
+   "metro": "Miami-Dade County",
+   "rows": 78472
   },
   {
    "id": "miami-dade-multifamily",
@@ -714,7 +929,12 @@
    "file_key": "packs/miami-dade-multifamily-2026-11-24.csv",
    "sample_file_key": "samples/miami-dade-multifamily-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 39,361 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Florida",
+   "metro": "Miami-Dade County",
+   "rows": 39361
   },
   {
    "id": "miami-dade-commercial",
@@ -730,7 +950,12 @@
    "file_key": "packs/miami-dade-commercial-2026-11-24.csv",
    "sample_file_key": "samples/miami-dade-commercial-sample.csv",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 38,344 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Florida",
+   "metro": "Miami-Dade County",
+   "rows": 38344
   },
   {
    "id": "free-sample-pack",
@@ -746,7 +971,12 @@
    "file_key": null,
    "sample_file_key": "samples/free-sample-pack-sample.xlsx",
    "one_time_cents": null,
-   "coverage": null
+   "coverage": null,
+   "disclosure": null,
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "All lists",
+   "rows": 100
   }
  ]
 }

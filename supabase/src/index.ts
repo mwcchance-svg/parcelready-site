@@ -38,6 +38,33 @@ function packById(id: string) {
   return (registry as any).packs.find((p: any) => p.id === id) || null;
 }
 
+// Request matching (HQ, Nov 24, 2026): a sample request naming a
+// trade and state that are already live must be answered as live,
+// never with the in-production copy. Matches on the registry's
+// category and state name, prefers a metro text overlap, then the
+// largest pack, and returns null when nothing live fits.
+function matchLivePack(lead: any) {
+  const trade = (lead.trade || "").trim().toLowerCase();
+  const state = (lead.state || "").trim().toLowerCase();
+  if (!trade || !state) return null;
+  const metro = (lead.metro || "").replace(/\(.*?\)/g, "").trim().toLowerCase();
+  const cands = (registry as any).packs.filter((p: any) =>
+    p.category && p.category.toLowerCase() === trade &&
+    p.state_name && p.state_name.toLowerCase() === state &&
+    p.price_cents > 0);
+  if (!cands.length) return null;
+  const scored = cands.map((p: any) => {
+    const m = (p.metro || "").toLowerCase();
+    let s = 0;
+    if (metro && m) {
+      if (m.includes(metro) || metro.includes(m)) s = 2;
+      else if (m.includes(metro.split(" ")[0]) || metro.includes(m.split(" ")[0])) s = 1;
+    }
+    return { p, s };
+  }).sort((a: any, b: any) => b.s - a.s || (b.p.rows || 0) - (a.p.rows || 0));
+  return scored[0].p;
+}
+
 async function hmacHex(secret: string, data: string) {
   const key = await crypto.subtle.importKey(
     "raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]
@@ -237,12 +264,22 @@ async function deliver(pack: any, email: string, kind: string) {
   const covHtml = cov
     ? `<p style="margin:14px 0 0;">The sample shows the pack's fullest rows. Across the full file, a phone is listed on ${cov.phone}% of rows, a published email on ${cov.email}%, and a website on ${cov.website}%. Those are the file's true rates, the same ones printed on the pack's label.</p>`
     : "";
+  // Disclosure extension (HQ, Nov 24, 2026): county sample
+  // deliveries carry the same structure (sample statement,
+  // full-file figure, label tie) from the registry's disclosure
+  // block, computed at site build time. Trade packs use coverage
+  // above; the two never both fire.
+  const disc = isSample && !isWorkbook && !cov && pack.disclosure ? pack.disclosure : null;
+  const discText = disc ? `${disc}\n\n` : "";
+  const discHtml = disc ? `<p style="margin:14px 0 0;">${escHtml(disc)}</p>` : "";
   const text = isWorkbook
     ? `Thank you for asking to see the data first. That is exactly what the sample is for.\n\n` +
       `Your free sample of ${pack.title} is ready: one Excel workbook with a sheet for every ` +
       `paid list in the store, each sheet carrying that list's exact columns and real rows, ` +
       `100 records in all.\n\n` +
-      `Download the workbook:\n${link}\n\n${WARM_WINDOW}\n\n` +
+      `Download the workbook:\n${link}\n\n` +
+      `Each sheet shows real rows from that list's full file, and every full pack's ` +
+      `record count, source, and pull date are printed on its label.\n\n${WARM_WINDOW}\n\n` +
       `If the sample earns its keep, the full packs are listed on parcelreadydata.com with ` +
       `their record counts, exact pull dates, and refresh schedules printed on the label.\n\n` +
       `The label promise\n${LABEL_PROMISE}`
@@ -253,6 +290,7 @@ async function deliver(pack: any, email: string, kind: string) {
       `two formats: CSV, which opens straight into Google Sheets, and XLSX, the same data in ` +
       `Excel's own format.\n\n` +
       covText +
+      discText +
       `Download CSV:\n${link}\n\nDownload XLSX:\n${linkXlsx}\n\n${WARM_WINDOW}\n\n` +
       `If the sample earns its keep, the full pack is listed on parcelreadydata.com with its ` +
       `record count, its exact pull date, and its refresh schedule printed on the label.\n\n` +
@@ -268,7 +306,8 @@ async function deliver(pack: any, email: string, kind: string) {
   const html = emailShell(
     (isWorkbook
       ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
-  <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready: one Excel workbook with a sheet for every paid list in the store, each sheet carrying that list's exact columns and real rows, 100 records in all.</p>`
+  <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready: one Excel workbook with a sheet for every paid list in the store, each sheet carrying that list's exact columns and real rows, 100 records in all.</p>
+  <p style="margin:14px 0 0;">Each sheet shows real rows from that list's full file, and every full pack's record count, source, and pull date are printed on its label.</p>`
       : isSample
       ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
   <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready. It carries every field, exactly as the full pack ships them, so you can judge the data the way it will actually arrive.</p>`
@@ -278,6 +317,7 @@ async function deliver(pack: any, email: string, kind: string) {
         ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px;"><tr><td style="background:#E9B949;border-radius:8px;"><a href="${escHtml(link)}" style="display:inline-block;padding:13px 26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#122B1E;text-decoration:none;">Download the workbook</a></td></tr></table>`
         : downloadBlockHtml(link, linkXlsx)) +
       covHtml +
+      discHtml +
       WARM_WINDOW_HTML +
       (isSample
         ? `<p style="margin:16px 0 0;">If the sample earns its keep, the full pack is listed on parcelreadydata.com with its record count, its exact pull date, and its refresh schedule printed on the label.</p>`
@@ -709,6 +749,24 @@ async function handleSample(req: Request) {
     );
     await sendEmail(email, "Your ParcelReady sample request", stateText, stateHtml);
     return json({ ok: true, delivered: "queued" }, 200, req);
+  }
+  const liveMatch = matchLivePack(lead);
+  if (liveMatch && liveMatch.sample_file_key) {
+    await deliver(liveMatch, email, "sample");
+    return json({ ok: true, delivered: "sample", matched: liveMatch.id }, 200, req);
+  }
+  if (liveMatch) {
+    const liveText =
+      `Thank you for your request.\n\n` +
+      `The pack you asked about is live now: ${liveMatch.title} is listed on ` +
+      `parcelreadydata.com, with a free sample on its page. Our team follows up ` +
+      `from hello@parcelreadydata.com. There is nothing further you need to do.`;
+    const liveHtml = emailShell(
+      `<p style="margin:0;">Thank you for your request.</p>
+  <p style="margin:14px 0 0;">The pack you asked about is live now: <strong>${escHtml(liveMatch.title)}</strong> is listed on parcelreadydata.com, with a free sample on its page. Our team follows up from hello@parcelreadydata.com. There is nothing further you need to do.</p>`
+    );
+    await sendEmail(email, "Your ParcelReady sample request", liveText, liveHtml);
+    return json({ ok: true, delivered: "live_ack" }, 200, req);
   }
   const queuedText =
     `Thank you for your request.\n\n` +

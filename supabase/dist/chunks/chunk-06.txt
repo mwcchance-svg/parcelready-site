@@ -1,3 +1,54 @@
+    return json({ error: "sync_failed" }, 502, req);
+  }
+  const sub = !oneTime && pack.store.billing === "subscription";
+  const params: Record<string, string> = {
+    mode: sub ? "subscription" : "payment",
+    "line_items[0][price]": priceId,
+    "line_items[0][quantity]": "1",
+    success_url: `${env("SITE_BASE")}/thanks.html?pack=${pack.id}`,
+    cancel_url: `${env("SITE_BASE")}/packs/${pack.id}.html`,
+    "metadata[pack_id]": pack.id,
+    "metadata[variant]": oneTime ? "one_time" : "standard",
+  };
+  if (sub) params["subscription_data[metadata][pack_id]"] = pack.id;
+  else params["payment_intent_data[metadata][pack_id]"] = pack.id;
+  if (taxOn()) {
+    params["automatic_tax[enabled]"] = "true";
+    // Stripe Tax needs the buyer's address to place the sale; Checkout
+    // collects it before payment, and the tax line resolves inside the
+    // inclusive price on the hosted page.
+    params.billing_address_collection = "required";
+  }
+  const session = await stripePost("checkout/sessions", params);
+  if (!session.url) return json({ error: "checkout_failed" }, 502, req);
+  return json({ url: session.url }, 200, req);
+}
+
+/* ---------------- webhook ---------------- */
+
+async function verifyStripe(req: Request, raw: string) {
+  const secret = env("STRIPE_WEBHOOK_SECRET") || (await configGet("webhook_secret"));
+  if (!secret) return false;
+  const header = req.headers.get("stripe-signature") || "";
+  const parts = Object.fromEntries(header.split(",").map((kv) => kv.split("=")));
+  if (!parts.t || !parts.v1) return false;
+  if (Math.abs(Date.now() / 1000 - Number(parts.t)) > 300) return false;
+  const expected = await hmacHex(secret, `${parts.t}.${raw}`);
+  return expected === parts.v1;
+}
+
+async function packForPrice(priceId: string) {
+  const cached = await priceMapGet(priceId);
+  if (cached) return packById(cached);
+  const price = await stripeGet(`prices/${priceId}`);
+  const id = price && price.metadata && price.metadata.pack_id;
+  if (id) await priceMapSet(priceId, id);
+  return id ? packById(id) : null;
+}
+
+async function handleWebhook(req: Request) {
+  const raw = await req.text();
+  if (!(await verifyStripe(req, raw))) return new Response("bad signature", { status: 400 });
   const event = JSON.parse(raw);
   if (event.type === "checkout.session.completed") {
     const s = event.data.object;
@@ -149,36 +200,3 @@ async function handleSample(req: Request) {
     const stateName = lead.state || "your state";
     const hasPacks = (body.state_has_packs || "") === "1";
     const stateBody = hasPacks
-      ? `It is recorded with ${stateName} as its source. ${stateName} packs are live now, ` +
-        `and our team follows up from hello@parcelreadydata.com with the sample that fits ` +
-        `your trade. There is nothing further you need to do.`
-      : `${stateName} is in the build queue, and your request is recorded with the state ` +
-        `as its source. Requests are how states move up the build order. When the first ` +
-        `${stateName} pack passes verification, its free sample comes to this address ` +
-        `first, before the pack is listed for anyone else. There is nothing further you need to do.`;
-    const stateText = `Thank you for your request.\n\n` + stateBody;
-    const stateHtml = emailShell(
-      `<p style="margin:0;">Thank you for your request.</p>\n  <p style="margin:14px 0 0;">${stateBody}</p>`
-    );
-    await sendEmail(email, "Your ParcelReady sample request", stateText, stateHtml);
-    return json({ ok: true, delivered: "queued" }, 200, req);
-  }
-  const queuedText =
-    `Thank you for your request.\n\n` +
-    `The pack you asked about is still in production, so there is no sample file to send ` +
-    `today. We would rather tell you that plainly than send you something unfinished. The ` +
-    `moment it passes verification, your sample rows come to this address first, before ` +
-    `the pack is listed for anyone else. There is nothing further you need to do.`;
-  const queuedHtml = emailShell(
-    `<p style="margin:0;">Thank you for your request.</p>
-  <p style="margin:14px 0 0;">The pack you asked about is still in production, so there is no sample file to send today. We would rather tell you that plainly than send you something unfinished. The moment it passes verification, your sample rows come to this address first, before the pack is listed for anyone else. There is nothing further you need to do.</p>`
-  );
-  await sendEmail(email, "Your ParcelReady sample request", queuedText, queuedHtml);
-  return json({ ok: true, delivered: "queued" }, 200, req);
-}
-
-async function handleDownload(req: Request) {
-  const url = new URL(req.url);
-  const token = url.searchParams.get("token");
-  if (!token) return new Response("missing token", { status: 400 });
-  const rows = await rest(

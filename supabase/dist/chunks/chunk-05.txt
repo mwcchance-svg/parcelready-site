@@ -1,3 +1,52 @@
+async function stripeCall(method: string, path: string, params?: Record<string, string>) {
+  const init: RequestInit = {
+    method,
+    headers: { Authorization: `Bearer ${env("STRIPE_SECRET_KEY")}` },
+  };
+  let url = `https://api.stripe.com/v1/${path}`;
+  if (method === "GET" && params) url += `?${new URLSearchParams(params).toString()}`;
+  else if (params) {
+    (init.headers as Record<string, string>)["Content-Type"] = "application/x-www-form-urlencoded";
+    init.body = new URLSearchParams(params).toString();
+  }
+  const res = await fetch(url, init);
+  return res.json();
+}
+const stripePost = (path: string, params: Record<string, string>) => stripeCall("POST", path, params);
+const stripeGet = (path: string, params?: Record<string, string>) => stripeCall("GET", path, params);
+
+/* -------- server-side product and price sync (idempotent) -------- */
+
+async function findProduct(pack: any) {
+  const searched = await stripeGet("products/search", {
+    query: `metadata['pack_id']:'${pack.id}'`,
+  });
+  if (searched && Array.isArray(searched.data) && searched.data.length) return searched.data[0];
+  const listed = await stripeGet("products", { limit: "100", active: "true" });
+  if (listed && Array.isArray(listed.data)) {
+    return listed.data.find((p: any) => p.metadata && p.metadata.pack_id === pack.id) || null;
+  }
+  return null;
+}
+
+async function ensurePrice(pack: any, oneTime = false) {
+  let product = await findProduct(pack);
+  if (!product || !product.id) {
+    const created: Record<string, string> = {
+      name: pack.title,
+      description: "Downloadable dataset from ParcelReady. We do the work. You get the leads.",
+      "metadata[pack_id]": pack.id,
+      "metadata[registry]": "parcelready",
+    };
+    if (taxOn()) created.tax_code = TAX_CODE;
+    product = await stripePost("products", created);
+    if (!product.id) throw new Error(`product_create_failed:${pack.id}`);
+  } else if (taxOn() && product.tax_code !== TAX_CODE) {
+    await stripePost(`products/${product.id}`, { tax_code: TAX_CODE });
+  }
+  // Spec 13 (HQ, Nov 23, 2026): a pack may carry a true one-time
+  // offer beside its subscription (Dallas Code Cases, $79 one time).
+  // oneTime ensures the non-recurring price at one_time_cents.
   const cents = Math.round(oneTime ? (pack.one_time_cents || 0) : (pack.price_cents || 0));
   const sub = !oneTime && pack.store.billing === "subscription";
   const prices = await stripeGet("prices", { product: product.id, active: "true", limit: "100" });
@@ -143,54 +192,3 @@ async function handleCheckout(req: Request) {
     priceId = await ensurePrice(pack, oneTime);
     await ensureWebhook().catch(() => {});
   } catch (err) {
-    return json({ error: "sync_failed" }, 502, req);
-  }
-  const sub = !oneTime && pack.store.billing === "subscription";
-  const params: Record<string, string> = {
-    mode: sub ? "subscription" : "payment",
-    "line_items[0][price]": priceId,
-    "line_items[0][quantity]": "1",
-    success_url: `${env("SITE_BASE")}/thanks.html?pack=${pack.id}`,
-    cancel_url: `${env("SITE_BASE")}/packs/${pack.id}.html`,
-    "metadata[pack_id]": pack.id,
-    "metadata[variant]": oneTime ? "one_time" : "standard",
-  };
-  if (sub) params["subscription_data[metadata][pack_id]"] = pack.id;
-  else params["payment_intent_data[metadata][pack_id]"] = pack.id;
-  if (taxOn()) {
-    params["automatic_tax[enabled]"] = "true";
-    // Stripe Tax needs the buyer's address to place the sale; Checkout
-    // collects it before payment, and the tax line resolves inside the
-    // inclusive price on the hosted page.
-    params.billing_address_collection = "required";
-  }
-  const session = await stripePost("checkout/sessions", params);
-  if (!session.url) return json({ error: "checkout_failed" }, 502, req);
-  return json({ url: session.url }, 200, req);
-}
-
-/* ---------------- webhook ---------------- */
-
-async function verifyStripe(req: Request, raw: string) {
-  const secret = env("STRIPE_WEBHOOK_SECRET") || (await configGet("webhook_secret"));
-  if (!secret) return false;
-  const header = req.headers.get("stripe-signature") || "";
-  const parts = Object.fromEntries(header.split(",").map((kv) => kv.split("=")));
-  if (!parts.t || !parts.v1) return false;
-  if (Math.abs(Date.now() / 1000 - Number(parts.t)) > 300) return false;
-  const expected = await hmacHex(secret, `${parts.t}.${raw}`);
-  return expected === parts.v1;
-}
-
-async function packForPrice(priceId: string) {
-  const cached = await priceMapGet(priceId);
-  if (cached) return packById(cached);
-  const price = await stripeGet(`prices/${priceId}`);
-  const id = price && price.metadata && price.metadata.pack_id;
-  if (id) await priceMapSet(priceId, id);
-  return id ? packById(id) : null;
-}
-
-async function handleWebhook(req: Request) {
-  const raw = await req.text();
-  if (!(await verifyStripe(req, raw))) return new Response("bad signature", { status: 400 });

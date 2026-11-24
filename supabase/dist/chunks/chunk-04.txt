@@ -1,3 +1,24 @@
+  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">If the buttons do not work in your mail program, copy a link into your browser:<br>
+  CSV: <a href="${escHtml(csvLink)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(csvLink)}</a><br>
+  XLSX: <a href="${escHtml(xlsxLink)}" style="color:#0A4A2A;word-break:break-all;">${escHtml(xlsxLink)}</a></p>
+  <p style="margin:8px 0 0;font-size:13px;color:#3D5546;">The CSV opens straight into Google Sheets. The XLSX is the same data in Excel's own format.</p>`;
+}
+
+function promiseBlockHtml() {
+  return `
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0 4px;">
+    <tr><td style="background:#FBF5E2;border:1px solid #E4D6AC;border-radius:8px;padding:16px 18px;">
+      <div style="font-family:'IBM Plex Mono','Courier New',monospace;font-size:10.5px;letter-spacing:0.2em;color:#0A4A2A;padding-bottom:8px;">THE LABEL PROMISE</div>
+      <p style="margin:0;font-size:13.5px;line-height:1.6;color:#3D5546;">${escHtml(LABEL_PROMISE)}</p>
+    </td></tr>
+  </table>`;
+}
+
+const WARM_WINDOW =
+  "Your link stays open for 72 hours, so there is no rush. If it closes before you have had a " +
+  "chance to download, write to us and we will send a fresh one.";
+const WARM_WINDOW_HTML = `<p style="margin:16px 0 0;">${WARM_WINDOW}</p>`;
+
 async function deliver(pack: any, email: string, kind: string) {
   const token = randomToken();
   const expires = new Date(Date.now() + 72 * 3600 * 1000).toISOString();
@@ -31,12 +52,22 @@ async function deliver(pack: any, email: string, kind: string) {
   const covHtml = cov
     ? `<p style="margin:14px 0 0;">The sample shows the pack's fullest rows. Across the full file, a phone is listed on ${cov.phone}% of rows, a published email on ${cov.email}%, and a website on ${cov.website}%. Those are the file's true rates, the same ones printed on the pack's label.</p>`
     : "";
+  // Disclosure extension (HQ, Nov 24, 2026): county sample
+  // deliveries carry the same structure (sample statement,
+  // full-file figure, label tie) from the registry's disclosure
+  // block, computed at site build time. Trade packs use coverage
+  // above; the two never both fire.
+  const disc = isSample && !isWorkbook && !cov && pack.disclosure ? pack.disclosure : null;
+  const discText = disc ? `${disc}\n\n` : "";
+  const discHtml = disc ? `<p style="margin:14px 0 0;">${escHtml(disc)}</p>` : "";
   const text = isWorkbook
     ? `Thank you for asking to see the data first. That is exactly what the sample is for.\n\n` +
       `Your free sample of ${pack.title} is ready: one Excel workbook with a sheet for every ` +
       `paid list in the store, each sheet carrying that list's exact columns and real rows, ` +
       `100 records in all.\n\n` +
-      `Download the workbook:\n${link}\n\n${WARM_WINDOW}\n\n` +
+      `Download the workbook:\n${link}\n\n` +
+      `Each sheet shows real rows from that list's full file, and every full pack's ` +
+      `record count, source, and pull date are printed on its label.\n\n${WARM_WINDOW}\n\n` +
       `If the sample earns its keep, the full packs are listed on parcelreadydata.com with ` +
       `their record counts, exact pull dates, and refresh schedules printed on the label.\n\n` +
       `The label promise\n${LABEL_PROMISE}`
@@ -47,6 +78,7 @@ async function deliver(pack: any, email: string, kind: string) {
       `two formats: CSV, which opens straight into Google Sheets, and XLSX, the same data in ` +
       `Excel's own format.\n\n` +
       covText +
+      discText +
       `Download CSV:\n${link}\n\nDownload XLSX:\n${linkXlsx}\n\n${WARM_WINDOW}\n\n` +
       `If the sample earns its keep, the full pack is listed on parcelreadydata.com with its ` +
       `record count, its exact pull date, and its refresh schedule printed on the label.\n\n` +
@@ -62,7 +94,8 @@ async function deliver(pack: any, email: string, kind: string) {
   const html = emailShell(
     (isWorkbook
       ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
-  <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready: one Excel workbook with a sheet for every paid list in the store, each sheet carrying that list's exact columns and real rows, 100 records in all.</p>`
+  <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready: one Excel workbook with a sheet for every paid list in the store, each sheet carrying that list's exact columns and real rows, 100 records in all.</p>
+  <p style="margin:14px 0 0;">Each sheet shows real rows from that list's full file, and every full pack's record count, source, and pull date are printed on its label.</p>`
       : isSample
       ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
   <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready. It carries every field, exactly as the full pack ships them, so you can judge the data the way it will actually arrive.</p>`
@@ -72,6 +105,7 @@ async function deliver(pack: any, email: string, kind: string) {
         ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px;"><tr><td style="background:#E9B949;border-radius:8px;"><a href="${escHtml(link)}" style="display:inline-block;padding:13px 26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#122B1E;text-decoration:none;">Download the workbook</a></td></tr></table>`
         : downloadBlockHtml(link, linkXlsx)) +
       covHtml +
+      discHtml +
       WARM_WINDOW_HTML +
       (isSample
         ? `<p style="margin:16px 0 0;">If the sample earns its keep, the full pack is listed on parcelreadydata.com with its record count, its exact pull date, and its refresh schedule printed on the label.</p>`
@@ -94,52 +128,3 @@ const taxOn = () => env("TAX_MODE") === "stripe_tax";
 
 /* ---------------- stripe helpers ---------------- */
 
-async function stripeCall(method: string, path: string, params?: Record<string, string>) {
-  const init: RequestInit = {
-    method,
-    headers: { Authorization: `Bearer ${env("STRIPE_SECRET_KEY")}` },
-  };
-  let url = `https://api.stripe.com/v1/${path}`;
-  if (method === "GET" && params) url += `?${new URLSearchParams(params).toString()}`;
-  else if (params) {
-    (init.headers as Record<string, string>)["Content-Type"] = "application/x-www-form-urlencoded";
-    init.body = new URLSearchParams(params).toString();
-  }
-  const res = await fetch(url, init);
-  return res.json();
-}
-const stripePost = (path: string, params: Record<string, string>) => stripeCall("POST", path, params);
-const stripeGet = (path: string, params?: Record<string, string>) => stripeCall("GET", path, params);
-
-/* -------- server-side product and price sync (idempotent) -------- */
-
-async function findProduct(pack: any) {
-  const searched = await stripeGet("products/search", {
-    query: `metadata['pack_id']:'${pack.id}'`,
-  });
-  if (searched && Array.isArray(searched.data) && searched.data.length) return searched.data[0];
-  const listed = await stripeGet("products", { limit: "100", active: "true" });
-  if (listed && Array.isArray(listed.data)) {
-    return listed.data.find((p: any) => p.metadata && p.metadata.pack_id === pack.id) || null;
-  }
-  return null;
-}
-
-async function ensurePrice(pack: any, oneTime = false) {
-  let product = await findProduct(pack);
-  if (!product || !product.id) {
-    const created: Record<string, string> = {
-      name: pack.title,
-      description: "Downloadable dataset from ParcelReady. We do the work. You get the leads.",
-      "metadata[pack_id]": pack.id,
-      "metadata[registry]": "parcelready",
-    };
-    if (taxOn()) created.tax_code = TAX_CODE;
-    product = await stripePost("products", created);
-    if (!product.id) throw new Error(`product_create_failed:${pack.id}`);
-  } else if (taxOn() && product.tax_code !== TAX_CODE) {
-    await stripePost(`products/${product.id}`, { tax_code: TAX_CODE });
-  }
-  // Spec 13 (HQ, Nov 23, 2026): a pack may carry a true one-time
-  // offer beside its subscription (Dallas Code Cases, $79 one time).
-  // oneTime ensures the non-recurring price at one_time_cents.

@@ -1,3 +1,54 @@
+      ? `It is recorded with ${stateName} as its source. ${stateName} packs are live now, ` +
+        `and our team follows up from hello@parcelreadydata.com with the sample that fits ` +
+        `your trade. There is nothing further you need to do.`
+      : `${stateName} is in the build queue, and your request is recorded with the state ` +
+        `as its source. Requests are how states move up the build order. When the first ` +
+        `${stateName} pack passes verification, its free sample comes to this address ` +
+        `first, before the pack is listed for anyone else. There is nothing further you need to do.`;
+    const stateText = `Thank you for your request.\n\n` + stateBody;
+    const stateHtml = emailShell(
+      `<p style="margin:0;">Thank you for your request.</p>\n  <p style="margin:14px 0 0;">${stateBody}</p>`
+    );
+    await sendEmail(email, "Your ParcelReady sample request", stateText, stateHtml);
+    return json({ ok: true, delivered: "queued" }, 200, req);
+  }
+  const liveMatch = matchLivePack(lead);
+  if (liveMatch && liveMatch.sample_file_key) {
+    await deliver(liveMatch, email, "sample");
+    return json({ ok: true, delivered: "sample", matched: liveMatch.id }, 200, req);
+  }
+  if (liveMatch) {
+    const liveText =
+      `Thank you for your request.\n\n` +
+      `The pack you asked about is live now: ${liveMatch.title} is listed on ` +
+      `parcelreadydata.com, with a free sample on its page. Our team follows up ` +
+      `from hello@parcelreadydata.com. There is nothing further you need to do.`;
+    const liveHtml = emailShell(
+      `<p style="margin:0;">Thank you for your request.</p>
+  <p style="margin:14px 0 0;">The pack you asked about is live now: <strong>${escHtml(liveMatch.title)}</strong> is listed on parcelreadydata.com, with a free sample on its page. Our team follows up from hello@parcelreadydata.com. There is nothing further you need to do.</p>`
+    );
+    await sendEmail(email, "Your ParcelReady sample request", liveText, liveHtml);
+    return json({ ok: true, delivered: "live_ack" }, 200, req);
+  }
+  const queuedText =
+    `Thank you for your request.\n\n` +
+    `The pack you asked about is still in production, so there is no sample file to send ` +
+    `today. We would rather tell you that plainly than send you something unfinished. The ` +
+    `moment it passes verification, your sample rows come to this address first, before ` +
+    `the pack is listed for anyone else. There is nothing further you need to do.`;
+  const queuedHtml = emailShell(
+    `<p style="margin:0;">Thank you for your request.</p>
+  <p style="margin:14px 0 0;">The pack you asked about is still in production, so there is no sample file to send today. We would rather tell you that plainly than send you something unfinished. The moment it passes verification, your sample rows come to this address first, before the pack is listed for anyone else. There is nothing further you need to do.</p>`
+  );
+  await sendEmail(email, "Your ParcelReady sample request", queuedText, queuedHtml);
+  return json({ ok: true, delivered: "queued" }, 200, req);
+}
+
+async function handleDownload(req: Request) {
+  const url = new URL(req.url);
+  const token = url.searchParams.get("token");
+  if (!token) return new Response("missing token", { status: 400 });
+  const rows = await rest(
     `delivery_tokens?token=eq.${encodeURIComponent(token)}&select=pack_id,kind,expires_at`
   );
   const record = rows && rows.length ? rows[0] : null;

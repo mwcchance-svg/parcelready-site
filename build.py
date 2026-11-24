@@ -605,6 +605,26 @@ def buy_button(p):
             f'Buy the full pack, {money(p["price"])} <span class="price-note">{esc(p["price_note"])}</span></a>')
 
 
+def county_disclosure(p):
+    if p["family"] != "county" or p["id"] == "free-sample-pack":
+        return None
+    head = ("The sample shows real rows from the delivered file, in the same "
+            "fields the pack carries. ")
+    if p["id"] == "dallas-code-cases":
+        import csv as _csv
+        with open(full_file_path(p), newline="", encoding="utf-8-sig") as f:
+            rows = list(_csv.DictReader(f))
+        total = len(rows)
+        matched = sum(1 for r in rows if (r.get("DCAD Account") or "").strip())
+        rate = round(100 * matched / total) if total else 0
+        return (head + f"Across the full file, the owner match rate printed on "
+                f"the label is {rate} percent ({matched:,} of {total:,} records). "
+                f"Those are the file's true figures, the same ones printed on "
+                f"the pack's label.")
+    return (head + f"The full file carries {p['rows']:,} records; that count, "
+            f"its source, and its pull date are printed on the pack's label.")
+
+
 def write_store_registry():
     packs = []
     for p in CATALOG["packs"]:
@@ -636,6 +656,20 @@ def write_store_registry():
             # the curated sample. Computed from the delivered file,
             # the same figures the Label prints.
             "coverage": (lambda cov: {"phone": cov[0], "email": cov[1], "website": cov[2]} if cov else None)(trade_coverage(p)) if p["family"] == "trade" else None,
+            # Delivery disclosure extension (HQ, Nov 24, 2026, closing
+            # Beacon's test-request leg): county sample deliveries
+            # carry a density disclosure too, in the trade pattern's
+            # structure (sample statement, full-file figure, label
+            # tie), computed here at build. The county sample
+            # statement uses the settled C1 form (real rows from the
+            # delivered file): county samples are systematic draws,
+            # not fullest draws, so the trade wording is not reused.
+            "disclosure": county_disclosure(p),
+            # Request matching (same dispatch): a sample request that
+            # names a live trade and metro must not be answered as
+            # still in production; the function matches on these.
+            "category": p["category"], "state_name": state_name(p["state"]),
+            "metro": p["metro"], "rows": p.get("rows"),
         })
     out = os.path.join(ROOT, "worker", "store-registry.json")
     with open(out, "w") as f:
