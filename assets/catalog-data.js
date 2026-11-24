@@ -2669,6 +2669,68 @@ window.CATALOG = {
    "trade": "Commercial Owners"
   },
   {
+   "build_date": "July 18, 2026 certified roll",
+   "buyer": "Investors who target absentee and out-of-area owners of Travis County property",
+   "category": "Real Estate",
+   "cover": "assets/covers/travis-out-of-area.png",
+   "coverage": "Travis County",
+   "data_as_of": "2026-07-18",
+   "family": "county",
+   "featured": false,
+   "id": "travis-out-of-area",
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value from the certified roll",
+    "Year built, living area, and beds and baths where the district publishes them",
+    "Deed date and years owned",
+    "Segment (out of state or out of county) and TCAD Property ID on every record"
+   ],
+   "limits": "Built from the Travis Central Appraisal District's certified appraisal export (certified July 18, 2026), downloaded from the district, not scraped and not resold from another list vendor. Segmentation follows mailing geography first: an identified out-of-state mailing value segments on its own, a foreign country decides when no state is published, and out-of-county reads a Texas mailing ZIP outside the county's situs ZIP set inside the absentee population. A state value contradicted by both the city and the ZIP on the same row does not segment. Records whose geography cannot be identified (245 in the test population) are counted and not shipped. Beds and baths are not published by this district and are never approximated. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 49
+   },
+   "metro": "Travis County",
+   "metro_id": "austin-san-antonio",
+   "price": 49,
+   "price_note": "one time",
+   "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+   "rows": 34147,
+   "rows_label": "34,147 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/travis-out-of-area.html",
+   "state": "TX",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "34,147"
+    },
+    {
+     "k": "Columns",
+     "v": "17"
+    },
+    {
+     "k": "Segments",
+     "v": "17,748 out of state, 16,399 out of county"
+    },
+    {
+     "k": "Source",
+     "v": "TCAD certified export"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/travis/travis-out-of-area-2026-11-23.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "34,147 Travis County residential owners whose mailing address is out of the area: 17,748 out of state and 16,399 elsewhere in Texas",
+   "title": "Travis County Owners Who Live Elsewhere",
+   "trade": "Out-of-Area Owners"
+  },
+  {
    "build_date": "Current builds",
    "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
    "buyer": "Anyone who wants to inspect the data before spending a dollar",
