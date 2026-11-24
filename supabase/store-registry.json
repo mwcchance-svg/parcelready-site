@@ -477,6 +477,20 @@
    "sample_file_key": "samples/collin-commercial-sample.csv"
   },
   {
+   "id": "collin-out-of-area",
+   "title": "Collin County Owners Who Live Elsewhere",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/collin-out-of-area-2026-11-23.csv",
+   "sample_file_key": "samples/collin-out-of-area-sample.csv"
+  },
+  {
    "id": "travis-high-equity",
    "title": "Travis County High Equity Owners",
    "store": {

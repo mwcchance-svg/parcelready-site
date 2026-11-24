@@ -2236,6 +2236,67 @@ window.CATALOG = {
    }
   },
   {
+   "build_date": "November 2026 (preliminary roll)",
+   "buyer": "Investors who target absentee and out-of-area owners of Collin County property",
+   "category": "Real Estate",
+   "cover": "assets/covers/collin-out-of-area.png",
+   "coverage": "Collin County",
+   "data_as_of": "2026-11-23",
+   "family": "county",
+   "featured": false,
+   "id": "collin-out-of-area",
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value (prior year appraised basis)",
+    "Year built and deed date, with years owned",
+    "Segment (out of state or out of county) and Collin CAD Property ID on every record"
+   ],
+   "limits": "Built from the Collin Central Appraisal District dataset published on the Texas Open Data Portal (preliminary roll, pulled November 23, 2026), not scraped and not resold from another list vendor. Segmentation follows mailing geography first: an identified out-of-state mailing value segments on its own, a foreign country decides when no state is published, and out-of-county reads a Texas mailing ZIP outside the county's situs ZIP set inside the absentee population. A state value contradicted by both the city and the ZIP on the same row does not segment. Values are the district's prior year appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 49
+   },
+   "metro": "Collin County",
+   "metro_id": "dfw",
+   "price": 49,
+   "price_note": "one time",
+   "refresh_schedule": "Refreshed monthly, inside 30 days of each district release",
+   "rows": 35338,
+   "rows_label": "35,338 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/collin-out-of-area.html",
+   "state": "TX",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "35,338"
+    },
+    {
+     "k": "Columns",
+     "v": "14"
+    },
+    {
+     "k": "Segments",
+     "v": "13,044 out of state, 22,294 out of county"
+    },
+    {
+     "k": "Source",
+     "v": "Collin CAD via Texas Open Data Portal"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/collin/collin-out-of-area-2026-11-23.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "35,338 Collin County residential owners whose mailing address is out of the area: 13,044 out of state and 22,294 elsewhere in Texas",
+   "title": "Collin County Owners Who Live Elsewhere",
+   "trade": "Out-of-Area Owners"
+  },
+  {
    "build_date": "July 18, 2026 certified roll",
    "buyer": "Real estate investors and direct mail marketers who target equity rich, long held homes in Travis County",
    "category": "Real Estate",

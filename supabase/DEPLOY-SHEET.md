@@ -131,3 +131,18 @@ In the Stripe dashboard window, in this order:
    holding at $79.00 with the tax broken out inside it; an out-of-state
    address (no registration) shows $79.00 with no tax. No card is
    entered and nothing is paid.
+
+## Chunk relay discipline (Mason's lesson, Nov 23, 2026)
+
+When the single-file build travels to HQ as chat messages, relay each
+chunk ONLY from byte-window extractions (dd skip/count) small enough
+to copy exactly (about 2,200 bytes per message for the one-line
+registry chunk, about 4,500 for code chunks), and state each window's
+byte range and its exact first and last characters in the message.
+Never relay from a full-file read or from memory of the file: two
+relays on Nov 23, 2026 overran their windows (an invented registry
+continuation and a mistranscribed hmacHex line, plus a guarded
+currency expression), each caught and corrected in-thread, with the
+assembled md5 as the final guard. If a relay deviates, flag it the
+moment it is noticed, name the exact correct line, and mark the bad
+message DISCARD in a correction that reaches HQ before the paste.
