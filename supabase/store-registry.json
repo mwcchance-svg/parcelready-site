@@ -477,6 +477,76 @@
    "sample_file_key": "samples/collin-commercial-sample.csv"
   },
   {
+   "id": "travis-high-equity",
+   "title": "Travis County High Equity Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 5900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/travis-high-equity-2026-11-23.csv",
+   "sample_file_key": "samples/travis-high-equity-sample.csv"
+  },
+  {
+   "id": "travis-long-term",
+   "title": "Travis County Long-Term Owners, 20+ Years",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/travis-long-term-2026-11-23.csv",
+   "sample_file_key": "samples/travis-long-term-sample.csv"
+  },
+  {
+   "id": "travis-tired-landlords",
+   "title": "Travis County Tired Landlords",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/travis-tired-landlords-2026-11-23.csv",
+   "sample_file_key": "samples/travis-tired-landlords-sample.csv"
+  },
+  {
+   "id": "travis-multifamily",
+   "title": "Travis County Multifamily Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/travis-multifamily-2026-11-23.csv",
+   "sample_file_key": "samples/travis-multifamily-sample.csv"
+  },
+  {
+   "id": "travis-commercial",
+   "title": "Travis County Commercial Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/travis-commercial-2026-11-23.csv",
+   "sample_file_key": "samples/travis-commercial-sample.csv"
+  },
+  {
    "id": "free-sample-pack",
    "title": "ParcelReady Free Sample Pack",
    "store": {

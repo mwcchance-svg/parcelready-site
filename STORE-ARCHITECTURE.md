@@ -394,3 +394,13 @@ overwriting the old keys); bucket holds 117 objects. The 24.8 MB
 long-term CSV cleared on a curl pass after three proxy drops.
 Function chunks (45,589 bytes, md5 813b3773e97a0bbd186f5a300022c7c2)
 sent to HQ the same night for the paste.
+
+Collin County landing, Nov 23, 2026: five segment cuts live on the
+catalog (high equity 35,586 at $59, long-term 49,177 at $49, tired
+landlords 4,009 at $79, multifamily 5,428 at $79, commercial 28,885
+at $79), catalog 35 packs, commit 9088c42, counter verified
+1,925,621. Line 10 (out-of-area) re-cut to 35,331 after Relay's
+failed verdict (situs-blank absentee limb) and awaits his
+re-verification before it lands. Bucket uploads for the Collin set
+(20 objects) and the function redeploy (47,301 bytes, md5
+01ddba90331d700092ccefaf9ae2aa7c) follow the Tarrant paste pattern.

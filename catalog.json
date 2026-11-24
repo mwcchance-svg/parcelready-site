@@ -2235,6 +2235,316 @@
     "per": "quarter"
   }
 },
+{
+  "build_date": "July 18, 2026 certified roll",
+  "buyer": "Real estate investors and direct mail marketers who target equity rich, long held homes in Travis County",
+  "category": "Real Estate",
+  "cover": "assets/covers/travis-high-equity.png",
+  "coverage": "Travis County",
+  "data_as_of": "2026-07-18",
+  "family": "county",
+  "featured": false,
+  "id": "travis-high-equity",
+  "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value from the certified roll",
+    "Year built, living area, and beds and baths where the district publishes them",
+    "Deed date and years owned",
+    "TCAD Property ID on every record, for verification"
+  ],
+  "limits": "Built from the Travis Central Appraisal District's certified appraisal export (certified July 18, 2026), downloaded from the district's public information page, not scraped and not resold from another list vendor. Equity on this pack is a modeled estimate, never a verified figure: the original loan is modeled at 80 percent of current appraised value, 30 year fixed at 6.5 percent, amortized from the deed transfer date to the certification date (July 18, 2026), and a record qualifies when the estimated equity reaches 65 percent or more of current value. No lender, lien, or mortgage record was checked for any record. Records without a deed transfer date or a value are excluded. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+  "membership": {
+    "per": "quarter",
+    "price": 59
+  },
+  "metro": "Travis County",
+  "metro_id": "austin-san-antonio",
+  "price": 59,
+  "price_note": "one time",
+  "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+  "rows": 47338,
+  "rows_label": "47,338 records",
+  "sample_label": "Free 50 row sample",
+  "sample_url": "https://parcelreadydata.com/packs/travis-high-equity.html",
+  "state": "TX",
+  "stats": [
+    {
+      "k": "Records",
+      "v": "47,338"
+    },
+    {
+      "k": "Columns",
+      "v": "16"
+    },
+    {
+      "k": "Median estimated equity",
+      "v": "95%"
+    },
+    {
+      "k": "Basis",
+      "v": "Modeled (ESTIMATE)"
+    }
+  ],
+  "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/travis/travis-high-equity-2026-11-23.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+  },
+  "tagline": "47,338 residential owners with modeled equity of 65 percent or more (ESTIMATE)",
+  "title": "Travis County High Equity Owners",
+  "trade": "High Equity Owners"
+},
+{
+  "build_date": "July 18, 2026 certified roll",
+  "buyer": "Investors and marketers who target settled, long-tenure owners in Travis County",
+  "category": "Real Estate",
+  "cover": "assets/covers/travis-long-term.png",
+  "coverage": "Travis County",
+  "data_as_of": "2026-07-18",
+  "family": "county",
+  "featured": false,
+  "id": "travis-long-term",
+  "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value from the certified roll",
+    "Year built, living area, and beds and baths where the district publishes them",
+    "Deed date and years owned",
+    "TCAD Property ID on every record, for verification"
+  ],
+  "limits": "Built from the Travis Central Appraisal District's certified appraisal export (certified July 18, 2026), downloaded from the district's public information page, not scraped and not resold from another list vendor. Every record's deed date falls on or before December 31, 2005. Fully exempt accounts (the district's EX-XV marker) are excluded. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+  "membership": {
+    "per": "quarter",
+    "price": 49
+  },
+  "metro": "Travis County",
+  "metro_id": "austin-san-antonio",
+  "price": 49,
+  "price_note": "one time",
+  "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+  "rows": 67591,
+  "rows_label": "67,591 records",
+  "sample_label": "Free 50 row sample",
+  "sample_url": "https://parcelreadydata.com/packs/travis-long-term.html",
+  "state": "TX",
+  "stats": [
+    {
+      "k": "Records",
+      "v": "67,591"
+    },
+    {
+      "k": "Columns",
+      "v": "16"
+    },
+    {
+      "k": "Median value",
+      "v": "$431,076"
+    },
+    {
+      "k": "Source",
+      "v": "TCAD certified export"
+    }
+  ],
+  "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/travis/travis-long-term-2026-11-23.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+  },
+  "tagline": "67,591 Travis County owners who have held their property 20 years or more",
+  "title": "Travis County Long-Term Owners, 20+ Years",
+  "trade": "Long-Term Owners"
+},
+{
+  "build_date": "July 18, 2026 certified roll",
+  "buyer": "Buyers who look for portfolio owners in Travis County whose holdings have been in place a long time",
+  "category": "Real Estate",
+  "cover": "assets/covers/travis-tired-landlords.png",
+  "coverage": "Travis County",
+  "data_as_of": "2026-07-18",
+  "family": "county",
+  "featured": false,
+  "id": "travis-tired-landlords",
+  "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value from the certified roll",
+    "Year built, living area, and beds and baths where the district publishes them",
+    "Deed date and years owned",
+    "Owner property count, long-held count, and TCAD Property ID on every record"
+  ],
+  "limits": "Built from the Travis Central Appraisal District's certified appraisal export (certified July 18, 2026), downloaded from the district's public information page, not scraped and not resold from another list vendor. An owner qualifies with five or more residential properties on the roll, at least half of them with deed dates on or before December 31, 2015. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+  "membership": {
+    "per": "quarter",
+    "price": 79
+  },
+  "metro": "Travis County",
+  "metro_id": "austin-san-antonio",
+  "price": 79,
+  "price_note": "one time",
+  "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+  "rows": 3070,
+  "rows_label": "3,070 records",
+  "sample_label": "Free 50 row sample",
+  "sample_url": "https://parcelreadydata.com/packs/travis-tired-landlords.html",
+  "state": "TX",
+  "stats": [
+    {
+      "k": "Records",
+      "v": "3,070"
+    },
+    {
+      "k": "Columns",
+      "v": "18"
+    },
+    {
+      "k": "Qualifying owners",
+      "v": "354"
+    },
+    {
+      "k": "Source",
+      "v": "TCAD certified export"
+    }
+  ],
+  "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/travis/travis-tired-landlords-2026-11-23.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+  },
+  "tagline": "3,070 properties held by 354 Travis County owners with 5 or more homes, half held since 2015 or earlier",
+  "title": "Travis County Tired Landlords",
+  "trade": "Tired Landlords"
+},
+{
+  "build_date": "July 18, 2026 certified roll",
+  "buyer": "Apartment investors and brokers who target multifamily owners in Travis County",
+  "category": "Real Estate",
+  "cover": "assets/covers/travis-multifamily.png",
+  "coverage": "Travis County",
+  "data_as_of": "2026-07-18",
+  "family": "county",
+  "featured": false,
+  "id": "travis-multifamily",
+  "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value from the certified roll",
+    "Year built, living area, and beds and baths where the district publishes them",
+    "Deed date and years owned",
+    "TCAD Property ID on every record, for verification"
+  ],
+  "limits": "Built from the Travis Central Appraisal District's certified appraisal export (certified July 18, 2026), downloaded from the district's public information page, not scraped and not resold from another list vendor. The set is the district's multifamily state class family. Unit counts are not published by this source and are never approximated. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+  "membership": {
+    "per": "quarter",
+    "price": 79
+  },
+  "metro": "Travis County",
+  "metro_id": "austin-san-antonio",
+  "price": 79,
+  "price_note": "one time",
+  "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+  "rows": 13133,
+  "rows_label": "13,133 records",
+  "sample_label": "Free 50 row sample",
+  "sample_url": "https://parcelreadydata.com/packs/travis-multifamily.html",
+  "state": "TX",
+  "stats": [
+    {
+      "k": "Records",
+      "v": "13,133"
+    },
+    {
+      "k": "Columns",
+      "v": "16"
+    },
+    {
+      "k": "Median value",
+      "v": "$486,820"
+    },
+    {
+      "k": "Source",
+      "v": "TCAD certified export"
+    }
+  ],
+  "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/travis/travis-multifamily-2026-11-23.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+  },
+  "tagline": "13,133 multifamily properties in Travis County, with owner mailing addresses",
+  "title": "Travis County Multifamily Owners",
+  "trade": "Multifamily Owners"
+},
+{
+  "build_date": "July 18, 2026 certified roll",
+  "buyer": "Investors, brokers, and service companies who target commercial owners in Travis County",
+  "category": "Real Estate",
+  "cover": "assets/covers/travis-commercial.png",
+  "coverage": "Travis County",
+  "data_as_of": "2026-07-18",
+  "family": "county",
+  "featured": false,
+  "id": "travis-commercial",
+  "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Appraised market value from the certified roll",
+    "Year built, living area, and beds and baths where the district publishes them",
+    "Deed date and years owned",
+    "TCAD Property ID on every record, for verification"
+  ],
+  "limits": "Built from the Travis Central Appraisal District's certified appraisal export (certified July 18, 2026), downloaded from the district's public information page, not scraped and not resold from another list vendor. The set is every record in the district's commercial state class family. Values are county appraised values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+  "membership": {
+    "per": "quarter",
+    "price": 79
+  },
+  "metro": "Travis County",
+  "metro_id": "austin-san-antonio",
+  "price": 79,
+  "price_note": "one time",
+  "refresh_schedule": "Refreshed monthly, plus a full rebuild after each annual certified roll",
+  "rows": 17423,
+  "rows_label": "17,423 records",
+  "sample_label": "Free 50 row sample",
+  "sample_url": "https://parcelreadydata.com/packs/travis-commercial.html",
+  "state": "TX",
+  "stats": [
+    {
+      "k": "Records",
+      "v": "17,423"
+    },
+    {
+      "k": "Columns",
+      "v": "16"
+    },
+    {
+      "k": "Median value",
+      "v": "$1,527,869"
+    },
+    {
+      "k": "Source",
+      "v": "TCAD certified export"
+    }
+  ],
+  "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/travis/travis-commercial-2026-11-23.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+  },
+  "tagline": "17,423 commercial property owners in Travis County, with mailing addresses",
+  "title": "Travis County Commercial Owners",
+  "trade": "Commercial Owners"
+},
  {
    "build_date": "Current builds",
    "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
