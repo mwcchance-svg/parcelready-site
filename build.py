@@ -165,6 +165,44 @@ def full_file_path(p):
     return os.path.join(DP, first)
 
 
+def _a3_code_cases_figures():
+    """A3 (Beacon's settled spec, Nov 24, 2026): the Code Cases
+    headline claims the owner-named count, generated from the
+    delivered file at every build so it cannot drift. The file's
+    three counts are distinct: total records, parcel-matched (DCAD
+    Account present), and owner-named (Owner Name present); the
+    copy keeps them apart. "Owner-matched" phrasing carries the
+    parcel-matched count or rate; "with owner" phrasing carries
+    the owner-named count."""
+    for p in CATALOG["packs"]:
+        if p["id"] != "dallas-code-cases":
+            continue
+        path = full_file_path(p)
+        if not path or not os.path.exists(path):
+            continue
+        with open(path, newline="", encoding="utf-8-sig") as f:
+            rows = list(csv.DictReader(f))
+        total = len(rows)
+        matched = sum(1 for r in rows if (r.get("DCAD Account") or "").strip())
+        named = sum(1 for r in rows if (r.get("Owner Name") or "").strip())
+        rate = round(100 * matched / total) if total else 0
+        p["tagline"] = (f"{named:,} of {total:,} open code compliance service requests "
+                        f"with the property owner named and attached")
+        p["inside"] = [
+            (f"Match rate published in every refresh: {rate} percent "
+             f"({matched:,} of {total:,}) on the current build")
+            if s.startswith("Match rate published") else s
+            for s in p["inside"]]
+        for s in p["stats"]:
+            if "matched" in s["k"].lower():
+                s["v"] = f"{rate}%"
+        print(f"A3 GATE dallas-code-cases: total {total:,} | parcel-matched {matched:,} "
+              f"({rate}%) | owner-named {named:,}; headline carries the owner-named count.")
+
+
+_a3_code_cases_figures()
+
+
 def _spread(rs, n):
     if n <= 0 or not rs:
         return []

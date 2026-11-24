@@ -387,7 +387,7 @@
     "DCAD account number on matched records",
     "Match rate published in every refresh: 86 percent (6,260 of 7,260) on the current build"
    ],
-   "limits": "Dallas publishes the case, not the inspector's notes, so the file tells you a property has an open code problem and how long it has been open, not the specific violation detail. Unmatched cases are included and clearly flagged; owners are never guessed. Subscription only, because stale code data is worthless. That is the point of the refresh.",
+   "limits": "Dallas publishes the service request, not the inspector's notes, so the file tells you a property has an open code compliance service request and how long it has been open, not the specific request detail. Unmatched cases are included and clearly flagged; owners are never guessed. Subscription only, because stale code data is worthless. That is the point of the refresh.",
    "metro": "Dallas",
    "price": 79,
    "price_note": "per month, refreshed weekly",
@@ -396,7 +396,7 @@
    "sample_label": "Free 50 row sample",
    "one_time_price": 79,
    "one_time_live": true,
-   "source_line": "Source: City of Dallas 311 code cases, owner-matched to Dallas Central Appraisal District records. Refreshed weekly.",
+   "source_line": "Source: City of Dallas 311 open code compliance service requests (called code cases on this page), owner-matched to Dallas Central Appraisal District records. Refreshed weekly.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [
     {
