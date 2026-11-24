@@ -236,6 +236,87 @@ def write_sample_json():
 SAMPLE_COUNTS = {}
 
 
+# Comparison strip constants (beauty spec, ranked item 5; Matt's
+# generation rule, Nov 23, 2026). Theirs figures are sourced from
+# Signal's competitor dossier of November 22, 2026 and must be
+# re-verified whenever the dossier refreshes; a buyer class whose
+# figure has not been re-verified does not render (fail closed).
+COMPARE = {
+    "as_of": "November 22, 2026",
+    "county": {
+        "theirs": "$1,018",
+        "basis": ("PropertyRadar entry plan with dialer, worked first campaign "
+                  "(the mail only figure is $919), figures as of November 22, 2026."),
+    },
+    "trade": {
+        "theirs": "$699 or more metered by month",
+        "basis": ("PropStream at $99 a month plus 12 cents a trace and $5 a document, "
+                  "worked first campaign $699 to $789, figures as of November 22, 2026."),
+    },
+}
+
+
+def compare_strip(p):
+    """The generated comparison strip. Fail closed: no strip when the
+    pack has no one-time price (free packs, subscription products)."""
+    price = p.get("price") or 0
+    if (not price or "/month" in (p.get("price_note") or "")
+            or "per month" in (p.get("price_note") or "")
+            or (p.get("store") or {}).get("billing") == "subscription"):
+        return ""
+    cls = "trade" if p["family"] == "trade" else "county"
+    c = COMPARE[cls]
+    ours = money(price)
+    return f"""
+<section class="compare-strip"><div class="wrap compare-grid">
+  <p class="compare-line">You could pay {c['theirs']} to rent a list from one of our competitors. <strong>Or <span class="compare-price">{ours}</span> to own the data from us.</strong></p>
+  <p class="compare-support">{c['basis']} Ours: one time, tax included, pull date on the label, nothing to cancel.</p>
+</div></section>"""
+
+
+def label_source(p):
+    sl = p.get("source_line")
+    if sl:
+        s = sl.removeprefix("Source: ")
+        for cut in (",", ". "):
+            if cut in s:
+                s = s.split(cut)[0]
+        return s.rstrip(".")
+    return "Each business's own website and listings, checked by hand"
+
+
+def label_plate(p):
+    """Beauty spec B2: the Label, a designed specimen tag that
+    replaces the loose stat strip as the pack page's anchor."""
+    fields = [
+        ("Pack", p["title"]),
+        ("Source", label_source(p)),
+        ("Pull date", fmt_date(p["data_as_of"])),
+        ("Rows", p["rows_label"]),
+    ]
+    for s in p["stats"]:
+        if "match" in s["k"].lower():
+            fields.append(("Match rate", s["v"]))
+    fields.append(("Refresh", p["refresh_schedule"]))
+    fields.append(("Price", f"{money(p['price'])} {esc(p['price_note'])}".strip()))
+    cleared = ("Contact details as published by each business."
+               if p["family"] == "trade"
+               else "Public record, as published by the source above.")
+    fields.append(("Cleared for", cleared))
+    rows_html = "".join(
+        f'<div class="label-field"><span class="label-k">{esc(k)}</span>'
+        f'<span class="label-v">{esc(v)}</span></div>' for k, v in fields)
+    count = f"{p['rows']:,}" if isinstance(p.get("rows"), int) else esc(p["rows_label"])
+    return f"""
+<section class="label-band"><div class="wrap">
+  <div class="label-plate">
+    <div class="label-fields">{rows_html}</div>
+    <div class="label-seal"><span class="seal-count">{count}</span><span class="seal-word">Verified</span></div>
+    <p class="label-promise">The <a href="../terms.html#label-promise">label promise</a>: if this pack does not match what this page promises, tell us within 30 days and we will fix it or refund the pack.</p>
+  </div>
+</div></section>"""
+
+
 def sample_section(p):
     if p["id"] not in SAMPLE_COUNTS:
         return f"""
@@ -405,14 +486,13 @@ def build_pack(p):
         {buy_button(p)}
         <a class="btn btn-ghost" href="#sample">{esc(p['sample_label'])}</a>
       </div>
-      <p class="fineprint">The <a href="../terms.html#label-promise">label promise</a>: if this pack does not match what this page promises, tell us within 30 days and we will fix it or refund the pack.</p>
       <p class="fineprint">{fresh} {'Sold and delivered through Gumroad.' if p.get("store", {}).get("mode") == "gumroad" else 'Sold and delivered on this site.'}</p>
       {('<p class="fineprint">' + esc(p['source_line']) + '</p>') if p.get('source_line') else ''}
     </div>
     <figure class="pack-cover reveal"><img src="../{p['cover']}" alt="{esc(p['title'])} data preview cover"></figure>
   </div>
 </section>
-<section class="stat-band"><div class="wrap stat-grid">{stats}</div></section>
+{label_plate(p)}
 <section class="inside">
   <div class="wrap inside-grid">
     <div class="reveal">
@@ -428,6 +508,7 @@ def build_pack(p):
   </div>
 </section>
 {pricing_block(p)}
+{compare_strip(p)}
 {sample_section(p)}
 <section class="cta-band">
   <div class="wrap">
@@ -768,6 +849,18 @@ def patch_index_records(total):
     tax = next(p for p in CATALOG["packs"] if p["id"] == "tarrant-tax-delinquent")
     page = re.sub(r'<b>[\d,]+</b> Tarrant tax delinquent accounts',
                   f'<b>{tax["rows"]:,}</b> Tarrant tax delinquent accounts', page)
+    # Home comparison strips (beauty ranked item 5): two generated
+    # instances, one per buyer class, from the featured packs. The
+    # marker regenerates each build; fail closed if it is missing.
+    if "<!--COMPARE-HOME-->" in page:
+        feat_county = next(p for p in CATALOG["packs"] if p["id"] == "harris-absentee")
+        feat_trade = next(p for p in CATALOG["packs"] if p["id"] == "houston-hvac")
+        strips = compare_strip(feat_county) + compare_strip(feat_trade)
+        if not strips:
+            raise SystemExit("home comparison strips failed to generate (fail closed)")
+        page = re.sub(r'<!--COMPARE-HOME-->(\s*<section class="compare-strip">.*?</section>)*',
+                      lambda m: "<!--COMPARE-HOME-->" + strips, page, flags=re.S)
+        print("HOME STRIPS VERIFIED: county and trade instances generated from featured packs.")
     with open(path, "w") as f:
         f.write(page)
 
