@@ -80,7 +80,7 @@ var PR_API = "https://zohneuvgkdlwbjldnnlp.supabase.co/functions/v1/parcelready-
         tbody.innerHTML = rows.map(function (r) {
           return "<tr>" + data.columns.map(function (c) { return "<td>" + show(r[c]) + "</td>"; }).join("") + "</tr>";
         }).join("") || '<tr><td colspan="' + data.columns.length + '">No rows match. That is the data being honest, not a filter bug.</td></tr>';
-        count.textContent = "Preview: " + rows.length + " of " + (data.sample_total || data.rows.length) + " rows from a " +
+        count.textContent = "Preview: " + rows.length + " of " + Number(data.sample_total || data.rows.length).toLocaleString() + " rows from a " +
           (data.sample_percent || 10) + "% draw of the full file (" + Number(data.full_total).toLocaleString() + " records)" +
           (data.masked ? ", contact details masked on screen" : "") +
           (data.delivered_total ? " · the delivered free sample is " + data.delivered_total + " rows with every field, by email below" : "");

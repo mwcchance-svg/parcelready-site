@@ -2746,7 +2746,7 @@
    "limits": "Check the columns, the addresses, and the match quality before you spend anything. If the samples do not convince you, the full lists will not either, and we would rather you find that out for free.",
    "metro": "All lists",
    "price": 0,
-   "price_note": "free",
+   "price_note": "",
    "rows": 100,
    "rows_label": "100 records from every list",
    "sample_label": "Get the free sample pack",
