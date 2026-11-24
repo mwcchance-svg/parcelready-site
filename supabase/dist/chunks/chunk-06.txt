@@ -1,3 +1,32 @@
+    `\n\nThe lead is recorded in the leads table, and the requester has been answered by the usual route.`;
+  const rows = lines
+    .map(([k, v]) =>
+      `<tr><td style="padding:5px 18px 5px 0;font-size:13px;color:#3D5546;white-space:nowrap;">${escHtml(k)}</td>` +
+      `<td style="padding:5px 0;font-size:14px;color:#122B1E;">${escHtml(v)}</td></tr>`)
+    .join("\n");
+  const html = emailShell(
+    `<p style="margin:0;">A new sample request came in through the site.</p>
+  <table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px 0 4px;">${rows}</table>
+  <p style="margin:14px 0 0;font-size:13px;color:#3D5546;">The lead is recorded in the leads table, and the requester has been answered by the usual route.</p>`
+  );
+  return [text, html];
+}
+
+/* Internal sale notification (Matt's order via Atlas, Nov 23, 2026):
+   our own notice to the leads inbox when money lands, in the same
+   branded shell as the lead notice. Stripe's own notification settings
+   are untouched. Renewals (an invoice.paid that fires a refresh
+   delivery) carry the same notice labeled as a renewal. Returns
+   [text, html] for sendEmail. */
+function saleNotice(pack: any, email: string, amountCents: any, currency: string, renewal: boolean): [string, string] {
+  const cents = typeof amountCents === "number" ? amountCents : null;
+  const amount = cents === null
+    ? "Not shown"
+    : currency && currency.toLowerCase() !== "usd"
+      ? `${(cents / 100).toFixed(2)} ${currency.toUpperCase()}`
+      : `$${(cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const when = new Date().toISOString().replace("T", " ").replace(/\.\d+Z$/, " UTC");
+  const lines: Array<[string, string]> = [
     ["What", renewal ? "Subscription renewal" : "New sale"],
     ["Pack", pack.title],
     ["Amount paid", amount],
@@ -108,12 +137,15 @@ async function handleDownload(req: Request) {
   const xlsx = url.searchParams.get("format") === "xlsx";
   let key = record.kind === "sample" ? pack.sample_file_key : pack.file_key;
   if (!key) return new Response("file not staged yet", { status: 404 });
-  if (xlsx) key = key.replace(/\.csv$/, ".xlsx");
+  // B8: a sample key that IS an xlsx (the Free Sample Pack workbook)
+  // serves as XLSX under either format parameter.
+  const workbook = key.endsWith(".xlsx");
+  if (xlsx && !workbook) key = key.replace(/\.csv$/, ".xlsx");
   const object = await storageObject(key);
   if (!object) return new Response("file not staged yet", { status: 404 });
   return new Response(object.body, {
     headers: {
-      "Content-Type": xlsx ? XLSX_TYPE : "text/csv; charset=utf-8",
+      "Content-Type": (xlsx || workbook) ? XLSX_TYPE : "text/csv; charset=utf-8",
       "Content-Disposition": `attachment; filename="${key.split("/").pop()}"`,
     },
   });
@@ -142,10 +174,3 @@ Deno.serve(async (req: Request) => {
     if (req.method === "POST" && path === "/api/webhook") return handleWebhook(req);
     if (req.method === "POST" && path === "/api/sample") return handleSample(req);
     if (req.method === "POST" && path === "/api/admin/sync") return handleAdminSync(req);
-    if (req.method === "POST" && path === "/api/admin/upload") return handleAdminUpload(req, url);
-    if (req.method === "GET" && path === "/api/download") return handleDownload(req);
-    return new Response("not found", { status: 404 });
-  } catch (err) {
-    return json({ error: "server_error" }, 500, req);
-  }
-});

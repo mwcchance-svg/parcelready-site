@@ -1,3 +1,41 @@
+  await priceMapSet(price.id, pack.id);
+  if (taxOn()) {
+    // Deliberate handling of pre-ruling prices: a price created before
+    // the ruling carries no inclusive behavior and must never be picked
+    // up silently once tax is on. Stripe prices cannot be deleted, so
+    // every other active price on this product is archived; exactly one
+    // live price per pack remains, the inclusive one above.
+    for (const pr of prices.data || []) {
+      if (pr.id !== price.id && pr.active) {
+        await stripePost(`prices/${pr.id}`, { active: "false" }).catch(() => {});
+      }
+    }
+  }
+  return price.id;
+}
+
+async function ensureWebhook() {
+  if (env("STRIPE_WEBHOOK_SECRET")) return { status: "env_secret_in_use" };
+  const existingSecret = await configGet("webhook_secret");
+  const url = `${env("API_BASE")}/api/webhook`;
+  const listed = await stripeGet("webhook_endpoints", { limit: "100" });
+  const mine = (listed.data || []).filter((w: any) => w.url === url);
+  if (mine.length && existingSecret) return { status: "already_registered", id: mine[0].id };
+  // The signing secret is shown only at creation; if we hold no secret,
+  // replace the endpoint so a fresh secret lands in the config table.
+  // Pre-launch safe.
+  for (const w of mine) await stripeCall("DELETE", `webhook_endpoints/${w.id}`);
+  const created = await stripePost("webhook_endpoints", {
+    url,
+    "enabled_events[0]": "checkout.session.completed",
+    "enabled_events[1]": "invoice.paid",
+    description: "ParcelReady store function (auto-registered)",
+  });
+  if (!created.id || !created.secret) throw new Error("webhook_create_failed");
+  await configSet("webhook_secret", created.secret);
+  return { status: "registered", id: created.id };
+}
+
 async function handleAdminSync(req: Request) {
   if (!env("ADMIN_TOKEN")) return new Response("not found", { status: 404 });
   if (req.headers.get("x-admin-token") !== env("ADMIN_TOKEN")) return json({ error: "unauthorized" }, 401);
@@ -164,32 +202,3 @@ function leadNotice(lead: any, pack: any): [string, string] {
   const text =
     `A new sample request came in through the site.\n\n` +
     lines.map(([k, v]) => `${k}: ${v}`).join("\n") +
-    `\n\nThe lead is recorded in the leads table, and the requester has been answered by the usual route.`;
-  const rows = lines
-    .map(([k, v]) =>
-      `<tr><td style="padding:5px 18px 5px 0;font-size:13px;color:#3D5546;white-space:nowrap;">${escHtml(k)}</td>` +
-      `<td style="padding:5px 0;font-size:14px;color:#122B1E;">${escHtml(v)}</td></tr>`)
-    .join("\n");
-  const html = emailShell(
-    `<p style="margin:0;">A new sample request came in through the site.</p>
-  <table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px 0 4px;">${rows}</table>
-  <p style="margin:14px 0 0;font-size:13px;color:#3D5546;">The lead is recorded in the leads table, and the requester has been answered by the usual route.</p>`
-  );
-  return [text, html];
-}
-
-/* Internal sale notification (Matt's order via Atlas, Nov 23, 2026):
-   our own notice to the leads inbox when money lands, in the same
-   branded shell as the lead notice. Stripe's own notification settings
-   are untouched. Renewals (an invoice.paid that fires a refresh
-   delivery) carry the same notice labeled as a renewal. Returns
-   [text, html] for sendEmail. */
-function saleNotice(pack: any, email: string, amountCents: any, currency: string, renewal: boolean): [string, string] {
-  const cents = typeof amountCents === "number" ? amountCents : null;
-  const amount = cents === null
-    ? "Not shown"
-    : currency && currency.toLowerCase() !== "usd"
-      ? `${(cents / 100).toFixed(2)} ${currency.toUpperCase()}`
-      : `$${(cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  const when = new Date().toISOString().replace("T", " ").replace(/\.\d+Z$/, " UTC");
-  const lines: Array<[string, string]> = [

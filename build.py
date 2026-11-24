@@ -441,6 +441,10 @@ def write_store_registry():
         delivery = store.get("delivery_file") or ""
         file_key = "packs/" + delivery.split(" + ")[0].split("/")[-1] if delivery else None
         sample_key = f"samples/{p['id']}-sample.csv" if delivery else None
+        if p["id"] == "free-sample-pack":
+            # B8: the sampler delivers as one XLSX workbook (a sheet
+            # per paid list); the function serves that key as XLSX.
+            sample_key = "samples/free-sample-pack-sample.xlsx"
         amt, interval, count = p["price"], "month", 1
         if store.get("billing") == "subscription" and p.get("membership"):
             amt = p["membership"]["price"]

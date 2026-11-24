@@ -600,7 +600,7 @@
    "interval": "month",
    "interval_count": 1,
    "file_key": null,
-   "sample_file_key": null
+   "sample_file_key": "samples/free-sample-pack-sample.xlsx"
   }
  ]
 }

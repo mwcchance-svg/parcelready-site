@@ -215,7 +215,21 @@ async function deliver(pack: any, email: string, kind: string) {
   const link = `${base}/api/download?token=${token}`;
   const linkXlsx = `${link}&format=xlsx`;
   const isSample = kind === "sample";
-  const text = isSample
+  // Beauty spec B8: the Free Sample Pack delivers as one Excel
+  // workbook (one sheet per paid list, each in that list's exact
+  // format), so its sample email carries a single download.
+  const isWorkbook = isSample && typeof pack.sample_file_key === "string" &&
+    pack.sample_file_key.endsWith(".xlsx");
+  const text = isWorkbook
+    ? `Thank you for asking to see the data first. That is exactly what the sample is for.\n\n` +
+      `Your free sample of ${pack.title} is ready: one Excel workbook with a sheet for every ` +
+      `paid list in the store, each sheet carrying that list's exact columns and real rows, ` +
+      `100 records in all.\n\n` +
+      `Download the workbook:\n${link}\n\n${WARM_WINDOW}\n\n` +
+      `If the sample earns its keep, the full packs are listed on parcelreadydata.com with ` +
+      `their record counts, exact pull dates, and refresh schedules printed on the label.\n\n` +
+      `The label promise\n${LABEL_PROMISE}`
+    : isSample
     ? `Thank you for asking to see the data first. That is exactly what the sample is for.\n\n` +
       `Your free sample of ${pack.title} is ready. It carries every field, exactly as the full ` +
       `pack ships them, so you can judge the data the way it will actually arrive. It comes in ` +
@@ -234,12 +248,17 @@ async function deliver(pack: any, email: string, kind: string) {
       `this file is the one its page describes.\n\n` +
       `The label promise\n${LABEL_PROMISE}`;
   const html = emailShell(
-    (isSample
+    (isWorkbook
+      ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
+  <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready: one Excel workbook with a sheet for every paid list in the store, each sheet carrying that list's exact columns and real rows, 100 records in all.</p>`
+      : isSample
       ? `<p style="margin:0;">Thank you for asking to see the data first. That is exactly what the sample is for.</p>
   <p style="margin:14px 0 0;">Your free sample of <strong>${escHtml(pack.title)}</strong> is ready. It carries every field, exactly as the full pack ships them, so you can judge the data the way it will actually arrive.</p>`
       : `<p style="margin:0;">Thank you for your purchase. We are glad to have you with us.</p>
   <p style="margin:14px 0 0;">Your copy of <strong>${escHtml(pack.title)}</strong> is ready, in two formats, with every field exactly as it ships.</p>`) +
-      downloadBlockHtml(link, linkXlsx) +
+      (isWorkbook
+        ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 6px;"><tr><td style="background:#E9B949;border-radius:8px;"><a href="${escHtml(link)}" style="display:inline-block;padding:13px 26px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:15px;color:#122B1E;text-decoration:none;">Download the workbook</a></td></tr></table>`
+        : downloadBlockHtml(link, linkXlsx)) +
       WARM_WINDOW_HTML +
       (isSample
         ? `<p style="margin:16px 0 0;">If the sample earns its keep, the full pack is listed on parcelreadydata.com with its record count, its exact pull date, and its refresh schedule printed on the label.</p>`
@@ -683,12 +702,15 @@ async function handleDownload(req: Request) {
   const xlsx = url.searchParams.get("format") === "xlsx";
   let key = record.kind === "sample" ? pack.sample_file_key : pack.file_key;
   if (!key) return new Response("file not staged yet", { status: 404 });
-  if (xlsx) key = key.replace(/\.csv$/, ".xlsx");
+  // B8: a sample key that IS an xlsx (the Free Sample Pack workbook)
+  // serves as XLSX under either format parameter.
+  const workbook = key.endsWith(".xlsx");
+  if (xlsx && !workbook) key = key.replace(/\.csv$/, ".xlsx");
   const object = await storageObject(key);
   if (!object) return new Response("file not staged yet", { status: 404 });
   return new Response(object.body, {
     headers: {
-      "Content-Type": xlsx ? XLSX_TYPE : "text/csv; charset=utf-8",
+      "Content-Type": (xlsx || workbook) ? XLSX_TYPE : "text/csv; charset=utf-8",
       "Content-Disposition": `attachment; filename="${key.split("/").pop()}"`,
     },
   });
