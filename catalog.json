@@ -395,6 +395,7 @@
    "rows_label": "7,260 open cases",
    "sample_label": "Free 50 row sample",
    "one_time_price": 79,
+   "one_time_live": true,
    "source_line": "Source: City of Dallas 311 code cases, owner-matched to Dallas Central Appraisal District records. Refreshed weekly.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
    "stats": [

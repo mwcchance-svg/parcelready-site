@@ -393,13 +393,23 @@ def fact_band(p, used):
 
 def sample_section(p):
     if p["id"] not in SAMPLE_COUNTS:
+        # B8 (deployed Nov 23, 2026): the Free Sample Pack delivers
+        # through the site's own flow as an Excel workbook, one sheet
+        # per paid list. No Gumroad hop from site pages (spec 12).
         return f"""
     <section class="preview" id="sample">
       <div class="wrap">
         <p class="kicker">The free sample</p>
         <h2>This pack is the sample</h2>
-        <p class="explorer-sub">The Free Sample Pack is itself the free product: 100 real records from every paid list, in the exact format of the full files. Download it and inspect every list at once.</p>
-        <div class="pack-actions"><a class="btn btn-gold" href="{esc(p['buy_url'])}" target="_blank" rel="noopener">Download the free sample pack</a></div>
+        <p class="explorer-sub">The Free Sample Pack is itself the free product: one Excel workbook with a sheet for every paid list in the store, each sheet carrying that list's exact columns and real rows, 100 records in all. Enter your email and the workbook lands in your inbox.</p>
+        <form class="capture" data-capture>
+          <input type="hidden" name="pack_id" value="{p['id']}">
+          <input type="hidden" name="request_kind" value="pack_sample">
+          <label>Business name<input type="text" name="business_name" autocomplete="organization" placeholder="Your business"></label>
+          <label>Email for the sample file<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
+          <button class="btn btn-gold" type="submit">Email me the free sample pack</button>
+          <p class="capture-status" role="status"></p>
+        </form>
       </div>
     </section>"""
     kind = "trade" if p["family"] == "trade" else "county"
@@ -427,6 +437,9 @@ def sample_section(p):
 
 
 def buy_button(p):
+    if not p.get("price"):
+        # The free pack's action is its own sample capture (B8).
+        return '<a class="btn btn-gold" href="#sample">Get the free sample pack</a>'
     if p.get("store", {}).get("mode") == "stripe":
         return (f'<button class="btn btn-gold" type="button" data-checkout="{p["id"]}">'
                 f'Buy the full pack, {money(p["price"])} <span class="price-note">{esc(p["price_note"])}</span></button>')
