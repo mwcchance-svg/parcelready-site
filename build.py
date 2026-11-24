@@ -262,7 +262,7 @@ COMPARE = {
                   "(the mail only figure is $919), figures as of November 22, 2026."),
     },
     "trade": {
-        "theirs": "$699 or more metered by month",
+        "theirs": "$699 or more, metered by the month",
         "basis": ("PropStream at $99 a month plus 12 cents a trace and $5 a document, "
                   "worked first campaign $699 to $789, figures as of November 22, 2026."),
     },
