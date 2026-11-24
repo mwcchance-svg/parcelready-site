@@ -126,7 +126,7 @@ def footer(prefix):
 """
 
 
-def card_grid(packs, prefix):
+def card_grid(packs, prefix, buyer_line=False):
     """Beauty spec B5: two card sizes. The flagship pack of each hub
     (largest count, newest pull on a tie) renders as a wide card;
     the rest keep the standard card."""
@@ -135,11 +135,11 @@ def card_grid(packs, prefix):
     flagship = max(packs, key=lambda p: (p.get("rows") or 0, p["data_as_of"]))
     out = []
     for p in packs:
-        out.append(card(p, prefix, wide=(p is flagship)))
+        out.append(card(p, prefix, wide=(p is flagship), buyer_line=buyer_line))
     return "".join(out)
 
 
-def card(p, prefix, wide=False):
+def card(p, prefix, wide=False, buyer_line=False):
     asof = fmt_date(p["data_as_of"])
     return f"""<article class="card{' card-wide' if wide else ''}">
       <a href="{prefix}packs/{p['id']}.html"><img src="{prefix}{p['cover']}" alt="{esc(p['title'])} data preview cover" loading="lazy"></a>
@@ -147,6 +147,7 @@ def card(p, prefix, wide=False):
         <p class="meta">{esc(state_name(p['state']))} · {esc(p['category'])}</p>
         <h3>{esc(p['title'])}</h3>
         <p class="tagline">{esc(p['tagline'])}</p>
+        {('<p class="card-buyer">' + esc(p['buyer']) + '</p>') if buyer_line else ''}
         {('<p class="card-diff">' + esc(p['diff_line']) + '</p>') if p.get('diff_line') else ''}
         <p class="asof">Data as of {asof}<br>{esc(p['refresh_schedule'])}</p>
         <div class="rowline"><span class="rows">{esc(p['rows_label'])}</span><span class="price">{money(p['price'])} <small>{esc(p['price_note'])}</small></span></div>
@@ -556,6 +557,7 @@ def sample_section(p):
         <p class="kicker">The free sample</p>
         <h2>This pack is the sample</h2>
         <p class="explorer-sub">The Free Sample Pack is itself the free product: one Excel workbook with a sheet for every paid list in the store, each sheet carrying that list's exact columns and real rows, 100 records in all. Enter your email and the workbook lands in your inbox.</p>
+        {fit_check_line(p)}
         <form class="capture" data-capture>
           <input type="hidden" name="pack_id" value="{p['id']}">
           <input type="hidden" name="request_kind" value="pack_sample">
@@ -580,6 +582,7 @@ def sample_section(p):
           <div class="explorer" data-explorer="../assets/data/{p['id']}-sample.json"></div>
         </div>
         <p class="fineprint">Preview rows shown with contact details masked: phone and email on trade packs, owner name and mailing street address on county packs. Mailing city, state, and ZIP stay visible so the geography stays checkable. A blank field means it could not be verified. It is never guessed. The delivered sample carries every value.</p>
+        {fit_check_line(p)}
         <form class="capture" data-capture>
           <input type="hidden" name="pack_id" value="{p['id']}">
           <label>Email for the sample file<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
@@ -726,13 +729,87 @@ def pricing_block(p):
 </section>"""
 
 
+def fit_lines(p):
+    # Fit layer (Matt's ruling, specced Nov 24, 2026): every money
+    # surface states who the product best fits and what it does for
+    # them. FOR is the catalog buyer field verbatim; THE JOB and
+    # CHECK IT generate from the pack's own facts (delivered file
+    # counts, Label figures) at build, so a refresh restates them.
+    # No outcome language beyond what the file's fields perform.
+    # Money surfaces first; the rest of the catalog takes the layer
+    # as packs refresh. Returns (job, check) or None.
+    import csv as _csv
+    pid = p["id"]
+    if pid == "houston-hvac":
+        with open(full_file_path(p), newline="", encoding="utf-8-sig") as f:
+            rows = list(_csv.DictReader(f))
+        total = len(rows)
+        emails = sum(1 for r in rows if (r.get("Published email") or "").strip())
+        return (
+            f"Work the whole Houston HVAC market from one file: every operator's "
+            f"phone, the published email where one exists ({emails} of {total}), "
+            f"and a flag on the rows with no web door in.",
+            "Run the sample against your current client and prospect list; the "
+            "rows carry the same fields, so one pass shows whether these are "
+            "net new names.")
+    if pid == "dallas-absentee":
+        return (
+            f"A mail ready list of {p['rows']:,} owners whose tax mail goes "
+            f"somewhere else, each with the owner mailing address and the DCAD "
+            f"account number on every record.",
+            f"Pull three sample rows, verify the account numbers against the "
+            f"county roll, and check the mailing addresses against your own "
+            f"list for overlap before paying {money(p['price'])}.")
+    if pid == "dallas-code-cases":
+        with open(full_file_path(p), newline="", encoding="utf-8-sig") as f:
+            rows = list(_csv.DictReader(f))
+        total = len(rows)
+        named = sum(1 for r in rows if (r.get("Owner Name") or "").strip())
+        return (
+            f"Which Dallas properties drew an open code compliance service "
+            f"request, how long it has been open, and who owns it: {named:,} "
+            f"of {total:,} with the owner named, refreshed weekly.",
+            "Check the sample addresses against the neighborhoods you already "
+            "farm, and the days open against your own threshold for a property "
+            "under pressure.")
+    if pid == "free-sample-pack":
+        return (
+            f"Judge the format before the money: {p['rows']} real records drawn "
+            f"from every paid list in the store, in the exact columns the full "
+            f"files ship.",
+            "Open it beside the list you use now and compare columns, match "
+            "quality, and how the gaps are marked.")
+    return None
+
+
+def fit_block(p):
+    fl = fit_lines(p)
+    if not fl:
+        return ""
+    job, check = fl
+    return f"""
+      <div class="fit-block">
+        <p><span class="fit-k">For</span> {esc(p['buyer'])}</p>
+        <p><span class="fit-k">The job</span> {esc(job)}</p>
+        <p><span class="fit-k">Check it</span> {esc(check)}</p>
+      </div>"""
+
+
+def fit_check_line(p):
+    fl = fit_lines(p)
+    if not fl:
+        return ""
+    return f'<p class="fit-check"><span class="fit-k">Check it</span> {esc(fl[1])}</p>'
+
+
 def hero_proof(p):
     # C3 (conversion specs, Nov 24, 2026): one proof line in the
     # buyer's terms beside the hero form, naming what the sample
     # lets the buyer verify, never the process that built it. The
     # two ad-landing packs carry Beacon's exact lines; the rest are
     # generated from the pack's own facts in the same form.
-    n = SAMPLE_COUNTS.get(p["id"], 50 if p["family"] == "county" else 15)
+    _sc = SAMPLE_COUNTS.get(p["id"])
+    n = _sc[0] if _sc else (50 if p["family"] == "county" else 15)
     if p["id"] == "dallas-absentee":
         return ("50 real Dallas rows, owner names and mailing addresses unmasked "
                 "in the file, so you can spot check the county roll before you pay $49.")
@@ -796,7 +873,7 @@ def build_pack(p):
       <p class="lede">{esc(p['tagline'])}.</p>
       {('<p class="buyer-line">' + esc(p['diff_line']) + '</p>') if p.get('diff_line') else ''}
       <p class="the-line">We do the work. You get the leads.</p>
-      <p class="buyer-line">Built for: {esc(p['buyer'])}.</p>
+      {fit_block(p) if fit_lines(p) else f'<p class="buyer-line">Built for: {esc(p["buyer"])}.</p>'}
       <p class="buyer-line">Coverage: {esc(p['coverage'])}{metro_link(p)}.</p>
       <div class="pack-actions">
         {buy_button(p)}
@@ -985,7 +1062,22 @@ def build_state_hub(name, code, urls):
     sslug = slug(name)
     live = packs_in(code)
     soon = soon_in(code)
-    cards = card_grid(live, prefix)
+    cards = card_grid(live, prefix, buyer_line=True)
+    # Fit layer, hub form: a two door routing strip under the hero,
+    # naming the families by role. It renders only where both
+    # families are actually live in the state, so no door routes to
+    # an empty shelf.
+    door_strip = ""
+    if {p["family"] for p in live} >= {"county", "trade"}:
+        door_strip = """
+<section class="door-sec">
+  <div class="wrap">
+    <div class="door-grid">
+      <a class="door" href="real-estate/index.html"><span class="door-k">Door one</span><strong>Buying properties or mailing owners</strong><span>Start with the county packs: owner lists built from the official roll.</span></a>
+      <a class="door" href="hvac/index.html"><span class="door-k">Door two</span><strong>Selling to local trades</strong><span>Start with the trade packs: verified local companies with phones and published emails.</span></a>
+    </div>
+  </div>
+</section>"""
     cat_rows = ""
     for cat in CATEGORIES:
         n = len(packs_in(code, cat))
@@ -1027,6 +1119,7 @@ def build_state_hub(name, code, urls):
     <p class="lede" style="margin-top:1rem">{sub}</p>
   </div>
 </section>
+{door_strip}
 {state_capture(name, bool(live))}
 <section style="padding-top:1rem">
   <div class="wrap">

@@ -327,6 +327,18 @@ a.chip { text-decoration: none; display: inline-block; }
 .capture input, .capture select { font: inherit; font-size: 1rem; letter-spacing: 0; text-transform: none; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid var(--line-dark); background: #fff; color: var(--ink); min-width: 240px; }
 .capture select:focus, .capture input:focus { outline: 2px solid var(--gold); border-color: transparent; }
 .capture-status { width: 100%; font-size: 0.92rem; color: rgba(246,232,200,0.85); min-height: 1.2em; }
+.fit-block { margin-top: 1.1rem; display: grid; gap: 0.45rem; max-width: 44rem; }
+.fit-block p { line-height: 1.5; }
+.fit-k { display: inline-block; min-width: 5.4rem; font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-soft); }
+.fit-check { margin-bottom: 0.9rem; max-width: 44rem; line-height: 1.5; }
+.card-buyer { color: var(--ink-soft); font-size: 0.95rem; }
+.door-sec { padding: 0.5rem 0 1.5rem; }
+.door-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 720px) { .door-grid { grid-template-columns: 1fr; } }
+.door { display: grid; gap: 0.35rem; padding: 1.1rem 1.2rem; border: 1px solid var(--line-dark); border-radius: 14px; background: rgba(246,232,200,0.04); color: var(--cream); text-decoration: none; }
+.door strong { font-size: 1.15rem; }
+.door span { color: rgba(246,232,200,0.85); line-height: 1.45; }
+.door .door-k { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-soft); }
 .hero-sample { margin-top: 0.4rem; }
 .capture-hero { margin-top: 0.9rem; }
 
