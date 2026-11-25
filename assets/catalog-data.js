@@ -2966,6 +2966,190 @@ window.CATALOG = {
    "trade": "Commercial Owners"
   },
   {
+   "build_date": "August 4, 2026 county file (2026 StratMap collection)",
+   "buyer": "Investors who target absentee and out-of-area owners of Bexar County property",
+   "category": "Real Estate",
+   "cover": "assets/covers/bexar-out-of-area.webp",
+   "coverage": "Bexar County",
+   "data_as_of": "2026-08-04",
+   "family": "county",
+   "featured": false,
+   "id": "bexar-out-of-area",
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Market value from the appraisal roll, median $230,000 across the file",
+    "Segment on every record (Out of state or Out of county (TX))",
+    "BCAD Property ID on every record, for verification"
+   ],
+   "limits": "Built from the Texas Geographic Information Office (TxGIO) StratMap Land Parcels file for Bexar County (2026 collection, county file dated August 4, 2026), a republication of the Bexar Central Appraisal District roll, downloaded from TxGIO's DataHub, not scraped and not resold from another list vendor. The file's published situs city and ZIP fields are empty; property city and ZIP are parsed from the appraisal district's own situs address string under a strict pattern, and address strings that do not match the pattern carry no parsed geography. Segmentation follows the standing rules: mailing geography decides first, an identified out-of-state value segments on its own, and the out-of-county segment is Texas mailing ZIPs outside the county's own ZIP set. Records whose geography cannot be identified (665 in the test population) are counted and not shipped. Year built, deed dates, and years owned are not published by this source and are never estimated. Values are the roll's market values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 49
+   },
+   "metro": "San Antonio",
+   "metro_id": "austin-san-antonio",
+   "price": 49,
+   "price_note": "one time",
+   "refresh_schedule": "Re-verified monthly on the spine cycle; re-pulled when TxGIO refreshes the county file",
+   "rows": 36262,
+   "rows_label": "36,262 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/bexar-out-of-area.html",
+   "source_line": "Source: TxGIO StratMap Land Parcels, 2026 collection, Bexar County file dated August 4, 2026, a republication of the Bexar Central Appraisal District roll. Re-pulled and re-verified monthly on the spine cycle.",
+   "state": "TX",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "36,262"
+    },
+    {
+     "k": "Columns",
+     "v": "17"
+    },
+    {
+     "k": "Segments",
+     "v": "19,899 out of state, 16,363 out of county"
+    },
+    {
+     "k": "Source",
+     "v": "TxGIO StratMap (BCAD roll)"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/bexar/bexar-out-of-area-2026-11-25.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "36,262 Bexar County residential owners whose mailing address is out of the area: 19,899 out of state and 16,363 elsewhere in Texas",
+   "title": "Bexar County Owners Who Live Elsewhere",
+   "trade": "Out-of-Area Owners"
+  },
+  {
+   "build_date": "August 4, 2026 county file (2026 StratMap collection)",
+   "buyer": "Apartment investors and brokers who target multifamily owners in Bexar County",
+   "category": "Real Estate",
+   "cover": "assets/covers/bexar-multifamily.webp",
+   "coverage": "Bexar County",
+   "data_as_of": "2026-08-04",
+   "family": "county",
+   "featured": false,
+   "id": "bexar-multifamily",
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Market value from the appraisal roll, median $302,350 across the file",
+    "BCAD Property ID on every record, for verification"
+   ],
+   "limits": "Built from the Texas Geographic Information Office (TxGIO) StratMap Land Parcels file for Bexar County (2026 collection, county file dated August 4, 2026), a republication of the Bexar Central Appraisal District roll, downloaded from TxGIO's DataHub, not scraped and not resold from another list vendor. The set is the district's multifamily state class family (B). Unit counts are not published by this source and are never approximated. Property city and ZIP are parsed from the district's own situs address string under a strict pattern. Values are the roll's market values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 79
+   },
+   "metro": "San Antonio",
+   "metro_id": "austin-san-antonio",
+   "price": 79,
+   "price_note": "one time",
+   "refresh_schedule": "Re-verified monthly on the spine cycle; re-pulled when TxGIO refreshes the county file",
+   "rows": 10656,
+   "rows_label": "10,656 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/bexar-multifamily.html",
+   "source_line": "Source: TxGIO StratMap Land Parcels, 2026 collection, Bexar County file dated August 4, 2026, a republication of the Bexar Central Appraisal District roll. Re-pulled and re-verified monthly on the spine cycle.",
+   "state": "TX",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "10,656"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Median value",
+     "v": "$302,350"
+    },
+    {
+     "k": "Source",
+     "v": "TxGIO StratMap (BCAD roll)"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/bexar/bexar-multifamily-2026-11-25.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "10,656 multifamily properties in Bexar County, with owner mailing addresses",
+   "title": "Bexar County Multifamily Owners",
+   "trade": "Multifamily Owners"
+  },
+  {
+   "build_date": "August 4, 2026 county file (2026 StratMap collection)",
+   "buyer": "Investors, brokers, and service companies who target commercial owners in Bexar County",
+   "category": "Real Estate",
+   "cover": "assets/covers/bexar-commercial.webp",
+   "coverage": "Bexar County",
+   "data_as_of": "2026-08-04",
+   "family": "county",
+   "featured": false,
+   "id": "bexar-commercial",
+   "inside": [
+    "Owner name and owner mailing address, city, state, and ZIP",
+    "Property street address, city, and ZIP",
+    "Market value from the appraisal roll, median $749,219 across the file",
+    "BCAD Property ID on every record, for verification"
+   ],
+   "limits": "Built from the Texas Geographic Information Office (TxGIO) StratMap Land Parcels file for Bexar County (2026 collection, county file dated August 4, 2026), a republication of the Bexar Central Appraisal District roll, downloaded from TxGIO's DataHub, not scraped and not resold from another list vendor. The set is every record in the district's commercial state class family (F). Property city and ZIP are parsed from the district's own situs address string under a strict pattern. Values are the roll's market values, not sale prices. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 79
+   },
+   "metro": "San Antonio",
+   "metro_id": "austin-san-antonio",
+   "price": 79,
+   "price_note": "one time",
+   "refresh_schedule": "Re-verified monthly on the spine cycle; re-pulled when TxGIO refreshes the county file",
+   "rows": 27795,
+   "rows_label": "27,795 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/bexar-commercial.html",
+   "source_line": "Source: TxGIO StratMap Land Parcels, 2026 collection, Bexar County file dated August 4, 2026, a republication of the Bexar Central Appraisal District roll. Re-pulled and re-verified monthly on the spine cycle.",
+   "state": "TX",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "27,795"
+    },
+    {
+     "k": "Columns",
+     "v": "16"
+    },
+    {
+     "k": "Median value",
+     "v": "$749,219"
+    },
+    {
+     "k": "Source",
+     "v": "TxGIO StratMap (BCAD roll)"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/bexar/bexar-commercial-2026-11-25.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "27,795 commercial property owners in Bexar County, with mailing addresses",
+   "title": "Bexar County Commercial Owners",
+   "trade": "Commercial Owners"
+  },
+  {
    "build_date": "Current builds",
    "buy_url": "https://parcelready.gumroad.com/l/shdtbi",
    "buyer": "Anyone who wants to inspect the data before spending a dollar",

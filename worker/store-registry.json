@@ -958,6 +958,69 @@
    "rows": 38344
   },
   {
+   "id": "bexar-out-of-area",
+   "title": "Bexar County Owners Who Live Elsewhere",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/bexar-out-of-area-2026-11-25.csv",
+   "sample_file_key": "samples/bexar-out-of-area-sample.csv",
+   "one_time_cents": null,
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 36,262 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "San Antonio",
+   "rows": 36262
+  },
+  {
+   "id": "bexar-multifamily",
+   "title": "Bexar County Multifamily Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/bexar-multifamily-2026-11-25.csv",
+   "sample_file_key": "samples/bexar-multifamily-sample.csv",
+   "one_time_cents": null,
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 10,656 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "San Antonio",
+   "rows": 10656
+  },
+  {
+   "id": "bexar-commercial",
+   "title": "Bexar County Commercial Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/bexar-commercial-2026-11-25.csv",
+   "sample_file_key": "samples/bexar-commercial-sample.csv",
+   "one_time_cents": null,
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 27,795 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "Texas",
+   "metro": "San Antonio",
+   "rows": 27795
+  },
+  {
    "id": "free-sample-pack",
    "title": "ParcelReady Free Sample Pack",
    "store": {
