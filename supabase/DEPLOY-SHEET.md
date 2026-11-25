@@ -4,7 +4,9 @@ One page. Dashboard route; if Anvil's Tool One mechanics used the CLI
 for any step, that step swaps to his pattern without changing the rest.
 
 **Function:** `parcelready-store`. **Code:** one file, paste whole:
-`supabase/dist/parcelready-store.single.ts` (21,662 bytes, type-checked
+`supabase/dist/parcelready-store.single.ts` (76,328 bytes at
+deployment 24, Nov 25, 2026; the size changes with every registry
+build, so read it off the dist file at paste time; type-checked
 with `deno check`, generated from supabase/src/index.ts with the pack
 registry inlined). It contains NO key material.
 
