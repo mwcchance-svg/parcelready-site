@@ -54,14 +54,20 @@ def call(method, path, payload=None):
             with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
                 return resp.status, resp.read().decode("utf-8", "replace")
         except urllib.error.HTTPError as e:
-            # The status is a real answer, but the proxy can still truncate
-            # the error body mid-read (IncompleteRead, Nov 26, 2026 run);
-            # a truncated body is a transport failure, so retry the call.
+            # The status code is the answer this leg exists to record, so an
+            # unreadable or truncated error body must never crash the run
+            # (the Nov 26, 2026 harness defect: an IncompleteRead on the
+            # chunked 403 body ate the whole run). Return the status with
+            # whatever partial body was read; the leg judges from that and
+            # records FAIL with its reason if the body cannot support it.
             try:
                 return e.code, e.read().decode("utf-8", "replace")
             except Exception as read_err:
-                last_err = read_err
-                time.sleep(2 * (attempt + 1))
+                partial = getattr(read_err, "partial", b"") or b""
+                if isinstance(partial, str):
+                    partial = partial.encode("utf-8", "replace")
+                return e.code, (partial.decode("utf-8", "replace")
+                                + " [probe note: error body truncated]")
         except Exception as e:  # transport drop: retry
             last_err = e
             time.sleep(2 * (attempt + 1))
