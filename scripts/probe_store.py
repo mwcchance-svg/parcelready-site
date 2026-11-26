@@ -54,7 +54,14 @@ def call(method, path, payload=None):
             with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
                 return resp.status, resp.read().decode("utf-8", "replace")
         except urllib.error.HTTPError as e:
-            return e.code, e.read().decode("utf-8", "replace")
+            # The status is a real answer, but the proxy can still truncate
+            # the error body mid-read (IncompleteRead, Nov 26, 2026 run);
+            # a truncated body is a transport failure, so retry the call.
+            try:
+                return e.code, e.read().decode("utf-8", "replace")
+            except Exception as read_err:
+                last_err = read_err
+                time.sleep(2 * (attempt + 1))
         except Exception as e:  # transport drop: retry
             last_err = e
             time.sleep(2 * (attempt + 1))
