@@ -28,7 +28,7 @@
 
 <section>
   <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start" id="sample-grid">
-    <div class="reveal">
+    <div>
       <p class="kicker">Free samples</p>
       <h1 style="font-size:clamp(2.2rem,5vw,3.6rem)">Judge the data the way your clients will.</h1>
       <p class="lede" style="margin-top:1.2rem">Two ways in. Get a live sample below: enter your email and the sample lands in your inbox, in the exact format of the full pack. Or tell us your trade and metro and we will send sample rows matched to what you sell, including for packs still in production.</p>
@@ -38,14 +38,14 @@
           <form class="capture" data-capture style="margin-top:1rem">
             <input type="hidden" name="pack_id" value="houston-hvac">
             <input type="hidden" name="request_kind" value="pack_sample">
-            <label>Houston HVAC Companies: free 50 row sample<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
+            <label>Houston HVAC Companies: free 15 row sample<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
             <button class="btn btn-gold" type="submit">Get a live sample</button>
             <p class="capture-status" role="status"></p>
           </form>
           <form class="capture" data-capture style="margin-top:1rem">
             <input type="hidden" name="pack_id" value="austin-sa-roofing">
             <input type="hidden" name="request_kind" value="pack_sample">
-            <label>Austin to San Antonio Roofing Companies: free 50 row sample<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
+            <label>Austin to San Antonio Roofing Companies: free 15 row sample<input type="email" name="email" required autocomplete="email" placeholder="you@yourbusiness.com"></label>
             <button class="btn btn-gold" type="submit">Get a live sample</button>
             <p class="capture-status" role="status"></p>
           </form>
@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="form-shell reveal" id="request">
+    <div class="form-shell" id="request">
       <h2 style="font-size:1.6rem">Request a free sample</h2>
       <p style="color:var(--ink-soft)">Tell us your trade and metro. When a pack for it passes verification, sample rows matched to your request follow by email. No list rental, no resale of your details, ever.</p>
       <form data-capture data-success="Request received. We read every request, and your sample rows follow by email.">

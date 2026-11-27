@@ -375,7 +375,10 @@ window.CATALOG = {
    "build_date": "Live city data, refreshed weekly",
    "buy_url": "https://parcelready.gumroad.com/l/xlvkiz",
    "buyer": "Investors and contractors who work early distress signals",
+   "category": "Real Estate",
    "cover": "assets/covers/code-cases.webp",
+   "coverage": "City of Dallas",
+   "data_as_of": "2026-11-16",
    "family": "county",
    "featured": false,
    "id": "dallas-code-cases",
@@ -387,17 +390,25 @@ window.CATALOG = {
     "DCAD account number on matched records",
     "Match rate published in every refresh: 86 percent (6,260 of 7,260) on the current build"
    ],
-   "limits": "Dallas publishes the service request, not the inspector's notes, so the file tells you a property has an open code compliance service request and how long it has been open, not the specific request detail. Unmatched cases are included and clearly flagged; owners are never guessed. Subscription only, because stale code data is worthless. That is the point of the refresh.",
+   "limits": "Dallas publishes the service request, not the inspector's notes, so the file tells you a property has an open code compliance service request and how long it has been open, not the specific request detail. Unmatched cases are included and clearly flagged; owners are never guessed. Sold two ways: a $79 a month membership that refreshes weekly, or a one-time $79 snapshot of the current file. Stale code data is worthless; that is the point of the refresh.",
+   "membership": {
+    "per": "month",
+    "price": 79
+   },
    "metro": "Dallas",
+   "metro_id": "dfw",
+   "one_time_live": true,
+   "one_time_price": 79,
    "price": 79,
    "price_note": "per month, refreshed weekly",
+   "refresh_schedule": "Refreshed weekly",
    "rows": 7260,
    "rows_label": "7,260 open cases",
+   "sample_csv": "dallas_open_code_cases_v3_sample100.csv",
    "sample_label": "Free 50 row sample",
-   "one_time_price": 79,
-   "one_time_live": true,
-   "source_line": "Source: City of Dallas 311 open code compliance service requests (called code cases on this page), owner-matched to Dallas Central Appraisal District records. Refreshed weekly.",
    "sample_url": "https://parcelready.gumroad.com/l/shdtbi",
+   "source_line": "Source: City of Dallas 311 open code compliance service requests (called code cases on this page), owner-matched to Dallas Central Appraisal District records. Refreshed weekly.",
+   "state": "TX",
    "stats": [
     {
      "k": "Open cases",
@@ -416,27 +427,16 @@ window.CATALOG = {
      "v": "City 311 + DCAD"
     }
    ],
+   "store": {
+    "billing": "subscription",
+    "delivery_file": "dallas_open_code_cases_v3.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
    "tagline": "6,256 of 7,260 open code compliance service requests with the property owner named and attached",
    "title": "Dallas Open Code Cases, Owner Matched",
-   "trade": "Code Cases",
-   "state": "TX",
-   "category": "Real Estate",
-   "data_as_of": "2026-11-16",
-   "sample_csv": "dallas_open_code_cases_v3_sample100.csv",
-   "store": {
-    "mode": "stripe",
-    "delivery_file": "dallas_open_code_cases_v3.csv",
-    "billing": "subscription",
-    "stripe_product_id": null,
-    "stripe_price_id": null
-   },
-   "metro_id": "dfw",
-   "coverage": "City of Dallas",
-   "refresh_schedule": "Refreshed weekly",
-   "membership": {
-    "price": 79,
-    "per": "month"
-   }
+   "trade": "Code Cases"
   },
   {
    "build_date": "2026 permit year",
