@@ -1040,6 +1040,132 @@
    "state_name": "Texas",
    "metro": "All lists",
    "rows": 100
+  },
+  {
+   "id": "kings-high-equity",
+   "title": "Kings County High Equity Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 5900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/kings-high-equity-2026-11-27.csv",
+   "sample_file_key": "samples/kings-high-equity-sample.csv",
+   "one_time_cents": null,
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 126,829 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "New York",
+   "metro": "Brooklyn",
+   "rows": 126829
+  },
+  {
+   "id": "kings-long-term",
+   "title": "Kings County Long-Term Owners, 20+ Years",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/kings-long-term-2026-11-27.csv",
+   "sample_file_key": "samples/kings-long-term-sample.csv",
+   "one_time_cents": null,
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 153,589 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "New York",
+   "metro": "Brooklyn",
+   "rows": 153589
+  },
+  {
+   "id": "kings-multifamily",
+   "title": "Kings County Multifamily Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/kings-multifamily-2026-11-27.csv",
+   "sample_file_key": "samples/kings-multifamily-sample.csv",
+   "one_time_cents": null,
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 184,426 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "New York",
+   "metro": "Brooklyn",
+   "rows": 184426
+  },
+  {
+   "id": "kings-commercial",
+   "title": "Kings County Commercial Owners",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/kings-commercial-2026-11-27.csv",
+   "sample_file_key": "samples/kings-commercial-sample.csv",
+   "one_time_cents": null,
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 9,429 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "New York",
+   "metro": "Brooklyn",
+   "rows": 9429
+  },
+  {
+   "id": "kings-tired-landlords",
+   "title": "Kings County Tired Landlords",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 7900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/kings-tired-landlords-2026-11-27.csv",
+   "sample_file_key": "samples/kings-tired-landlords-sample.csv",
+   "one_time_cents": null,
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 3,767 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "New York",
+   "metro": "Brooklyn",
+   "rows": 3767
+  },
+  {
+   "id": "kings-tax-delinquent",
+   "title": "Kings County Tax Delinquent Properties",
+   "store": {
+    "mode": "stripe",
+    "billing": "one_time",
+    "stripe_price_id": null
+   },
+   "price_cents": 4900,
+   "interval": "month",
+   "interval_count": 1,
+   "file_key": "packs/kings-tax-delinquent-2026-11-27.csv",
+   "sample_file_key": "samples/kings-tax-delinquent-sample.csv",
+   "one_time_cents": null,
+   "coverage": null,
+   "disclosure": "The sample shows real rows from the delivered file, in the same fields the pack carries. The full file carries 15,129 records; that count, its source, and its pull date are printed on the pack's label.",
+   "category": "Real Estate",
+   "state_name": "New York",
+   "metro": "Brooklyn",
+   "rows": 15129
   }
  ]
 }

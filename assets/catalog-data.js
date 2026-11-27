@@ -3206,6 +3206,380 @@ window.CATALOG = {
    "coverage": "Drawn from every live list",
    "refresh_schedule": "Rolls with each source pack's refresh",
    "membership": null
+  },
+  {
+   "build_date": "PLUTO 26v3 with the 2027 final assessment roll",
+   "buyer": "Real estate investors and direct mail marketers who target equity rich, long held homes in Kings County",
+   "category": "Real Estate",
+   "cover": "assets/covers/kings-high-equity.webp",
+   "coverage": "Kings County",
+   "data_as_of": "2026-05-15",
+   "family": "county",
+   "featured": false,
+   "id": "kings-high-equity",
+   "inside": [
+    "Owner name on every record",
+    "Property address, city, and ZIP",
+    "Final market value from the assessment roll",
+    "Deed date and years owned (the model's amortization start)",
+    "Estimated Equity Share on every record",
+    "Borough-Block-Lot (BBL) on every record, for verification"
+   ],
+   "limits": "Built from New York City's published open data: PLUTO 26v3 joined to the Department of Finance final assessment roll and ACRIS deed records, downloaded from NYC Open Data, not scraped and not resold from another list vendor. Counts are PLUTO billing lots: condominium unit lots are aggregated by the Department of City Planning, so a building can appear as one record. This source publishes no owner mailing address; every record carries the owner name and the property's own address, and no mailing address is estimated or appended. Deed dates are the latest recorded deed document per lot from ACRIS and read as floors: a lot with no ACRIS deed record carries no date. Bedrooms, bathrooms, and living area are not published by this source and are never estimated. Values are the Department of Finance final market values, not sale prices. Equity is a modeled estimate: a loan at 80 percent of current market value, 30 year fixed at 6.5 percent, amortized from the deed date to May 15, 2026; the pack ships owners at an estimated equity share of 65 percent or more. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 59
+   },
+   "metro": "Brooklyn",
+   "metro_id": "new-york-city",
+   "price": 59,
+   "price_note": "one time",
+   "refresh_schedule": "Re-pulled and re-verified quarterly on PLUTO's release cycle, with the value and deed joins re-run",
+   "rows": 126829,
+   "rows_label": "126,829 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/kings-high-equity.html",
+   "source_line": "Source: NYC Open Data, PLUTO 26v3 (Department of City Planning) joined to the Department of Finance final assessment roll, 2027 period 3 (extract dated May 15, 2026), deed dates from ACRIS. Re-pulled and re-verified quarterly on PLUTO's release cycle.",
+   "state": "NY",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "126,829"
+    },
+    {
+     "k": "Columns",
+     "v": "13"
+    },
+    {
+     "k": "Median estimated equity",
+     "v": "100%"
+    },
+    {
+     "k": "Basis",
+     "v": "Modeled (ESTIMATE)"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/kings/kings-high-equity-2026-11-27.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "126,829 residential owners with modeled equity of 65 percent or more (ESTIMATE)",
+   "title": "Kings County High Equity Owners",
+   "trade": "High Equity Owners"
+  },
+  {
+   "build_date": "PLUTO 26v3 with the 2027 final assessment roll",
+   "buyer": "Investors who target long held Brooklyn homes whose owners have held since 2005 or earlier",
+   "category": "Real Estate",
+   "cover": "assets/covers/kings-long-term.webp",
+   "coverage": "Kings County",
+   "data_as_of": "2026-05-15",
+   "family": "county",
+   "featured": false,
+   "id": "kings-long-term",
+   "inside": [
+    "Owner name on every record",
+    "Property address, city, and ZIP",
+    "Final market value from the assessment roll, median $1,243,000 across the file",
+    "Deed date and years owned on every record",
+    "Borough-Block-Lot (BBL) on every record, for verification"
+   ],
+   "limits": "Built from New York City's published open data: PLUTO 26v3 joined to the Department of Finance final assessment roll and ACRIS deed records, downloaded from NYC Open Data, not scraped and not resold from another list vendor. Counts are PLUTO billing lots: condominium unit lots are aggregated by the Department of City Planning, so a building can appear as one record. This source publishes no owner mailing address; every record carries the owner name and the property's own address, and no mailing address is estimated or appended. Deed dates are the latest recorded deed document per lot from ACRIS and read as floors: a lot with no ACRIS deed record carries no date. Bedrooms, bathrooms, and living area are not published by this source and are never estimated. Values are the Department of Finance final market values, not sale prices. Fully exempt properties, where the published exempt value equals the assessed value, are excluded and counted. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 49
+   },
+   "metro": "Brooklyn",
+   "metro_id": "new-york-city",
+   "price": 49,
+   "price_note": "one time",
+   "refresh_schedule": "Re-pulled and re-verified quarterly on PLUTO's release cycle, with the value and deed joins re-run",
+   "rows": 153589,
+   "rows_label": "153,589 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/kings-long-term.html",
+   "source_line": "Source: NYC Open Data, PLUTO 26v3 (Department of City Planning) joined to the Department of Finance final assessment roll, 2027 period 3 (extract dated May 15, 2026), deed dates from ACRIS. Re-pulled and re-verified quarterly on PLUTO's release cycle.",
+   "state": "NY",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "153,589"
+    },
+    {
+     "k": "Columns",
+     "v": "12"
+    },
+    {
+     "k": "Median value",
+     "v": "$1,243,000"
+    },
+    {
+     "k": "Source",
+     "v": "NYC Open Data (PLUTO / DOF)"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/kings/kings-long-term-2026-11-27.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "153,589 residential owners holding since 2005 or earlier",
+   "title": "Kings County Long-Term Owners, 20+ Years",
+   "trade": "Long-Term Owners"
+  },
+  {
+   "build_date": "PLUTO 26v3 with the 2027 final assessment roll",
+   "buyer": "Investors who buy small and mid size multifamily buildings in Brooklyn",
+   "category": "Real Estate",
+   "cover": "assets/covers/kings-multifamily.webp",
+   "coverage": "Kings County",
+   "data_as_of": "2026-05-15",
+   "family": "county",
+   "featured": false,
+   "id": "kings-multifamily",
+   "inside": [
+    "Owner name on every record",
+    "Property address, city, and ZIP",
+    "Final market value from the assessment roll, median $1,360,000 across the file",
+    "Published unit count on every record",
+    "Borough-Block-Lot (BBL) on every record, for verification"
+   ],
+   "limits": "Built from New York City's published open data: PLUTO 26v3 joined to the Department of Finance final assessment roll and ACRIS deed records, downloaded from NYC Open Data, not scraped and not resold from another list vendor. Counts are PLUTO billing lots: condominium unit lots are aggregated by the Department of City Planning, so a building can appear as one record. This source publishes no owner mailing address; every record carries the owner name and the property's own address, and no mailing address is estimated or appended. Deed dates are the latest recorded deed document per lot from ACRIS and read as floors: a lot with no ACRIS deed record carries no date. Bedrooms, bathrooms, and living area are not published by this source and are never estimated. Values are the Department of Finance final market values, not sale prices. Unit counts are the district's published totals; the pack is built on published units of 2 or more across residential land use, including mixed residential buildings. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 79
+   },
+   "metro": "Brooklyn",
+   "metro_id": "new-york-city",
+   "price": 79,
+   "price_note": "one time",
+   "refresh_schedule": "Re-pulled and re-verified quarterly on PLUTO's release cycle, with the value and deed joins re-run",
+   "rows": 184426,
+   "rows_label": "184,426 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/kings-multifamily.html",
+   "source_line": "Source: NYC Open Data, PLUTO 26v3 (Department of City Planning) joined to the Department of Finance final assessment roll, 2027 period 3 (extract dated May 15, 2026), deed dates from ACRIS. Re-pulled and re-verified quarterly on PLUTO's release cycle.",
+   "state": "NY",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "184,426"
+    },
+    {
+     "k": "Columns",
+     "v": "13"
+    },
+    {
+     "k": "Median value",
+     "v": "$1,360,000"
+    },
+    {
+     "k": "Source",
+     "v": "NYC Open Data (PLUTO / DOF)"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/kings/kings-multifamily-2026-11-27.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "184,426 multifamily properties with published unit counts of 2 or more",
+   "title": "Kings County Multifamily Owners",
+   "trade": "Multifamily Owners"
+  },
+  {
+   "build_date": "PLUTO 26v3 with the 2027 final assessment roll",
+   "buyer": "Investors and brokers who work Brooklyn commercial property",
+   "category": "Real Estate",
+   "cover": "assets/covers/kings-commercial.webp",
+   "coverage": "Kings County",
+   "data_as_of": "2026-05-15",
+   "family": "county",
+   "featured": false,
+   "id": "kings-commercial",
+   "inside": [
+    "Owner name on every record",
+    "Property address, city, and ZIP",
+    "Final market value from the assessment roll, median $934,000 across the file",
+    "Published land use and building class on every record",
+    "Borough-Block-Lot (BBL) on every record, for verification"
+   ],
+   "limits": "Built from New York City's published open data: PLUTO 26v3 joined to the Department of Finance final assessment roll and ACRIS deed records, downloaded from NYC Open Data, not scraped and not resold from another list vendor. Counts are PLUTO billing lots: condominium unit lots are aggregated by the Department of City Planning, so a building can appear as one record. This source publishes no owner mailing address; every record carries the owner name and the property's own address, and no mailing address is estimated or appended. Deed dates are the latest recorded deed document per lot from ACRIS and read as floors: a lot with no ACRIS deed record carries no date. Bedrooms, bathrooms, and living area are not published by this source and are never estimated. Values are the Department of Finance final market values, not sale prices. Commercial reads the published land use (classes 05 and 06); building class is carried as a cross-check and never re-sorts the set. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 79
+   },
+   "metro": "Brooklyn",
+   "metro_id": "new-york-city",
+   "price": 79,
+   "price_note": "one time",
+   "refresh_schedule": "Re-pulled and re-verified quarterly on PLUTO's release cycle, with the value and deed joins re-run",
+   "rows": 9429,
+   "rows_label": "9,429 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/kings-commercial.html",
+   "source_line": "Source: NYC Open Data, PLUTO 26v3 (Department of City Planning) joined to the Department of Finance final assessment roll, 2027 period 3 (extract dated May 15, 2026), deed dates from ACRIS. Re-pulled and re-verified quarterly on PLUTO's release cycle.",
+   "state": "NY",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "9,429"
+    },
+    {
+     "k": "Columns",
+     "v": "12"
+    },
+    {
+     "k": "Median value",
+     "v": "$934,000"
+    },
+    {
+     "k": "Source",
+     "v": "NYC Open Data (PLUTO / DOF)"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/kings/kings-commercial-2026-11-27.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "9,429 commercial properties, owner named on every record",
+   "title": "Kings County Commercial Owners",
+   "trade": "Commercial Owners"
+  },
+  {
+   "build_date": "PLUTO 26v3 with the 2027 final assessment roll",
+   "buyer": "Real estate investors who buy portfolios from long held landlords in Kings County",
+   "category": "Real Estate",
+   "cover": "assets/covers/kings-tired-landlords.webp",
+   "coverage": "Kings County",
+   "data_as_of": "2026-05-15",
+   "family": "county",
+   "featured": false,
+   "id": "kings-tired-landlords",
+   "inside": [
+    "Owner name on every record",
+    "Property address, city, and ZIP",
+    "Final market value from the assessment roll, median $1,372,000 across the file",
+    "Owner Properties and Owner Long-Term Count columns, so each owner's footprint in the file is visible on every row",
+    "Deed date and years owned on every record",
+    "Borough-Block-Lot (BBL) on every record, for verification"
+   ],
+   "limits": "Built from New York City's published open data: PLUTO 26v3 joined to the Department of Finance final assessment roll and ACRIS deed records, downloaded from NYC Open Data, not scraped and not resold from another list vendor. Counts are PLUTO billing lots: condominium unit lots are aggregated by the Department of City Planning, so a building can appear as one record. This source publishes no owner mailing address; every record carries the owner name and the property's own address, and no mailing address is estimated or appended. Deed dates are the latest recorded deed document per lot from ACRIS and read as floors: a lot with no ACRIS deed record carries no date. Bedrooms, bathrooms, and living area are not published by this source and are never estimated. Values are the Department of Finance final market values, not sale prices. Owners are counted by distinct normalized owner name, grouped on name alone because this source publishes no owner mailing address; common personal names may group more than one owner. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 79
+   },
+   "metro": "Brooklyn",
+   "metro_id": "new-york-city",
+   "price": 79,
+   "price_note": "one time",
+   "refresh_schedule": "Re-pulled and re-verified quarterly on PLUTO's release cycle, with the value and deed joins re-run",
+   "rows": 3767,
+   "rows_label": "3,767 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/kings-tired-landlords.html",
+   "source_line": "Source: NYC Open Data, PLUTO 26v3 (Department of City Planning) joined to the Department of Finance final assessment roll, 2027 period 3 (extract dated May 15, 2026), deed dates from ACRIS. Re-pulled and re-verified quarterly on PLUTO's release cycle.",
+   "state": "NY",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "3,767"
+    },
+    {
+     "k": "Columns",
+     "v": "14"
+    },
+    {
+     "k": "Qualifying owners",
+     "v": "438"
+    },
+    {
+     "k": "Median value",
+     "v": "$1,372,000"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/kings/kings-tired-landlords-2026-11-27.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "3,767 properties held by 438 owners of 5 or more homes, at least half their deeds from 2015 or earlier",
+   "title": "Kings County Tired Landlords",
+   "trade": "Tired Landlords"
+  },
+  {
+   "build_date": "PLUTO 26v3 with the 2027 final assessment roll",
+   "buyer": "Investors who work the oldest motivated seller signal there is",
+   "category": "Real Estate",
+   "cover": "assets/covers/kings-tax-delinquent.webp",
+   "coverage": "Kings County",
+   "data_as_of": "2026-05-15",
+   "family": "county",
+   "featured": false,
+   "id": "kings-tax-delinquent",
+   "inside": [
+    "Owner name on every record",
+    "Property address, city, and ZIP",
+    "Final market value from the assessment roll",
+    "Total Outstanding and Oldest Outstanding Period on every record",
+    "Borough-Block-Lot (BBL) on every record, for verification"
+   ],
+   "limits": "Built from New York City's published open data: PLUTO 26v3 joined to the Department of Finance final assessment roll and ACRIS deed records, downloaded from NYC Open Data, not scraped and not resold from another list vendor. Counts are PLUTO billing lots: condominium unit lots are aggregated by the Department of City Planning, so a building can appear as one record. This source publishes no owner mailing address; every record carries the owner name and the property's own address, and no mailing address is estimated or appended. Deed dates are the latest recorded deed document per lot from ACRIS and read as floors: a lot with no ACRIS deed record carries no date. Bedrooms, bathrooms, and living area are not published by this source and are never estimated. Values are the Department of Finance final market values, not sale prices. Overdue reads the current extract layer only: a charge counts when its balance is above zero and its grace date has passed at the November 15, 2026 extract. Aging reads the charge period; the billing-year field in this source skips 2023. Balances are the Department's ledger balances on overdue periods, stated as published; on a small number of long-aged parcels they include charges the Department has not written off and can exceed the property's market value. Parcels on a payment plan are included and counted in the file's statistics. If this pack does not match what its page promised, tell us within 30 days and we will fix it or refund the pack.",
+   "membership": {
+    "per": "quarter",
+    "price": 49
+   },
+   "metro": "Brooklyn",
+   "metro_id": "new-york-city",
+   "price": 49,
+   "price_note": "one time",
+   "refresh_schedule": "Re-pulled and re-verified quarterly on PLUTO's release cycle, with the value and deed joins re-run",
+   "rows": 15129,
+   "rows_label": "15,129 records",
+   "sample_label": "Free 50 row sample",
+   "sample_url": "https://parcelreadydata.com/packs/kings-tax-delinquent.html",
+   "source_line": "Source: NYC Open Data, PLUTO 26v3 (Department of City Planning) joined to the Department of Finance final assessment roll, 2027 period 3 (extract dated May 15, 2026), deed dates from ACRIS, and overdue balances from the Department of Finance Property Charges Balance extract dated November 15, 2026. Re-pulled and re-verified quarterly on PLUTO's release cycle.",
+   "state": "NY",
+   "stats": [
+    {
+     "k": "Records",
+     "v": "15,129"
+    },
+    {
+     "k": "Columns",
+     "v": "14"
+    },
+    {
+     "k": "Median total overdue",
+     "v": "$3,966"
+    },
+    {
+     "k": "Source",
+     "v": "DOF Charges Balance"
+    }
+   ],
+   "store": {
+    "billing": "one_time",
+    "delivery_file": "county-packs/kings/kings-tax-delinquent-2026-11-27.csv",
+    "mode": "stripe",
+    "stripe_price_id": null,
+    "stripe_product_id": null
+   },
+   "tagline": "15,129 properties with overdue city charges aged two years or more, median $3,966 overdue",
+   "title": "Kings County Tax Delinquent Properties",
+   "trade": "Tax Delinquent"
   }
  ],
  "sample_percent": 10,
@@ -3233,6 +3607,12 @@ window.CATALOG = {
    "slug": "miami-dade",
    "state": "FL",
    "coverage": "Miami-Dade County"
+  },
+  "new-york-city": {
+   "coverage": "Kings County (Brooklyn)",
+   "name": "New York City",
+   "slug": "new-york-city",
+   "state": "NY"
   }
  },
  "states": [
