@@ -44,11 +44,17 @@ def sheet_title(pack) -> str:
 
 def main():
     old = load_workbook(TARGET)
-    counts = {ws.title: ws.max_row - 1 for ws in old.worksheets}
+    # Sheet titles with trailing spaces do not survive a save/load
+    # round trip (Excel trims them), so counts inherit on rstripped
+    # keys on both sides. Found Nov 27, 2026: six shipped sheets
+    # (comma-truncated absentee titles, the Collin legacy title, the
+    # Collin long-term title) read back rstripped and no pack claimed
+    # them under the un-stripped keys.
+    counts = {ws.title.rstrip(): ws.max_row - 1 for ws in old.worksheets}
     with open(os.path.join(ROOT, "catalog.json")) as f:
         cat = json.load(f)
     packs = [p for p in cat["packs"] if p["price"] > 0]
-    titles = [sheet_title(p) for p in packs]
+    titles = [sheet_title(p).rstrip() for p in packs]
     missing = set(counts) - set(titles)
     assert not missing, f"shipped sheets no pack claims: {missing}"
     assert len(set(titles)) == len(titles), "sheet title collision after truncation"
