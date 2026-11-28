@@ -95,6 +95,19 @@ layout defect (verify) is fixed and verified; one guideline failure
 preview table treatment, image dimensions) are measured and open
 for the next pass.
 
+## Addendum, same night: finding 2 and the hub links SHIPPED
+
+Matt approved shipping the prepared touch-target fix the same night.
+The fix is one block inside the existing 900px media query in
+site.css: filter chips get a 44px minimum height and state hub card
+links get 44px of touch height. Mobile breakpoint only; the desktop
+site is unchanged. Post-build re-run of the check on the shipped
+tree: home PASS (undersized taps 16 to 9), catalog PASS (137 to 12),
+Texas hub PASS (115 to 23), no new overflow, counter weld verified.
+Commit b9ecd568, Pages built, live stylesheet serves the new rules.
+Still open from the findings: the specimen preview table treatment
+(finding 4) and the image dimensions (finding 6).
+
 ## Run record
 
 First run of the unrefined tool hung on full-page captures at DSF 3
