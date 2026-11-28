@@ -216,6 +216,7 @@ section { padding: 4.5rem 0; }
 
 /* ---------- steps ---------- */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 2rem; }
+.steps-2 { grid-template-columns: 1fr 1fr; }
 .step { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.6rem; }
 .step .n { font-family: "IBM Plex Mono", monospace; color: var(--gold); font-size: 0.8rem; letter-spacing: 0.14em; }
 .step h3 { margin: 0.6rem 0 0.5rem; font-size: 1.2rem; }
