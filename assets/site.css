@@ -240,6 +240,16 @@ footer a:hover { opacity: 1; color: var(--gold-soft); }
   .hero { padding-top: 3.5rem; }
 }
 
+/* Mobile touch targets (Nov 27, 2026 mobile check): filter chips
+   measured 32px tall and hub card links 24px, both under the 44px
+   guideline. Scoped to the mobile breakpoint so the desktop filter
+   bars and cards keep their approved look exactly. */
+@media (max-width: 900px) {
+  .chip { min-height: 44px; padding-top: 0.72rem; padding-bottom: 0.72rem; }
+  a.chip { display: inline-flex; align-items: center; }
+  .card .card-links a { display: inline-block; padding-top: 0.65rem; padding-bottom: 0.65rem; }
+}
+
 /* ---------- benchmark pass additions ---------- */
 ::selection { background: var(--gold); color: var(--green-950); }
 section { padding: 5.2rem 0; }
